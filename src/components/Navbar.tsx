@@ -1,20 +1,24 @@
 import { useState } from "react";
 import { Search, User, Heart, ShoppingBag, Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate, Link } from "react-router-dom";
 
 const navLinks = [
-  { label: "Sarees", href: "#", children: ["Kanchipuram", "Banarasi", "Pochampally", "Chanderi", "Mysore Silk"] },
-  { label: "Bridal", href: "#bridal" },
-  { label: "Jewelry", href: "#" },
-  { label: "Festival Collections", href: "#festival", children: ["Diwali", "Sankranti", "Ugadi", "Wedding Season"] },
-  { label: "Virtual Try-On", href: "#virtual-tryon" },
-  { label: "Community", href: "#community" },
+  { label: "Home", href: "/" },
+  { label: "Sarees", href: "/sarees", children: ["Kanchipuram", "Banarasi", "Pochampally", "Chanderi", "Mysore Silk"] },
+  { label: "Gajulu", href: "/gajulu", children: ["Temple Gold", "Diamond", "Silk Thread", "Glass Festive"] },
+  { label: "Bridal", href: "/bridal" },
+  { label: "Jewelry", href: "/jewelry" },
+  { label: "Festival Collections", href: "/festival", children: ["Diwali", "Sankranti", "Ugadi", "Wedding Season"] },
+  { label: "Virtual Try-On", href: "/virtual-tryon" },
+  { label: "Community", href: "/community" },
 ];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   return (
     <header className="sticky top-0 z-50">
@@ -35,7 +39,7 @@ const Navbar = () => {
           </button>
 
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <span className="text-3xl lg:text-4xl text-gold">ॐ</span>
             <div className="text-center">
               <h1 className="font-display text-primary-foreground text-lg lg:text-xl font-bold tracking-wider leading-tight">
@@ -45,7 +49,7 @@ const Navbar = () => {
                 Sarees
               </span>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Nav Links */}
           <div className="hidden lg:flex items-center gap-8">
@@ -56,13 +60,13 @@ const Navbar = () => {
                 onMouseEnter={() => link.children && setActiveDropdown(link.label)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                <a
-                  href={link.href}
+                <Link
+                  to={link.href}
                   className="font-display text-sm text-primary-foreground hover:text-gold transition-colors duration-300 flex items-center gap-1"
                 >
                   {link.label}
                   {link.children && <ChevronDown size={12} />}
-                </a>
+                </Link>
                 {link.children && activeDropdown === link.label && (
                   <motion.div
                     initial={{ opacity: 0, y: 8 }}
@@ -92,7 +96,10 @@ const Navbar = () => {
             >
               <Search size={20} />
             </button>
-            <button className="text-primary-foreground hover:text-gold transition-colors hidden sm:block">
+            <button
+              onClick={() => navigate("/profile")}
+              className="text-primary-foreground hover:text-gold transition-colors hidden sm:block"
+            >
               <User size={20} />
             </button>
             <button className="text-primary-foreground hover:text-gold transition-colors relative">
@@ -147,15 +154,22 @@ const Navbar = () => {
           >
             <div className="p-6 space-y-4">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.label}
-                  href={link.href}
+                  to={link.href}
                   className="block font-display text-lg text-primary-foreground hover:text-gold py-2 border-b border-gold/10"
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
+              <Link
+                to="/profile"
+                className="block font-display text-lg text-gold py-2 border-b border-gold/10"
+                onClick={() => setMobileOpen(false)}
+              >
+                My Profile
+              </Link>
             </div>
           </motion.div>
         )}

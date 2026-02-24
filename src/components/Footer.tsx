@@ -1,4 +1,5 @@
 import { MapPin, Phone, Mail, Instagram, Facebook, Youtube } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -38,11 +39,18 @@ const Footer = () => {
           <div>
             <h4 className="font-display text-sm font-bold text-gold tracking-wider mb-4 uppercase">Shop</h4>
             <ul className="space-y-2">
-              {["Kanchipuram Silk", "Banarasi Silk", "Pochampally", "Bridal Collection", "Festival Specials", "Limited Editions"].map((link) => (
-                <li key={link}>
-                  <a href="#" className="font-body text-sm text-primary-foreground/60 hover:text-gold transition-colors">
-                    {link}
-                  </a>
+              {[
+                { label: "Kanchipuram Silk", path: "/sarees" },
+                { label: "Banarasi Silk", path: "/sarees" },
+                { label: "Pochampally", path: "/sarees" },
+                { label: "Bridal Collection", path: "/bridal" },
+                { label: "Festival Specials", path: "/festival" },
+                { label: "Jewelry", path: "/jewelry" },
+              ].map((link) => (
+                <li key={link.label}>
+                  <Link to={link.path} className="font-body text-sm text-primary-foreground/60 hover:text-gold transition-colors">
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -52,11 +60,18 @@ const Footer = () => {
           <div>
             <h4 className="font-display text-sm font-bold text-gold tracking-wider mb-4 uppercase">Services</h4>
             <ul className="space-y-2">
-              {["Virtual Try-On", "Custom Embroidery", "Bridal Planner", "AI Style Quiz", "Gift Packaging", "Royal Queen Club"].map((link) => (
-                <li key={link}>
-                  <a href="#" className="font-body text-sm text-primary-foreground/60 hover:text-gold transition-colors">
-                    {link}
-                  </a>
+              {[
+                { label: "Virtual Try-On", path: "/virtual-tryon" },
+                { label: "Custom Embroidery", path: "/virtual-tryon" },
+                { label: "Bridal Planner", path: "/bridal" },
+                { label: "AI Style Quiz", path: "/virtual-tryon" },
+                { label: "Community", path: "/community" },
+                { label: "Royal Queen Club", path: "/profile" },
+              ].map((link) => (
+                <li key={link.label}>
+                  <Link to={link.path} className="font-body text-sm text-primary-foreground/60 hover:text-gold transition-colors">
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>

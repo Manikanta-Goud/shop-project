@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import heroModel from "@/assets/hero-model.jpg";
+import { Link } from "react-router-dom";
 
 const HeroBanner = () => {
   return (
@@ -53,22 +54,22 @@ const HeroBanner = () => {
             transition={{ delay: 0.9 }}
             className="flex flex-wrap gap-4 justify-center lg:justify-start"
           >
-            <a
-              href="#products"
-              className="px-8 py-3 bg-gold-gradient font-display text-sm font-semibold tracking-wider text-accent-foreground rounded-full shadow-gold-lg hover:shadow-gold transition-shadow duration-300 uppercase"
+            <Link
+              to="/sarees"
+              className="px-8 py-3 bg-gold-gradient font-display text-sm font-semibold tracking-wider text-accent-foreground rounded-full shadow-gold-lg hover:shadow-gold transition-shadow duration-300 uppercase inline-block"
             >
               Explore Collection
-            </a>
-            <a
-              href="#virtual-tryon"
-              className="px-8 py-3 border-2 border-gold font-display text-sm font-semibold tracking-wider text-gold rounded-full hover:bg-gold/10 transition-colors duration-300 uppercase"
+            </Link>
+            <Link
+              to="/virtual-tryon"
+              className="px-8 py-3 border-2 border-gold font-display text-sm font-semibold tracking-wider text-gold rounded-full hover:bg-gold/10 transition-colors duration-300 uppercase inline-block"
             >
               Virtual Try-On
-            </a>
+            </Link>
           </motion.div>
         </motion.div>
 
-        {/* Right Hero Image */}
+        {/* Right Hero Image Area */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}

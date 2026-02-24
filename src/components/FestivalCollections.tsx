@@ -1,12 +1,6 @@
 import { motion } from "framer-motion";
 import festivalDiwali from "@/assets/festival-diwali.jpg";
-
-const festivals = [
-  { name: "Diwali Collection", tag: "🪔 Festival of Lights" },
-  { name: "Sankranti Special", tag: "🌾 Harvest Festival" },
-  { name: "Ugadi Collection", tag: "🌸 New Beginnings" },
-  { name: "Wedding Season", tag: "💒 Bridal Special" },
-];
+import ProductGrid from "./ProductGrid";
 
 const FestivalCollections = () => {
   return (
@@ -47,28 +41,8 @@ const FestivalCollections = () => {
           </div>
         </motion.div>
 
-        {/* Festival Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {festivals.map((festival, index) => (
-            <motion.button
-              key={festival.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -4 }}
-              className="p-6 rounded-xl border border-gold/30 bg-background hover:bg-gold/5 hover:border-gold hover:shadow-card-hover transition-all duration-300 text-center group"
-            >
-              <span className="text-2xl mb-2 block">{festival.tag.split(" ")[0]}</span>
-              <h4 className="font-display text-sm font-semibold text-primary group-hover:text-gold-dark transition-colors">
-                {festival.name}
-              </h4>
-              <p className="font-body text-xs text-muted-foreground mt-1">
-                {festival.tag.split(" ").slice(1).join(" ")}
-              </p>
-            </motion.button>
-          ))}
-        </div>
+        {/* Festival Product Grid */}
+        <ProductGrid type="Festival" />
       </div>
     </section>
   );
