@@ -1,24 +1,83 @@
-import { useState } from "react";
-import { Search, User, Heart, ShoppingBag, Menu, X, ChevronDown } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Search, User, Heart, ShoppingBag, Menu, X, ChevronDown, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Sarees", href: "/sarees", children: ["Kanchipuram", "Banarasi", "Pochampally", "Chanderi", "Mysore Silk"] },
-  { label: "Gajulu", href: "/gajulu", children: ["Temple Gold", "Diamond", "Silk Thread", "Glass Festive"] },
-  { label: "Bridal", href: "/bridal" },
-  { label: "Jewelry", href: "/jewelry" },
-  { label: "Festival Collections", href: "/festival", children: ["Diwali", "Sankranti", "Ugadi", "Wedding Season"] },
-  { label: "Virtual Try-On", href: "/virtual-tryon" },
-  { label: "Community", href: "/community" },
+  { label: "Home", href: "/", protected: false },
+  { label: "Sarees", href: "/sarees", protected: true, children: ["Kanchipuram", "Banarasi", "Pochampally", "Chanderi", "Mysore Silk"] },
+  { label: "Gajulu", href: "/gajulu", protected: true, children: ["Temple Gold", "Diamond", "Silk Thread", "Glass Festive"] },
+  { label: "Bridal", href: "/bridal", protected: true },
+  { label: "Jewelry", href: "/jewelry", protected: true },
+  { label: "Festival Collections", href: "/festival", protected: true, children: ["Diwali", "Sankranti", "Ugadi", "Wedding Season"] },
+  { label: "Offers", href: "/offers", protected: true },
+  { label: "Virtual Try-On", href: "/virtual-tryon", protected: true },
+  { label: "Community", href: "/community", protected: true },
 ];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [wishlistCount, setWishlistCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
+  const { user, profile, setShowLoginModal, signOut } = useAuth();
+
+  // Fetch wishlist and cart counts
+  useEffect(() => {
+    if (user) {
+      fetchCounts();
+    } else {
+      setWishlistCount(0);
+      setCartCount(0);
+    }
+  }, [user, fetchCounts]);
+
+  const fetchCounts = useCallback(async () => {
+    if (!user) return;
+    
+    // Fetch wishlist count
+    const { count: wCount } = await supabase
+      .from('wishlist')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id);
+    
+    // Fetch cart count
+    const { count: cCount } = await supabase
+      .from('cart')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id);
+    
+    setWishlistCount(wCount || 0);
+    setCartCount(cCount || 0);
+  }, [user]);
+
+  const handleUserIconClick = () => {
+    if (user) {
+      navigate("/profile");
+    } else {
+      setShowLoginModal(true);
+    }
+  };
+
+
+
+  const handleNavigation = (href: string, isProtected: boolean, e: React.MouseEvent) => {
+    if (isProtected && user && (!profile?.full_name?.trim())) {
+      e.preventDefault();
+      navigate("/profile");
+      return;
+    }
+    
+    if (isProtected && !user) {
+      e.preventDefault();
+      setShowLoginModal(true);
+      return;
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50">
@@ -62,7 +121,17 @@ const Navbar = () => {
               >
                 <Link
                   to={link.href}
-                  className="font-display text-sm text-primary-foreground hover:text-gold transition-colors duration-300 flex items-center gap-1"
+                  onClick={(e) => handleNavigation(link.href, link.protected, e)}
+                  className={`font-display text-sm transition-colors duration-300 flex items-center gap-1 ${
+                    link.protected && user && !profile?.full_name?.trim() 
+                      ? 'text-gold/50 cursor-not-allowed' 
+                      : 'text-primary-foreground hover:text-gold'
+                  }`}
+                  title={
+                    link.protected && user && !profile?.full_name?.trim() 
+                      ? 'Please complete your profile first' 
+                      : ''
+                  }
                 >
                   {link.label}
                   {link.children && <ChevronDown size={12} />}
@@ -97,22 +166,64 @@ const Navbar = () => {
               <Search size={20} />
             </button>
             <button
-              onClick={() => navigate("/profile")}
-              className="text-primary-foreground hover:text-gold transition-colors hidden sm:block"
+              onClick={handleUserIconClick}
+              className="text-primary-foreground hover:text-gold transition-colors hidden sm:flex items-center gap-2 group"
+              title={user ? `Signed in as ${profile?.full_name || user.email}` : "Sign in"}
             >
-              <User size={20} />
+              <User size={20} className={user ? "text-gold" : ""} />
+              {user && profile?.full_name && (
+                <span className="text-xs text-gold-light/80 hidden lg:block max-w-[100px] truncate">
+                  {profile.full_name}
+                </span>
+              )}
             </button>
-            <button className="text-primary-foreground hover:text-gold transition-colors relative">
-              <Heart size={20} />
-              <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
-                3
-              </span>
+            <button 
+              onClick={() => {
+                if (!user) {
+                  setShowLoginModal(true);
+                } else if (!profile?.full_name?.trim()) {
+                  navigate('/profile');
+                } else {
+                  navigate('/profile#wishlist');
+                }
+              }}
+              className="text-primary-foreground hover:text-gold transition-colors relative"
+              title={
+                !user ? "Sign in to view wishlist" :
+                !profile?.full_name?.trim() ? "Complete profile to access wishlist" :
+                "Wishlist"
+              }
+            >
+              <Heart size={20} className={wishlistCount > 0 ? 'fill-gold text-gold' : ''} />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                  {wishlistCount}
+                </span>
+              )}
             </button>
-            <button className="text-primary-foreground hover:text-gold transition-colors relative">
-              <ShoppingBag size={20} />
-              <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
-                2
-              </span>
+            <button 
+              onClick={() => {
+                if (!user) {
+                  setShowLoginModal(true);
+                } else if (!profile?.full_name?.trim()) {
+                  navigate('/profile');
+                } else {
+                  navigate('/profile#cart');
+                }
+              }}
+              className="text-primary-foreground hover:text-gold transition-colors relative"
+              title={
+                !user ? "Sign in to view cart" :
+                !profile?.full_name?.trim() ? "Complete profile to access cart" :
+                "Shopping Bag"
+              }
+            >
+              <ShoppingBag size={20} className={cartCount > 0 ? 'text-gold' : ''} />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                  {cartCount}
+                </span>
+              )}
             </button>
           </div>
         </div>
@@ -157,10 +268,20 @@ const Navbar = () => {
                 <Link
                   key={link.label}
                   to={link.href}
-                  className="block font-display text-lg text-primary-foreground hover:text-gold py-2 border-b border-gold/10"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    handleNavigation(link.href, link.protected, e);
+                  }}
+                  className={`block font-display text-lg py-2 border-b border-gold/10 ${
+                    link.protected && user && !profile?.full_name?.trim() 
+                      ? 'text-gold/50 cursor-not-allowed' 
+                      : 'text-primary-foreground hover:text-gold'
+                  }`}
                 >
                   {link.label}
+                  {link.protected && user && !profile?.full_name?.trim() && (
+                    <span className="block text-xs text-gold/40 mt-1">Complete profile to access</span>
+                  )}
                 </Link>
               ))}
               <Link

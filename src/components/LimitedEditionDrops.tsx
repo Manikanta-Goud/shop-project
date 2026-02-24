@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Clock, Flame } from "lucide-react";
-import sareeRed from "@/assets/saree-red-gold.jpg";
-import sareePurple from "@/assets/saree-purple-gold.jpg";
-
-const drops = [
-  { id: 1, name: "Heritage Temple Border Silk", price: "₹18,999", image: sareeRed, remaining: 7 },
-  { id: 2, name: "Royal Purple Pattu Silk", price: "₹22,499", image: sareePurple, remaining: 3 },
-];
+import { useFeaturedOffers } from "@/hooks/useOffers";
+import { useNavigate } from "react-router-dom";
 
 const LimitedEditionDrops = () => {
+  const navigate = useNavigate();
+  const { data: featuredOffers = [], isLoading } = useFeaturedOffers();
   const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 45, seconds: 12 });
 
   useEffect(() => {
@@ -25,6 +22,11 @@ const LimitedEditionDrops = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  // Don't render the section if there are no featured offers
+  if (isLoading || featuredOffers.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-16 bg-maroon-gradient relative overflow-hidden">
@@ -64,29 +66,53 @@ const LimitedEditionDrops = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-          {drops.map((drop, index) => (
+          {featuredOffers.map((offer, index) => (
             <motion.div
-              key={drop.id}
+              key={offer.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
-              className="group bg-secondary/40 border border-gold/20 rounded-xl overflow-hidden hover:border-gold/50 transition-all duration-500"
+              className="group bg-secondary/40 border border-gold/20 rounded-xl overflow-hidden hover:border-gold/50 transition-all duration-500 cursor-pointer"
+              onClick={() => offer.product_id && navigate(`/product/${offer.product_id}`)}
             >
               <div className="aspect-square overflow-hidden">
                 <img
-                  src={drop.image}
-                  alt={drop.name}
+                  src={offer.image}
+                  alt={offer.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
               <div className="p-4 text-center">
-                <h4 className="font-display text-sm font-semibold text-primary-foreground">{drop.name}</h4>
-                <p className="font-display text-lg font-bold text-gold mt-1">{drop.price}</p>
+                <h4 className="font-display text-sm font-semibold text-primary-foreground">{offer.title}</h4>
+                {offer.tag && (
+                  <span className="inline-block mt-1.5 px-3 py-1 text-[9px] bg-gold/20 text-gold rounded-full uppercase tracking-wider font-bold border border-gold/30">
+                    {offer.tag}
+                  </span>
+                )}
+                <div className="flex items-center justify-center gap-2 mt-2">
+                  <p className="font-display text-lg font-bold text-gold">{offer.price}</p>
+                  {offer.original_price && (
+                    <p className="font-body text-sm text-primary-foreground/40 line-through">{offer.original_price}</p>
+                  )}
+                </div>
+                {offer.discount_percentage && offer.discount_percentage > 0 && (
+                  <p className="font-body text-xs text-green-400 font-bold mt-1">
+                    {offer.discount_percentage}% OFF
+                  </p>
+                )}
                 <p className="font-body text-xs text-crimson mt-1">
-                  Only {drop.remaining} pieces left!
+                  Only {offer.stock_count} pieces left!
                 </p>
-                <button className="mt-3 w-full py-2.5 bg-gold-gradient rounded-full font-display text-xs font-bold text-accent-foreground tracking-wider uppercase shadow-gold hover:shadow-gold-lg transition-shadow">
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (offer.product_id) {
+                      navigate(`/product/${offer.product_id}`);
+                    }
+                  }}
+                  className="mt-3 w-full py-2.5 bg-gold-gradient rounded-full font-display text-xs font-bold text-accent-foreground tracking-wider uppercase shadow-gold hover:shadow-gold-lg transition-shadow"
+                >
                   Shop Now
                 </button>
               </div>

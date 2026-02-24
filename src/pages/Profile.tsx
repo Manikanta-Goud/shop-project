@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { User, Mail, Phone, MapPin, ShoppingBag, Heart, Settings, LogOut, ChevronRight, Award, Save, X, ArrowLeft } from "lucide-react";
+import { User, Mail, Phone, MapPin, ShoppingBag, Heart, Settings, LogOut, ChevronRight, Award, Save, X, ArrowLeft, ShoppingCart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -22,6 +22,8 @@ const Profile = () => {
     const [cartCount, setCartCount] = useState(0);
     const [recentOrders, setRecentOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [wishlistItems, setWishlistItems] = useState<any[]>([]);
+    const [cartItems, setCartItems] = useState<any[]>([]);
 
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [editForm, setEditForm] = useState({
@@ -53,6 +55,31 @@ const Profile = () => {
             const { data: oData } = await supabase.from("orders").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(3);
             setRecentOrders(oData || []);
 
+            // Fetch wishlist items with product details
+            const { data: wishlistData } = await supabase
+                .from("wishlist")
+                .select(`
+                    id,
+                    product_id,
+                    products (*)
+                `)
+                .eq("user_id", user.id);
+            
+            setWishlistItems(wishlistData || []);
+
+            // Fetch cart items with product details
+            const { data: cartData } = await supabase
+                .from("cart")
+                .select(`
+                    id,
+                    product_id,
+                    quantity,
+                    products (*)
+                `)
+                .eq("user_id", user.id);
+            
+            setCartItems(cartData || []);
+
             setLoading(false);
         };
 
@@ -82,7 +109,7 @@ const Profile = () => {
 
             setProfile({ ...profile, ...editForm });
             setIsEditDialogOpen(false);
-            toast.success("Profile updated successfully!");
+            toast.success("Profile completed successfully! Welcome to Sri Durga Sarees!");
         } catch (error: any) {
             toast.error(error.message);
         }
@@ -90,16 +117,77 @@ const Profile = () => {
 
     if (!user) {
         return (
-            <div className="min-h-screen bg-primary flex items-center justify-center">
+            <div className="min-h-screen bg-primary">
                 <Navbar />
-                <div className="text-center mt-20">
-                    <h2 className="text-gold font-display text-2xl mb-4 italic">Awaiting Your Presence</h2>
-                    <p className="text-gold-light/60 font-body mb-8">Please sign in to view your royal profile</p>
-                    <Button onClick={() => setShowLoginModal(true)} className="bg-gold-gradient text-accent-foreground font-bold font-display uppercase tracking-widest px-8 h-12">Sign In</Button>
+                <div className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-8">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ type: "spring", damping: 20, stiffness: 300 }}
+                        className="text-center max-w-md w-full"
+                    >
+                        {/* Decorative Om Symbol */}
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                            className="mb-8"
+                        >
+                            <span className="text-7xl md:text-8xl text-gold inline-block italic drop-shadow-gold">ॐ</span>
+                        </motion.div>
+
+                        {/* Heading */}
+                        <motion.h2 
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="text-gold font-display text-3xl md:text-4xl mb-4 italic tracking-wide"
+                        >
+                            Awaiting Your<br />Presence
+                        </motion.h2>
+
+                        {/* Description */}
+                        <motion.p 
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.4 }}
+                            className="text-gold-light/70 font-body mb-10 text-base md:text-lg leading-relaxed"
+                        >
+                            Please sign in to view your royal profile and access your precious collection
+                        </motion.p>
+
+                        {/* Sign In Button */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                        >
+                            <Button 
+                                onClick={() => setShowLoginModal(true)} 
+                                className="bg-gold-gradient hover:shadow-gold-lg text-accent-foreground font-bold font-display uppercase tracking-[0.15em] px-10 md:px-12 h-14 text-base md:text-lg rounded-xl transition-all hover:scale-105 w-full sm:w-auto"
+                            >
+                                Sign In
+                            </Button>
+                        </motion.div>
+
+                        {/* Decorative Elements */}
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.6 }}
+                            className="mt-12 flex items-center justify-center gap-3 text-gold/30"
+                        >
+                            <div className="h-px w-16 bg-gold/20"></div>
+                            <User className="w-5 h-5" />
+                            <div className="h-px w-16 bg-gold/20"></div>
+                        </motion.div>
+                    </motion.div>
                 </div>
             </div>
         );
     }
+
+
 
     return (
         <div className="min-h-screen bg-primary">
@@ -298,6 +386,86 @@ const Profile = () => {
                             <Button variant="link" className="text-gold-light hover:text-gold font-body text-sm p-0 flex items-center gap-2">
                                 View all orders <ChevronRight size={14} />
                             </Button>
+                        </div>
+
+                        {/* Wishlist Section */}
+                        <div className="space-y-4">
+                            <h3 className="font-display text-primary-foreground text-xl flex items-center gap-2">
+                                <Heart className="text-accent" size={20} /> My Wishlist ({wishlistCount})
+                            </h3>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {wishlistItems.length > 0 ? wishlistItems.map((item) => (
+                                    <motion.div
+                                        key={item.id}
+                                        whileHover={{ y: -5 }}
+                                        onClick={() => navigate(`/product/${item.product_id}`)}
+                                        className="cursor-pointer group"
+                                    >
+                                        <Card className="bg-secondary/20 border-gold/10 hover:border-gold/30 transition-all overflow-hidden">
+                                            <div className="aspect-square relative overflow-hidden">
+                                                <img
+                                                    src={item.products.image}
+                                                    alt={item.products.name}
+                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                />
+                                            </div>
+                                            <CardContent className="p-3">
+                                                <h4 className="text-primary-foreground font-display font-semibold text-sm line-clamp-1">
+                                                    {item.products.name}
+                                                </h4>
+                                                <p className="text-gold font-bold mt-1 text-sm">{item.products.price}</p>
+                                            </CardContent>
+                                        </Card>
+                                    </motion.div>
+                                )) : (
+                                    <Card className="col-span-full bg-secondary/20 border-gold/10 p-12 text-center italic text-primary-foreground/40 font-body">
+                                        Your wishlist is empty. Start adding favorites!
+                                    </Card>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Cart Section */}
+                        <div className="space-y-4">
+                            <h3 className="font-display text-primary-foreground text-xl flex items-center gap-2">
+                                <ShoppingCart className="text-gold" size={20} /> My Cart ({cartCount})
+                            </h3>
+                            <div className="space-y-3">
+                                {cartItems.length > 0 ? cartItems.map((item) => (
+                                    <Card
+                                        key={item.id}
+                                        onClick={() => navigate(`/product/${item.product_id}`)}
+                                        className="bg-secondary/20 border-gold/10 hover:border-gold/30 transition-all cursor-pointer"
+                                    >
+                                        <CardContent className="p-4 flex items-center gap-4">
+                                            <div className="w-20 h-20 rounded overflow-hidden flex-shrink-0">
+                                                <img
+                                                    src={item.products.image}
+                                                    alt={item.products.name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                            <div className="flex-1">
+                                                <h4 className="text-primary-foreground font-display font-semibold">
+                                                    {item.products.name}
+                                                </h4>
+                                                <p className="text-gold-light/60 text-xs mt-1 font-body">
+                                                    {item.products.type} • {item.products.category}
+                                                </p>
+                                                <div className="flex items-center gap-3 mt-2">
+                                                    <span className="text-gold font-bold">{item.products.price}</span>
+                                                    <span className="text-xs text-primary-foreground/60">Qty: {item.quantity}</span>
+                                                </div>
+                                            </div>
+                                            <ChevronRight size={16} className="text-gold/50" />
+                                        </CardContent>
+                                    </Card>
+                                )) : (
+                                    <Card className="bg-secondary/20 border-gold/10 p-12 text-center italic text-primary-foreground/40 font-body">
+                                        Your cart is empty. Start shopping!
+                                    </Card>
+                                )}
+                            </div>
                         </div>
 
                         {/* Account Settings Shortcut */}

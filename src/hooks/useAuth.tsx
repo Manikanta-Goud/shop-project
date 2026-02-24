@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useUser, useClerk, type UserResource } from "@clerk/clerk-react";
 import { supabase } from "@/integrations/supabase/client";
-import { User } from "@supabase/supabase-js";
 
 type Profile = {
     full_name: string | null;
@@ -11,22 +11,38 @@ type Profile = {
 };
 
 type AuthContextType = {
-    user: User | null;
+    user: UserResource | null;
     profile: Profile | null;
     setProfile: (profile: Profile | null) => void;
     loading: boolean;
     signOut: () => Promise<void>;
     showLoginModal: boolean;
     setShowLoginModal: (show: boolean) => void;
+    isProfileComplete: boolean;
 };
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+// Create context with default values to prevent undefined errors
+const defaultAuthContext: AuthContextType = {
+    user: null,
+    profile: null,
+    setProfile: () => {},
+    loading: true,
+    signOut: async () => {},
+    showLoginModal: false,
+    setShowLoginModal: () => {},
+    isProfileComplete: false,
+};
+
+const AuthContext = createContext<AuthContextType>(defaultAuthContext);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const { user: clerkUser, isLoaded } = useUser();
+    const { signOut: clerkSignOut } = useClerk();
     const [profile, setProfileState] = useState<Profile | null>(null);
-    const [loading, setLoading] = useState(true);
     const [showLoginModal, setShowLoginModal] = useState(false);
+
+    // Check if profile is complete (has at least the full name)
+    const isProfileComplete = !!(profile?.full_name && profile.full_name.trim() !== "");
 
     const fetchProfile = async (uid: string) => {
         const { data, error } = await supabase
@@ -40,33 +56,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+    const createOrUpdateProfile = async (clerkUser: UserResource) => {
+        if (!clerkUser) return;
+
+        const { data, error } = await supabase
+            .from("profiles")
+            .upsert({
+                id: clerkUser.id,
+                full_name: clerkUser.fullName || `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim(),
+                email: clerkUser.primaryEmailAddress?.emailAddress || '',
+                phone: clerkUser.primaryPhoneNumber?.phoneNumber || '',
+                avatar_url: clerkUser.imageUrl,
+                loyalty_points: 0,
+            }, { onConflict: 'id' })
+            .select()
+            .single();
+
+        if (data && !error) {
+            setProfileState(data);
+        }
+    };
+
     useEffect(() => {
-        // Check active sessions and sets the user
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            const currentUser = session?.user ?? null;
-            setUser(currentUser);
-            if (currentUser) fetchProfile(currentUser.id);
-            setLoading(false);
-        });
-
-        // Listen for changes on auth state (logged in, signed out, etc.)
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            const currentUser = session?.user ?? null;
-            setUser(currentUser);
-            if (currentUser) {
-                fetchProfile(currentUser.id);
-                setShowLoginModal(false); // Close modal on successful login
-            } else {
-                setProfileState(null);
-            }
-            setLoading(false);
-        });
-
-        return () => subscription.unsubscribe();
-    }, []);
+        if (isLoaded && clerkUser) {
+            createOrUpdateProfile(clerkUser);
+            setShowLoginModal(false);
+        } else if (isLoaded && !clerkUser) {
+            setProfileState(null);
+        }
+    }, [clerkUser, isLoaded]);
 
     const signOut = async () => {
-        await supabase.auth.signOut();
+        await clerkSignOut();
         setProfileState(null);
     };
 
@@ -75,7 +96,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, profile, setProfile, loading, signOut, showLoginModal, setShowLoginModal }}>
+        <AuthContext.Provider value={{ 
+            user: clerkUser, 
+            profile, 
+            setProfile, 
+            loading: !isLoaded, 
+            signOut, 
+            showLoginModal, 
+            setShowLoginModal,
+            isProfileComplete
+        }}>
             {children}
         </AuthContext.Provider>
     );
@@ -83,8 +113,5 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useAuth = () => {
     const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error("useAuth must be used within an AuthProvider");
-    }
     return context;
 };

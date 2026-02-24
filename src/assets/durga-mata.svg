@@ -1,0 +1,263 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#6B1A2A"/>
+      <stop offset="60%" stop-color="#3D0A12"/>
+      <stop offset="100%" stop-color="#1A0008"/>
+    </radialGradient>
+    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#DAA520" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#DAA520" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="faceGrad" cx="45%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#F5C28A"/>
+      <stop offset="100%" stop-color="#C8874A"/>
+    </radialGradient>
+    <radialGradient id="haloGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#DAA520" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#DAA520" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="url(#bgGrad)"/>
+
+  <!-- Subtle dot pattern -->
+  <pattern id="dotPattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+    <circle cx="30" cy="30" r="1" fill="#DAA520" opacity="0.15"/>
+  </pattern>
+  <rect width="1920" height="1080" fill="url(#dotPattern)"/>
+
+  <!-- Divine glow behind figure -->
+  <ellipse cx="960" cy="480" rx="400" ry="450" fill="url(#glowGrad)"/>
+
+  <!-- Large Divine Halo -->
+  <circle cx="960" cy="320" r="220" fill="none" stroke="#DAA520" stroke-width="2" opacity="0.5"/>
+  <circle cx="960" cy="320" r="200" fill="url(#haloGrad)" opacity="0.3"/>
+  <circle cx="960" cy="320" r="195" fill="none" stroke="#FFD700" stroke-width="1.5" opacity="0.8" filter="url(#glow)"/>
+
+  <!-- Halo decorative rays -->
+  <g transform="translate(960,320)" opacity="0.6" filter="url(#softGlow)">
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2"/>
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2" transform="rotate(30)"/>
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2" transform="rotate(60)"/>
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2" transform="rotate(90)"/>
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2" transform="rotate(120)"/>
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2" transform="rotate(150)"/>
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2" transform="rotate(180)"/>
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2" transform="rotate(210)"/>
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2" transform="rotate(240)"/>
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2" transform="rotate(270)"/>
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2" transform="rotate(300)"/>
+    <line x1="0" y1="-200" x2="0" y2="-230" stroke="#FFD700" stroke-width="2" transform="rotate(330)"/>
+  </g>
+
+  <!-- Crown / Mukut -->
+  <g transform="translate(960, 110)" filter="url(#glow)">
+    <!-- Main crown base -->
+    <path d="M-80,80 L-90,0 L-40,-40 L0,-60 L40,-40 L90,0 L80,80 Z" fill="#DAA520" opacity="0.9"/>
+    <!-- Crown center jewel peak -->
+    <path d="M-20,-60 L0,-110 L20,-60 Z" fill="#FFD700"/>
+    <circle cx="0" cy="-115" r="10" fill="#FF4444" opacity="0.9"/>
+    <!-- Left peak -->
+    <path d="M-55,-30 L-70,-80 L-40,-30 Z" fill="#FFD700" opacity="0.8"/>
+    <circle cx="-70" cy="-83" r="7" fill="#FF4444" opacity="0.8"/>
+    <!-- Right peak -->
+    <path d="M55,-30 L70,-80 L40,-30 Z" fill="#FFD700" opacity="0.8"/>
+    <circle cx="70" cy="-83" r="7" fill="#FF4444" opacity="0.8"/>
+    <!-- Decorative gems on crown -->
+    <circle cx="-30" cy="20" r="6" fill="#FF4444" opacity="0.9"/>
+    <circle cx="0" cy="10" r="8" fill="#FF4444" opacity="0.9"/>
+    <circle cx="30" cy="20" r="6" fill="#FF4444" opacity="0.9"/>
+    <!-- Crown outline -->
+    <path d="M-80,80 L-90,0 L-40,-40 L0,-60 L40,-40 L90,0 L80,80 Z" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.8"/>
+  </g>
+
+  <!-- Face -->
+  <ellipse cx="960" cy="310" rx="90" ry="105" fill="url(#faceGrad)"/>
+  <!-- Face shading -->
+  <ellipse cx="975" cy="310" rx="85" ry="100" fill="none" stroke="#C8874A" stroke-width="1" opacity="0.3"/>
+
+  <!-- Hair -->
+  <ellipse cx="960" cy="235" rx="100" ry="55" fill="#1A0A00"/>
+  <path d="M870,280 Q850,350 865,420 Q875,435 880,420 Q870,350 885,285Z" fill="#1A0A00"/>
+  <path d="M1050,280 Q1070,350 1055,420 Q1045,435 1040,420 Q1050,350 1035,285Z" fill="#1A0A00"/>
+
+  <!-- Third Eye (Tilak) -->
+  <ellipse cx="960" cy="270" rx="7" ry="9" fill="#CC0000" filter="url(#softGlow)"/>
+  <ellipse cx="960" cy="270" rx="4" ry="6" fill="#FF2222"/>
+
+  <!-- Eyebrows -->
+  <path d="M910,290 Q935,282 955,288" fill="none" stroke="#2D1A00" stroke-width="4" stroke-linecap="round"/>
+  <path d="M965,288 Q985,282 1010,290" fill="none" stroke="#2D1A00" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Eyes -->
+  <ellipse cx="930" cy="308" rx="20" ry="14" fill="white"/>
+  <ellipse cx="990" cy="308" rx="20" ry="14" fill="white"/>
+  <circle cx="930" cy="310" r="12" fill="#2D1A00"/>
+  <circle cx="990" cy="310" r="12" fill="#2D1A00"/>
+  <circle cx="926" cy="307" r="5" fill="#000"/>
+  <circle cx="986" cy="307" r="5" fill="#000"/>
+  <circle cx="924" cy="305" r="2.5" fill="white"/>
+  <circle cx="984" cy="305" r="2.5" fill="white"/>
+  <!-- Eyeliner -->
+  <path d="M910,308 Q930,300 950,308 Q930,318 910,308Z" fill="none" stroke="#1A0A00" stroke-width="1.5" opacity="0.7"/>
+  <path d="M970,308 Q990,300 1010,308 Q990,318 970,308Z" fill="none" stroke="#1A0A00" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- Nose -->
+  <ellipse cx="960" cy="338" rx="6" ry="4" fill="#C8874A" opacity="0.6"/>
+  <!-- Nose ring -->
+  <circle cx="945" cy="338" r="6" fill="none" stroke="#DAA520" stroke-width="1.5"/>
+  <circle cx="943" cy="340" r="2" fill="#FF4444"/>
+
+  <!-- Lips -->
+  <path d="M935,358 Q960,348 985,358 Q975,372 960,376 Q945,372 935,358Z" fill="#CC2244"/>
+  <path d="M935,358 Q960,355 985,358" fill="none" stroke="#AA1133" stroke-width="1.5"/>
+
+  <!-- Sindoor / Bindi hair parting -->
+  <path d="M955,240 L965,240" stroke="#CC0000" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Necklace layered -->
+  <path d="M880,400 Q960,440 1040,400" fill="none" stroke="#DAA520" stroke-width="6" opacity="0.9"/>
+  <path d="M885,415 Q960,460 1035,415" fill="none" stroke="#DAA520" stroke-width="5" opacity="0.8"/>
+  <!-- Necklace pendants -->
+  <circle cx="960" cy="450" r="12" fill="#DAA520" filter="url(#softGlow)"/>
+  <ellipse cx="960" cy="462" rx="8" ry="12" fill="#CC0000" opacity="0.8"/>
+
+  <!-- Saree body - base -->
+  <path d="M790,420 Q960,390 1130,420 L1180,1080 L740,1080 Z" fill="#CC0044" opacity="0.9"/>
+  <!-- Saree golden border -->
+  <path d="M790,420 Q960,390 1130,420 L1140,440 Q960,410 780,440 Z" fill="#DAA520" opacity="0.8"/>
+
+  <!-- Blouse -->
+  <path d="M860,395 Q960,375 1060,395 L1050,500 Q960,480 870,500 Z" fill="#880033"/>
+  <!-- Blouse embroidery pattern -->
+  <path d="M870,420 Q960,405 1050,420" fill="none" stroke="#DAA520" stroke-width="2" opacity="0.8"/>
+  <path d="M875,440 Q960,425 1045,440" fill="none" stroke="#DAA520" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Multiple Arms (Divine) -->
+
+  <!-- Upper Left Arm 1 -->
+  <path d="M860,430 Q780,370 720,300 Q700,270 715,250 Q740,240 760,265 Q810,350 875,430Z" fill="url(#faceGrad)" opacity="0.9"/>
+  <!-- Upper Left Arm 2 -->
+  <path d="M855,450 Q760,420 680,380 Q650,360 655,335 Q680,320 705,340 Q780,380 860,460Z" fill="url(#faceGrad)" opacity="0.9"/>
+
+  <!-- Upper Right Arm 1 -->
+  <path d="M1060,430 Q1140,370 1200,300 Q1220,270 1205,250 Q1180,240 1160,265 Q1110,350 1045,430Z" fill="url(#faceGrad)" opacity="0.9"/>
+  <!-- Upper Right Arm 2 -->
+  <path d="M1065,450 Q1160,420 1240,380 Q1270,360 1265,335 Q1240,320 1215,340 Q1140,380 1060,460Z" fill="url(#faceGrad)" opacity="0.9"/>
+
+  <!-- Left Main Arm (lower position) -->
+  <path d="M870,500 Q820,560 800,650 Q795,680 815,695 Q840,690 850,660 Q870,570 890,510Z" fill="url(#faceGrad)"/>
+  <!-- Right Main Arm (lower position) -->
+  <path d="M1050,500 Q1100,560 1120,650 Q1125,680 1105,695 Q1080,690 1070,660 Q1050,570 1030,510Z" fill="url(#faceGrad)"/>
+
+  <!-- Divine Weapons / Items -->
+  <!-- Trishul (Trident) - Left upper arm -->
+  <g transform="translate(715, 245)" filter="url(#glow)">
+    <line x1="0" y1="0" x2="0" y2="-100" stroke="#DAA520" stroke-width="4"/>
+    <path d="M-15,-70 Q0,-90 15,-70" fill="none" stroke="#DAA520" stroke-width="3"/>
+    <line x1="-12" y1="-85" x2="-12" y2="-60" stroke="#DAA520" stroke-width="3"/>
+    <line x1="12" y1="-85" x2="12" y2="-60" stroke="#DAA520" stroke-width="3"/>
+    <line x1="0" y1="-100" x2="0" y2="-120" stroke="#DAA520" stroke-width="4"/>
+  </g>
+
+  <!-- Lotus - Right upper arm -->
+  <g transform="translate(1205, 245)" filter="url(#softGlow)">
+    <circle cx="0" cy="-80" r="20" fill="#FF69B4" opacity="0.8"/>
+    <ellipse cx="-15" cy="-80" rx="12" ry="20" fill="#FF69B4" opacity="0.7" transform="rotate(-30, -15, -80)"/>
+    <ellipse cx="15" cy="-80" rx="12" ry="20" fill="#FF69B4" opacity="0.7" transform="rotate(30, 15, -80)"/>
+    <ellipse cx="0" cy="-65" rx="12" ry="20" fill="#FF69B4" opacity="0.7" transform="rotate(20, 0, -65)"/>
+    <ellipse cx="0" cy="-95" rx="12" ry="20" fill="#FF8C00" opacity="0.6" transform="rotate(-20, 0, -95)"/>
+    <circle cx="0" cy="-80" r="8" fill="#FFD700"/>
+    <line x1="0" y1="-60" x2="0" y2="-30" stroke="#228B22" stroke-width="3"/>
+  </g>
+
+  <!-- Chakra (Disc) - Right arm -->
+  <g transform="translate(1263, 335)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="25" fill="none" stroke="#DAA520" stroke-width="3"/>
+    <circle cx="0" cy="0" r="8" fill="#DAA520"/>
+    <line x1="0" y1="-25" x2="0" y2="25" stroke="#DAA520" stroke-width="2"/>
+    <line x1="-25" y1="0" x2="25" y2="0" stroke="#DAA520" stroke-width="2"/>
+    <line x1="-18" y1="-18" x2="18" y2="18" stroke="#DAA520" stroke-width="2"/>
+    <line x1="18" y1="-18" x2="-18" y2="18" stroke="#DAA520" stroke-width="2"/>
+  </g>
+
+  <!-- Conch (Shankh) - Left arm -->
+  <g transform="translate(657, 335)" filter="url(#softGlow)">
+    <path d="M-15,20 Q-25,-10 -10,-25 Q10,-35 25,-20 Q35,0 20,20 Q5,35 -15,20Z" fill="white" opacity="0.9"/>
+    <path d="M20,20 Q35,25 30,10" fill="none" stroke="#DAA520" stroke-width="2"/>
+    <path d="M-15,20 Q-25,-10 -10,-25" fill="none" stroke="#DAA520" stroke-width="1" opacity="0.5"/>
+  </g>
+
+  <!-- Bangles on arms -->
+  <g stroke="#DAA520" stroke-width="3" fill="none" opacity="0.85">
+    <ellipse cx="808" cy="654" rx="16" ry="6" transform="rotate(-10, 808, 654)"/>
+    <ellipse cx="808" cy="665" rx="16" ry="6" transform="rotate(-10, 808, 665)"/>
+    <ellipse cx="1112" cy="654" rx="16" ry="6" transform="rotate(10, 1112, 654)"/>
+    <ellipse cx="1112" cy="665" rx="16" ry="6" transform="rotate(10, 1112, 665)"/>
+  </g>
+
+  <!-- Earrings -->
+  <g filter="url(#softGlow)">
+    <circle cx="874" cy="328" r="8" fill="#DAA520" opacity="0.9"/>
+    <ellipse cx="874" cy="345" rx="6" ry="10" fill="#CC0000" opacity="0.8"/>
+    <circle cx="1046" cy="328" r="8" fill="#DAA520" opacity="0.9"/>
+    <ellipse cx="1046" cy="345" rx="6" ry="10" fill="#CC0000" opacity="0.8"/>
+  </g>
+
+  <!-- Decorative floral background elements -->
+  <g opacity="0.15" fill="#DAA520">
+    <circle cx="200" cy="200" r="60"/>
+    <circle cx="200" cy="200" r="40" fill="none" stroke="#DAA520" stroke-width="2"/>
+    <circle cx="1720" cy="200" r="60"/>
+    <circle cx="1720" cy="200" r="40" fill="none" stroke="#DAA520" stroke-width="2"/>
+    <circle cx="200" cy="880" r="60"/>
+    <circle cx="1720" cy="880" r="60"/>
+  </g>
+
+  <!-- Decorative border/frame -->
+  <rect x="20" y="20" width="1880" height="1040" fill="none" stroke="#DAA520" stroke-width="2" opacity="0.3"/>
+  <rect x="35" y="35" width="1850" height="1010" fill="none" stroke="#DAA520" stroke-width="1" opacity="0.2"/>
+
+  <!-- Corner ornaments -->
+  <g fill="#DAA520" opacity="0.5">
+    <!-- Top Left -->
+    <path d="M20,20 L80,20 L20,80 Z"/>
+    <path d="M20,20 L60,20 L20,60 Z" fill="#FFD700" opacity="0.4"/>
+    <!-- Top Right -->
+    <path d="M1900,20 L1840,20 L1900,80 Z"/>
+    <path d="M1900,20 L1860,20 L1900,60 Z" fill="#FFD700" opacity="0.4"/>
+    <!-- Bottom Left -->
+    <path d="M20,1060 L80,1060 L20,1000 Z"/>
+    <!-- Bottom Right -->
+    <path d="M1900,1060 L1840,1060 L1900,1000 Z"/>
+  </g>
+
+  <!-- Divine text at bottom -->
+  <text x="960" y="1020" text-anchor="middle" font-family="serif" font-size="36" fill="#DAA520" opacity="0.7" filter="url(#softGlow)">
+    ✿ जय माँ दुर्गा ✿
+  </text>
+  <text x="960" y="1055" text-anchor="middle" font-family="serif" font-size="20" fill="#DAA520" opacity="0.5">
+    Sri Durga Mata
+  </text>
+
+  <!-- Top decorative text -->
+  <text x="960" y="65" text-anchor="middle" font-family="serif" font-size="28" fill="#DAA520" opacity="0.5">
+    ॐ दुर्गायै नमः
+  </text>
+
+  <!-- Left side decoration -->
+  <text x="80" y="540" text-anchor="middle" font-family="serif" font-size="24" fill="#DAA520" opacity="0.35" writing-mode="tb">✿ ✿ ✿ ✿ ✿</text>
+  <!-- Right side decoration -->
+  <text x="1840" y="540" text-anchor="middle" font-family="serif" font-size="24" fill="#DAA520" opacity="0.35" writing-mode="tb">✿ ✿ ✿ ✿ ✿</text>
+</svg>

@@ -215,7 +215,10 @@ const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: 
                 </button>
 
                 {/* Image */}
-                <div className="aspect-[3/4] overflow-hidden">
+                <div 
+                  className="aspect-[3/4] overflow-hidden cursor-pointer"
+                  onClick={() => navigate(`/product/${product.id}`)}
+                >
                   <img
                     src={product.image}
                     alt={product.name}
@@ -232,15 +235,21 @@ const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: 
                     <ShoppingBag size={14} />
                     Add to Cart
                   </button>
-                  <button className="px-6 py-2 border border-gold/60 rounded-full font-display text-xs text-gold tracking-wider uppercase flex items-center gap-2 hover:bg-gold/10 transition-colors">
+                  <button 
+                    onClick={() => navigate(`/product/${product.id}`)}
+                    className="px-6 py-2 border border-gold/60 rounded-full font-display text-xs text-gold tracking-wider uppercase flex items-center gap-2 hover:bg-gold/10 transition-colors"
+                  >
                     <Eye size={14} />
-                    Quick View
+                    View Details
                   </button>
                 </div>
               </div>
 
               {/* Product Info */}
-              <div className="mt-4 text-center">
+              <div 
+                className="mt-4 text-center cursor-pointer"
+                onClick={() => navigate(`/product/${product.id}`)}
+              >
                 <h4 className={`font-display text-sm lg:text-base font-semibold ${dark ? 'text-primary-foreground' : 'text-primary'}`}>
                   {product.name}
                 </h4>
