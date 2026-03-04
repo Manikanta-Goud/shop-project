@@ -44,7 +44,7 @@ const AuthModal = () => {
                     <div className="p-6 sm:p-10 pt-10 sm:pt-12">
                         {/* Header */}
                         <div className="text-center mb-6 sm:mb-8">
-                            <motion.span 
+                            <motion.span
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ delay: 0.1 }}
@@ -63,13 +63,17 @@ const AuthModal = () => {
                         {/* Clerk Auth Component */}
                         <div className="clerk-modal-wrapper">
                             {isSignUp ? (
-                                <SignUp 
+                                <SignUp
                                     appearance={{
                                         elements: {
                                             rootBox: "w-full",
                                             card: "bg-transparent shadow-none w-full",
                                             formButtonPrimary: "bg-gold-gradient hover:shadow-gold-lg text-secondary font-display font-bold uppercase tracking-wider py-2.5 transition-all duration-300",
-                                            formFieldInput: "bg-black/20 border-gold/20 text-white focus:border-gold focus:ring-1 focus:ring-gold/30 transition-all placeholder:text-white/20",
+                                            formFieldInput: "bg-black/30 border-gold/20 text-white focus:border-gold focus:ring-1 focus:ring-gold/30 transition-all placeholder:text-white/20",
+                                            // OTP box styles — must be set separately
+                                            otpCodeFieldInput: "!text-white !bg-black/40 !border-gold/50 focus:!border-gold focus:!ring-1 focus:!ring-gold/40 !rounded-lg !text-xl !font-bold text-center",
+                                            otpCodeField: "gap-2",
+                                            otpCodeFieldInputs: "gap-2",
                                             footerActionLink: "text-gold hover:text-gold-light font-semibold transition-colors",
                                             footerActionText: "text-white/60 font-body",
                                             identityPreviewText: "text-white",
@@ -81,7 +85,7 @@ const AuthModal = () => {
                                             socialButtonsBlockButton: "bg-white/5 border-gold/10 hover:bg-gold/10 hover:border-gold/30 transition-all",
                                             socialButtonsBlockButtonText: "text-white/90 font-body font-medium",
                                             formFieldInputShowPasswordButton: "text-gold-light/40 hover:text-gold",
-                                            footer: "hidden", // Hide Clerk's footer since we have a custom one
+                                            footer: "hidden",
                                             breadcrumbs: "hidden"
                                         }
                                     }}
@@ -89,13 +93,17 @@ const AuthModal = () => {
                                     afterSignUpUrl="/"
                                 />
                             ) : (
-                                <SignIn 
+                                <SignIn
                                     appearance={{
                                         elements: {
                                             rootBox: "w-full",
                                             card: "bg-transparent shadow-none w-full",
                                             formButtonPrimary: "bg-gold-gradient hover:shadow-gold-lg text-secondary font-display font-bold uppercase tracking-wider py-2.5 transition-all duration-300",
-                                            formFieldInput: "bg-black/20 border-gold/20 text-white focus:border-gold focus:ring-1 focus:ring-gold/30 transition-all placeholder:text-white/20",
+                                            formFieldInput: "bg-black/30 border-gold/20 text-white focus:border-gold focus:ring-1 focus:ring-gold/30 transition-all placeholder:text-white/20",
+                                            // OTP box styles — must be set separately
+                                            otpCodeFieldInput: "!text-white !bg-black/40 !border-gold/50 focus:!border-gold focus:!ring-1 focus:!ring-gold/40 !rounded-lg !text-xl !font-bold text-center",
+                                            otpCodeField: "gap-2",
+                                            otpCodeFieldInputs: "gap-2",
                                             footerActionLink: "text-gold hover:text-gold-light font-semibold transition-colors",
                                             footerActionText: "text-white/60 font-body",
                                             identityPreviewText: "text-white",
@@ -107,7 +115,7 @@ const AuthModal = () => {
                                             socialButtonsBlockButton: "bg-white/5 border-gold/10 hover:bg-gold/10 hover:border-gold/30 transition-all",
                                             socialButtonsBlockButtonText: "text-white/90 font-body font-medium",
                                             formFieldInputShowPasswordButton: "text-gold-light/40 hover:text-gold",
-                                            footer: "hidden", // Hide Clerk's footer since we have a custom one
+                                            footer: "hidden",
                                             breadcrumbs: "hidden"
                                         }
                                     }}

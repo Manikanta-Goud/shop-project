@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useUser, useClerk, type UserResource } from "@clerk/clerk-react";
+import { useUser, useClerk } from "@clerk/clerk-react";
 import { supabase } from "@/integrations/supabase/client";
 
 type Profile = {
@@ -11,7 +11,7 @@ type Profile = {
 };
 
 type AuthContextType = {
-    user: UserResource | null;
+    user: any;
     profile: Profile | null;
     setProfile: (profile: Profile | null) => void;
     loading: boolean;
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    const createOrUpdateProfile = async (clerkUser: UserResource) => {
+    const createOrUpdateProfile = async (clerkUser: any) => {
         if (!clerkUser) return;
 
         const { data, error } = await supabase

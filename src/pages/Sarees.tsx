@@ -20,7 +20,7 @@ const Sarees = () => {
                         </p>
                     </header>
 
-                    <ProductGrid dark={true} />
+                    <ProductGrid dark={true} realtime={true} />
                 </motion.div>
             </main>
             <Footer />

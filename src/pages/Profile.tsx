@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
@@ -22,8 +22,6 @@ const Profile = () => {
     const [cartCount, setCartCount] = useState(0);
     const [recentOrders, setRecentOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [wishlistItems, setWishlistItems] = useState<any[]>([]);
-    const [cartItems, setCartItems] = useState<any[]>([]);
 
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [editForm, setEditForm] = useState({
@@ -54,31 +52,6 @@ const Profile = () => {
             // Fetch recent orders
             const { data: oData } = await supabase.from("orders").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(3);
             setRecentOrders(oData || []);
-
-            // Fetch wishlist items with product details
-            const { data: wishlistData } = await supabase
-                .from("wishlist")
-                .select(`
-                    id,
-                    product_id,
-                    products (*)
-                `)
-                .eq("user_id", user.id);
-            
-            setWishlistItems(wishlistData || []);
-
-            // Fetch cart items with product details
-            const { data: cartData } = await supabase
-                .from("cart")
-                .select(`
-                    id,
-                    product_id,
-                    quantity,
-                    products (*)
-                `)
-                .eq("user_id", user.id);
-            
-            setCartItems(cartData || []);
 
             setLoading(false);
         };
@@ -137,7 +110,7 @@ const Profile = () => {
                         </motion.div>
 
                         {/* Heading */}
-                        <motion.h2 
+                        <motion.h2
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
@@ -147,7 +120,7 @@ const Profile = () => {
                         </motion.h2>
 
                         {/* Description */}
-                        <motion.p 
+                        <motion.p
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
@@ -162,8 +135,8 @@ const Profile = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.5 }}
                         >
-                            <Button 
-                                onClick={() => setShowLoginModal(true)} 
+                            <Button
+                                onClick={() => setShowLoginModal(true)}
                                 className="bg-gold-gradient hover:shadow-gold-lg text-accent-foreground font-bold font-display uppercase tracking-[0.15em] px-10 md:px-12 h-14 text-base md:text-lg rounded-xl transition-all hover:scale-105 w-full sm:w-auto"
                             >
                                 Sign In
@@ -171,7 +144,7 @@ const Profile = () => {
                         </motion.div>
 
                         {/* Decorative Elements */}
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.6 }}
@@ -216,8 +189,8 @@ const Profile = () => {
                     {/* Sidebar / Profile Summary */}
                     <div className="lg:col-span-4 space-y-6">
                         <Card className="bg-secondary/30 border-gold/20 shadow-gold-sm overflow-hidden">
-                            <div className="h-24 bg-gradient-to-r from-secondary-dark to-primary relative">
-                                <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/mandala.png')]" />
+                            <div className="h-24 bg-secondary/40 relative">
+                                <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/mandala.png')]" />
                             </div>
                             <CardContent className="relative pt-0 px-6 pb-8">
                                 <div className="flex justify-center -mt-12 mb-4">
@@ -229,8 +202,8 @@ const Profile = () => {
                                     </Avatar>
                                 </div>
                                 <div className="text-center">
-                                    <h2 className="text-2xl font-display text-primary-foreground font-bold">{profile?.full_name || "Guest User"}</h2>
-                                    <p className="text-gold-light text-sm font-body mt-1 flex items-center justify-center gap-2">
+                                    <h2 className="text-2xl font-display text-foreground font-bold">{profile?.full_name || "Guest User"}</h2>
+                                    <p className="text-gold/70 text-sm font-body mt-1 flex items-center justify-center gap-2">
                                         <Award size={14} /> Royal Heritage Member
                                     </p>
                                 </div>
@@ -238,16 +211,16 @@ const Profile = () => {
                                 <Separator className="my-6 bg-gold/10" />
 
                                 <div className="space-y-4">
-                                    <div className="flex items-center gap-3 text-primary-foreground/80">
-                                        <Mail size={18} className="text-gold" />
+                                    <div className="flex items-center gap-3 text-muted-foreground">
+                                        <Mail size={18} className="text-gold/70" />
                                         <span className="text-sm font-body">{user?.email}</span>
                                     </div>
-                                    <div className="flex items-center gap-3 text-primary-foreground/80">
-                                        <Phone size={18} className="text-gold" />
+                                    <div className="flex items-center gap-3 text-muted-foreground">
+                                        <Phone size={18} className="text-gold/70" />
                                         <span className="text-sm font-body">{profile?.phone || "Not set"}</span>
                                     </div>
-                                    <div className="flex items-start gap-3 text-primary-foreground/80">
-                                        <MapPin size={18} className="text-gold mt-1" />
+                                    <div className="flex items-start gap-3 text-muted-foreground">
+                                        <MapPin size={18} className="text-gold/70 mt-1" />
                                         <span className="text-sm font-body">{profile?.address || "Not set"}</span>
                                     </div>
                                 </div>
@@ -263,33 +236,36 @@ const Profile = () => {
                                     <DialogContent className="bg-secondary border-gold/30 text-primary-foreground sm:max-w-md">
                                         <DialogHeader>
                                             <DialogTitle className="font-display text-gold text-2xl">Edit Your Profile</DialogTitle>
+                                            <DialogDescription className="text-gold-light/40 font-body text-xs italic">
+                                                Update your details to personalize your royal membership experience.
+                                            </DialogDescription>
                                         </DialogHeader>
                                         <div className="grid gap-6 py-4">
                                             <div className="grid gap-2">
-                                                <Label htmlFor="name" className="text-gold-light font-body uppercase tracking-widest text-xs">Full Name</Label>
+                                                <Label htmlFor="name" className="text-gold/70 font-body uppercase tracking-widest text-xs">Full Name</Label>
                                                 <Input
                                                     id="name"
                                                     value={editForm.full_name}
                                                     onChange={(e) => setEditForm({ ...editForm, full_name: e.target.value })}
-                                                    className="bg-primary/50 border-gold/20 text-primary-foreground focus:border-gold"
+                                                    className="bg-secondary/20 border-gold/20 text-foreground focus:border-gold/50"
                                                 />
                                             </div>
                                             <div className="grid gap-2">
-                                                <Label htmlFor="phone" className="text-gold-light font-body uppercase tracking-widest text-xs">Phone Number</Label>
+                                                <Label htmlFor="phone" className="text-gold/70 font-body uppercase tracking-widest text-xs">Phone Number</Label>
                                                 <Input
                                                     id="phone"
                                                     value={editForm.phone}
                                                     onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
-                                                    className="bg-primary/50 border-gold/20 text-primary-foreground focus:border-gold"
+                                                    className="bg-secondary/20 border-gold/20 text-foreground focus:border-gold/50"
                                                 />
                                             </div>
                                             <div className="grid gap-2">
-                                                <Label htmlFor="address" className="text-gold-light font-body uppercase tracking-widest text-xs">Address</Label>
+                                                <Label htmlFor="address" className="text-gold/70 font-body uppercase tracking-widest text-xs">Address</Label>
                                                 <Input
                                                     id="address"
                                                     value={editForm.address}
                                                     onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
-                                                    className="bg-primary/50 border-gold/20 text-primary-foreground focus:border-gold"
+                                                    className="bg-secondary/20 border-gold/20 text-foreground focus:border-gold/50"
                                                 />
                                             </div>
                                         </div>
@@ -307,15 +283,21 @@ const Profile = () => {
                         </Card>
 
                         <div className="grid grid-cols-2 gap-4">
-                            <Card className="bg-secondary/30 border-gold/20 p-4 text-center">
-                                <Heart className="mx-auto text-accent mb-2" size={20} />
-                                <p className="text-2xl font-display text-primary-foreground">{wishlistCount}</p>
-                                <p className="text-[10px] uppercase tracking-wider text-gold-light font-body">Wishlist</p>
+                            <Card
+                                onClick={() => navigate("/wishlist")}
+                                className="bg-secondary/30 border-gold/20 p-6 text-center hover:border-gold/50 transition-all cursor-pointer group"
+                            >
+                                <Heart className="mx-auto text-gold/70 mb-2 group-hover:scale-110 transition-transform" size={24} />
+                                <p className="text-2xl font-display text-foreground">{wishlistCount}</p>
+                                <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-body font-bold">In Wishlist</p>
                             </Card>
-                            <Card className="bg-secondary/30 border-gold/20 p-4 text-center">
-                                <ShoppingBag className="mx-auto text-gold mb-2" size={20} />
-                                <p className="text-2xl font-display text-primary-foreground">{cartCount}</p>
-                                <p className="text-[10px] uppercase tracking-wider text-gold-light font-body">In Cart</p>
+                            <Card
+                                onClick={() => navigate("/cart")}
+                                className="bg-secondary/30 border-gold/20 p-6 text-center hover:border-gold/50 transition-all cursor-pointer group"
+                            >
+                                <ShoppingBag className="mx-auto text-gold/70 mb-2 group-hover:scale-110 transition-transform" size={24} />
+                                <p className="text-2xl font-display text-foreground">{cartCount}</p>
+                                <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-body font-bold">In Cart</p>
                             </Card>
                         </div>
                     </div>
@@ -323,28 +305,28 @@ const Profile = () => {
                     {/* Main Content Area */}
                     <div className="lg:col-span-8 space-y-8">
                         {/* Loyalty Program Section */}
-                        <Card className="bg-gradient-to-br from-secondary/50 to-primary border-gold/30 shadow-gold-lg relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-8 opacity-10">
+                        <Card className="bg-secondary/30 border-gold/20 shadow-lg relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-8 opacity-5">
                                 <Award size={120} className="text-gold" />
                             </div>
                             <CardHeader>
                                 <CardTitle className="font-display text-gold text-xl uppercase tracking-[0.2em]">Loyalty Rewards</CardTitle>
-                                <CardDescription className="text-primary-foreground/60 font-body">Your heritage points and exclusive benefits</CardDescription>
+                                <CardDescription className="text-muted-foreground font-body">Your heritage points and exclusive benefits</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <div className="flex items-end justify-between">
                                     <div>
-                                        <p className="text-sm text-gold-light font-body uppercase tracking-widest mb-1">Available Points</p>
-                                        <p className="text-4xl font-display text-primary-foreground font-bold">{profile?.loyalty_points || 0}</p>
+                                        <p className="text-sm text-gold/80 font-body uppercase tracking-widest mb-1">Available Points</p>
+                                        <p className="text-4xl font-display text-foreground font-bold">{profile?.loyalty_points || 0}</p>
                                     </div>
                                     <Button variant="outline" className="border-gold/30 text-gold hover:bg-gold/10 font-body text-xs uppercase tracking-widest h-10 px-6">
                                         Redeem Points
                                     </Button>
                                 </div>
-                                <div className="mt-6 w-full h-2 bg-secondary rounded-full overflow-hidden">
-                                    <div className="h-full bg-gold" style={{ width: `${(profile?.loyalty_points || 0) % 100}%` }} />
+                                <div className="mt-6 w-full h-2 bg-primary/20 rounded-full overflow-hidden">
+                                    <div className="h-full bg-gold/70" style={{ width: `${(profile?.loyalty_points || 0) % 100}%` }} />
                                 </div>
-                                <p className="text-[10px] text-primary-foreground/40 mt-2 font-body italic text-right">
+                                <p className="text-[10px] text-muted-foreground mt-2 font-body italic text-right">
                                     {100 - ((profile?.loyalty_points || 0) % 100)} points more to reach next tier
                                 </p>
                             </CardContent>
@@ -352,120 +334,69 @@ const Profile = () => {
 
                         {/* Recent Activities */}
                         <div className="space-y-4">
-                            <h3 className="font-display text-primary-foreground text-xl flex items-center gap-2">
-                                <ShoppingBag className="text-gold" size={20} /> Recent Orders
+                            <h3 className="font-display text-foreground text-xl flex items-center gap-2">
+                                <ShoppingBag className="text-gold/70" size={20} /> Recent Orders
                             </h3>
                             <div className="space-y-4">
                                 {recentOrders.length > 0 ? recentOrders.map((order) => (
                                     <Card key={order.id} className="bg-secondary/20 border-gold/10 hover:border-gold/30 transition-all group">
                                         <CardContent className="p-4 flex items-center justify-between">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded bg-primary flex items-center justify-center text-gold border border-gold/20">
+                                                <div className="w-12 h-12 rounded bg-primary/50 flex items-center justify-center text-gold/70 border border-gold/20">
                                                     <ShoppingBag size={20} />
                                                 </div>
                                                 <div>
-                                                    <p className="text-primary-foreground font-display text-sm font-semibold">Order #{order.id.slice(0, 8)}</p>
-                                                    <p className="text-[10px] text-primary-foreground/60 font-body uppercase tracking-wider">
+                                                    <p className="text-foreground font-display text-sm font-semibold">Order #{order.id.slice(0, 8)}</p>
+                                                    <p className="text-[10px] text-muted-foreground font-body uppercase tracking-wider">
                                                         {new Date(order.created_at).toLocaleDateString()} • {order.status}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div className="text-right">
-                                                <p className="text-gold font-display text-sm font-bold">{order.total_amount}</p>
-                                                <p className="text-[10px] text-accent font-body uppercase tracking-widest">{order.status}</p>
+                                                <p className="text-gold/80 font-display text-sm font-bold">{order.total_amount}</p>
+                                                <p className="text-[10px] text-muted-foreground font-body uppercase tracking-widest">{order.status}</p>
                                             </div>
                                             <ChevronRight size={16} className="text-gold/50 group-hover:translate-x-1 transition-transform" />
                                         </CardContent>
                                     </Card>
                                 )) : (
-                                    <Card className="bg-secondary/20 border-gold/10 p-12 text-center italic text-primary-foreground/40 font-body">
+                                    <Card className="bg-secondary/20 border-gold/10 p-12 text-center italic text-muted-foreground font-body">
                                         No orders found yet. Start your royal journey!
                                     </Card>
                                 )}
                             </div>
-                            <Button variant="link" className="text-gold-light hover:text-gold font-body text-sm p-0 flex items-center gap-2">
+                            <Button variant="link" className="text-gold/70 hover:text-gold font-body text-sm p-0 flex items-center gap-2">
                                 View all orders <ChevronRight size={14} />
                             </Button>
                         </div>
 
-                        {/* Wishlist Section */}
-                        <div className="space-y-4">
-                            <h3 className="font-display text-primary-foreground text-xl flex items-center gap-2">
-                                <Heart className="text-accent" size={20} /> My Wishlist ({wishlistCount})
-                            </h3>
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                {wishlistItems.length > 0 ? wishlistItems.map((item) => (
-                                    <motion.div
-                                        key={item.id}
-                                        whileHover={{ y: -5 }}
-                                        onClick={() => navigate(`/product/${item.product_id}`)}
-                                        className="cursor-pointer group"
-                                    >
-                                        <Card className="bg-secondary/20 border-gold/10 hover:border-gold/30 transition-all overflow-hidden">
-                                            <div className="aspect-square relative overflow-hidden">
-                                                <img
-                                                    src={item.products.image}
-                                                    alt={item.products.name}
-                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                                />
-                                            </div>
-                                            <CardContent className="p-3">
-                                                <h4 className="text-primary-foreground font-display font-semibold text-sm line-clamp-1">
-                                                    {item.products.name}
-                                                </h4>
-                                                <p className="text-gold font-bold mt-1 text-sm">{item.products.price}</p>
-                                            </CardContent>
-                                        </Card>
-                                    </motion.div>
-                                )) : (
-                                    <Card className="col-span-full bg-secondary/20 border-gold/10 p-12 text-center italic text-primary-foreground/40 font-body">
-                                        Your wishlist is empty. Start adding favorites!
-                                    </Card>
-                                )}
-                            </div>
-                        </div>
+                        {/* Quick Access Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <Card
+                                onClick={() => navigate("/wishlist")}
+                                className="bg-secondary/20 border-gold/10 p-8 flex flex-col items-center justify-center text-center hover:border-gold/40 transition-all cursor-pointer relative overflow-hidden group"
+                            >
+                                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                    <Heart size={80} />
+                                </div>
+                                <Heart className="text-accent mb-4" size={32} />
+                                <h4 className="text-primary-foreground font-display text-xl font-bold uppercase tracking-widest">My Wishlist</h4>
+                                <p className="text-xs text-gold-light/60 font-body mt-2">View your saved treasures</p>
+                                <ChevronRight className="mt-4 text-gold group-hover:translate-x-1 transition-transform" />
+                            </Card>
 
-                        {/* Cart Section */}
-                        <div className="space-y-4">
-                            <h3 className="font-display text-primary-foreground text-xl flex items-center gap-2">
-                                <ShoppingCart className="text-gold" size={20} /> My Cart ({cartCount})
-                            </h3>
-                            <div className="space-y-3">
-                                {cartItems.length > 0 ? cartItems.map((item) => (
-                                    <Card
-                                        key={item.id}
-                                        onClick={() => navigate(`/product/${item.product_id}`)}
-                                        className="bg-secondary/20 border-gold/10 hover:border-gold/30 transition-all cursor-pointer"
-                                    >
-                                        <CardContent className="p-4 flex items-center gap-4">
-                                            <div className="w-20 h-20 rounded overflow-hidden flex-shrink-0">
-                                                <img
-                                                    src={item.products.image}
-                                                    alt={item.products.name}
-                                                    className="w-full h-full object-cover"
-                                                />
-                                            </div>
-                                            <div className="flex-1">
-                                                <h4 className="text-primary-foreground font-display font-semibold">
-                                                    {item.products.name}
-                                                </h4>
-                                                <p className="text-gold-light/60 text-xs mt-1 font-body">
-                                                    {item.products.type} • {item.products.category}
-                                                </p>
-                                                <div className="flex items-center gap-3 mt-2">
-                                                    <span className="text-gold font-bold">{item.products.price}</span>
-                                                    <span className="text-xs text-primary-foreground/60">Qty: {item.quantity}</span>
-                                                </div>
-                                            </div>
-                                            <ChevronRight size={16} className="text-gold/50" />
-                                        </CardContent>
-                                    </Card>
-                                )) : (
-                                    <Card className="bg-secondary/20 border-gold/10 p-12 text-center italic text-primary-foreground/40 font-body">
-                                        Your cart is empty. Start shopping!
-                                    </Card>
-                                )}
-                            </div>
+                            <Card
+                                onClick={() => navigate("/cart")}
+                                className="bg-secondary/20 border-gold/10 p-8 flex flex-col items-center justify-center text-center hover:border-gold/40 transition-all cursor-pointer relative overflow-hidden group"
+                            >
+                                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                    <ShoppingBag size={80} />
+                                </div>
+                                <ShoppingCart className="text-gold mb-4" size={32} />
+                                <h4 className="text-primary-foreground font-display text-xl font-bold uppercase tracking-widest">My Cart</h4>
+                                <p className="text-xs text-gold-light/60 font-body mt-2">Manage your shopping bag</p>
+                                <ChevronRight className="mt-4 text-gold group-hover:translate-x-1 transition-transform" />
+                            </Card>
                         </div>
 
                         {/* Account Settings Shortcut */}

@@ -20,7 +20,7 @@ const Festival = () => {
                         </p>
                     </header>
 
-                    <ProductGrid dark={true} type="Festival" />
+                    <ProductGrid dark={true} type="Festival" realtime={true} />
                 </motion.div>
             </main>
             <Footer />

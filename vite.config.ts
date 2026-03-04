@@ -18,4 +18,24 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Core React runtime — changes very rarely, cache aggressively
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          // Animation library — large, keep separate
+          "vendor-motion": ["framer-motion"],
+          // Supabase client
+          "vendor-supabase": ["@supabase/supabase-js"],
+          // Auth library
+          "vendor-clerk": ["@clerk/clerk-react"],
+          // Data fetching
+          "vendor-query": ["@tanstack/react-query"],
+        },
+      },
+    },
+    // Warn if any chunk exceeds 600kb
+    chunkSizeWarningLimit: 600,
+  },
 }));

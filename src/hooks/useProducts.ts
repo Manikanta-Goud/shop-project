@@ -16,9 +16,11 @@ export const useProducts = (type: string = "Saree", category?: string) => {
             if (error) throw error;
             return data || [];
         },
-        // Automatically refetch when window regains focus
-        refetchOnWindowFocus: true,
-        // Keep data fresh for 30 seconds before considering it stale
-        staleTime: 30 * 1000,
+        // Realtime subscriptions handle live updates — no need to refetch on every focus/reconnect
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        // Cache products for 5 minutes
+        staleTime: 5 * 60 * 1000,
+        gcTime: 10 * 60 * 1000,
     });
 };

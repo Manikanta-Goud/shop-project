@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 const navLinks = [
   { label: "Home", href: "/", protected: false },
   { label: "Sarees", href: "/sarees", protected: true, children: ["Kanchipuram", "Banarasi", "Pochampally", "Chanderi", "Mysore Silk"] },
-  { label: "Gajulu", href: "/gajulu", protected: true, children: ["Temple Gold", "Diamond", "Silk Thread", "Glass Festive"] },
+  { label: "Bangles", href: "/bangles", protected: true, children: ["Temple Gold", "Diamond", "Silk Thread", "Glass Festive"] },
   { label: "Bridal", href: "/bridal", protected: true },
   { label: "Jewelry", href: "/jewelry", protected: true },
   { label: "Festival Collections", href: "/festival", protected: true, children: ["Diwali", "Sankranti", "Ugadi", "Wedding Season"] },
@@ -25,16 +25,6 @@ const Navbar = () => {
   const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
   const { user, profile, setShowLoginModal, signOut } = useAuth();
-
-  // Fetch wishlist and cart counts
-  useEffect(() => {
-    if (user) {
-      fetchCounts();
-    } else {
-      setWishlistCount(0);
-      setCartCount(0);
-    }
-  }, [user, fetchCounts]);
 
   const fetchCounts = useCallback(async () => {
     if (!user) return;
@@ -54,6 +44,16 @@ const Navbar = () => {
     setWishlistCount(wCount || 0);
     setCartCount(cCount || 0);
   }, [user]);
+
+  // Fetch wishlist and cart counts
+  useEffect(() => {
+    if (user) {
+      fetchCounts();
+    } else {
+      setWishlistCount(0);
+      setCartCount(0);
+    }
+  }, [user, fetchCounts]);
 
   const handleUserIconClick = () => {
     if (user) {

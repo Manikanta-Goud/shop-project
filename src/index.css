@@ -163,3 +163,39 @@
     letter-spacing: 1rem;
   }
 }
+
+/* ── Clerk OTP Input Overrides ────────────────────────────────────────────────
+   Clerk's internal CSS has high specificity. These raw overrides ensure OTP
+   digit boxes are always readable on our dark maroon modal background.
+──────────────────────────────────────────────────────────────────────────── */
+.cl-otpCodeFieldInput,
+[data-localization-key] input[type="text"].cl-otpCodeFieldInput,
+.cl-formField input[type="text"] {
+  color: #ffffff !important;
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  border-color: hsl(43, 72%, 55%, 0.6) !important;
+  border-radius: 8px !important;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  caret-color: hsl(43, 72%, 65%) !important;
+}
+
+.cl-otpCodeFieldInput:focus {
+  border-color: hsl(43, 72%, 65%) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px hsl(43, 72%, 55%, 0.35) !important;
+}
+
+/* Make all Clerk form text inputs white on dark background */
+.cl-formFieldInput {
+  color: #ffffff !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+/* "Didn't receive a code? Resend" link */
+.cl-formResendCodeLink,
+.cl-otpCodeField__resendButton {
+  color: hsl(43, 72%, 65%) !important;
+}
+

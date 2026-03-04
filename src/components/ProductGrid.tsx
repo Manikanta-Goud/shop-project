@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Heart, Eye, ShoppingBag } from "lucide-react";
+import { Heart, Eye, ShoppingBag, MessageCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -19,7 +19,7 @@ const sareeCategories = [
   { name: "Mysore Silk", color: "bg-[#4D1A1A]" },
 ];
 
-const gajuluCategories = [
+const banglesCategories = [
   { name: "All", color: "bg-gold-gradient" },
   { name: "Temple Gold", color: "bg-crimson" },
   { name: "Diamond Studded", color: "bg-accent" },
@@ -44,7 +44,7 @@ const festivalCategories = [
   { name: "Wedding Season", color: "bg-[#DAA520]" },
 ];
 
-const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: "Saree" | "Gajulu" | "Jewelry" | "Festival" }) => {
+const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: "Saree" | "Bangles" | "Jewelry" | "Festival" }) => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [wishlist, setWishlist] = useState<number[]>([]);
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: 
 
   const categories =
     type === "Saree" ? sareeCategories :
-      type === "Gajulu" ? gajuluCategories :
+      type === "Bangles" ? banglesCategories :
         type === "Jewelry" ? jewelryCategories :
           festivalCategories;
 
@@ -72,6 +72,9 @@ const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: 
 
         if (data && !error) {
           setWishlist(data.map(item => item.product_id));
+          console.log("Loaded wishlist items:", data.length);
+        } else if (error) {
+          console.error("Error fetching wishlist:", error);
         }
       };
       fetchWishlist();
@@ -103,18 +106,30 @@ const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: 
       if (!error) {
         setWishlist(prev => prev.filter(item => item !== id));
         toast.success("Removed from wishlist");
+      } else {
+        console.error("Error removing from wishlist:", error);
+        toast.error(`Failed to remove: ${error.message}`);
       }
     } else {
       // Add to DB
-      const { error } = await supabase
+      console.log("Attempting to add to wishlist:", { user_id: user.id, product_id: id });
+      const { data, error } = await supabase
         .from("wishlist")
-        .insert([{ user_id: user.id, product_id: id }]);
+        .insert([{ user_id: user.id, product_id: id }])
+        .select();
 
       if (!error) {
+        console.log("Successfully added to wishlist:", data);
         setWishlist(prev => [...prev, id]);
         toast.success("Saved to your royal wishlist ✿");
       } else {
-        toast.error("Could not save to wishlist");
+        console.error("Error adding to wishlist:", {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        toast.error(`Could not save to wishlist: ${error.message}`);
       }
     }
   };
@@ -234,6 +249,19 @@ const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: 
                   >
                     <ShoppingBag size={14} />
                     Add to Cart
+                  </button>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const phoneNumber = "9676998183"; // Update with your business WhatsApp number
+                      const message = `Hi! I'm interested in this product:\n\n*${product.name}*\nPrice: ${product.price}\nCategory: ${product.type}\n\nCan you provide more details?`;
+                      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                      window.open(whatsappUrl, '_blank');
+                    }}
+                    className="px-6 py-2 border border-green-400/60 rounded-full font-display text-xs text-green-400 tracking-wider uppercase flex items-center gap-2 hover:bg-green-400/10 transition-colors"
+                  >
+                    <MessageCircle size={14} />
+                    WhatsApp
                   </button>
                   <button 
                     onClick={() => navigate(`/product/${product.id}`)}

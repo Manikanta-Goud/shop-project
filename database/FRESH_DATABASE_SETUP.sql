@@ -217,9 +217,9 @@ values
   ('Diamond Studded Earrings', '₹38,999', '₹49,999', 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800', 'PREMIUM', 'Bridal Sets', 'Jewelry', 'Elegant diamond earrings with 18K gold setting', 10),
   ('Antique Gold Bangles', '₹32,999', '₹42,999', 'https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=800', 'BESTSELLER', 'Antique Gold', 'Jewelry', 'Set of 6 antique gold bangles with intricate carvings', 12),
   
-  ('Silver Gajulu Anklets', '₹12,999', '₹18,999', 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800', 'TRENDING', 'Silver Antique', 'Gajulu', 'Handcrafted pure silver anklets with peacock design and ghungroo bells', 25),
-  ('Temple Design Gajulu', '₹15,999', '₹22,999', 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800', 'NEW', 'Temple Gold', 'Gajulu', 'Traditional temple design anklets in 22K gold plating', 15),
-  ('Glass Festive Gajulu', '₹4,999', '₹7,999', 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800', 'BESTSELLER', 'Glass Festive', 'Gajulu', 'Colorful glass and silk thread anklets perfect for festivals', 50)
+  ('Silver Bangles Anklets', '₹12,999', '₹18,999', 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800', 'TRENDING', 'Silver Antique', 'Bangles', 'Handcrafted pure silver anklets with peacock design and ghungroo bells', 25),
+  ('Temple Design Bangles', '₹15,999', '₹22,999', 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800', 'NEW', 'Temple Gold', 'Bangles', 'Traditional temple design anklets in 22K gold plating', 15),
+  ('Glass Festive Bangles', '₹4,999', '₹7,999', 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800', 'BESTSELLER', 'Glass Festive', 'Bangles', 'Colorful glass and silk thread anklets perfect for festivals', 50)
 on conflict do nothing;
 
 -- Sample Offers
@@ -228,7 +228,7 @@ values
   ('Heritage Temple Border Silk', 'Exquisite temple border design with traditional motifs and gold zari work', 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800', '₹18,999', '₹24,999', 24, 'Sarees', 'TRENDING', true, true, 5, now() + interval '2 days'),
   ('Royal Purple Pattu Silk', 'Handwoven pure silk with intricate gold zari patterns', 'https://images.unsplash.com/photo-1583391733981-bdad3e6e8f3b?w=800', '₹22,499', '₹29,999', 25, 'Sarees', 'LIMITED', true, true, 3, now() + interval '2 days'),
   ('Gold Temple Necklace Set', 'Traditional temple jewelry with intricate design and kundan work', 'https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=800', '₹45,999', '₹59,999', 23, 'Jewelry', 'NEW ARRIVAL', true, false, 2, null),
-  ('Peacock Design Gajulu', 'Handcrafted peacock anklets with pure silver and detailed work', 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800', '₹8,999', '₹12,999', 31, 'Gajulu', 'EXCLUSIVE', true, false, 10, null)
+  ('Peacock Design Bangles', 'Handcrafted peacock anklets with pure silver and detailed work', 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800', '₹8,999', '₹12,999', 31, 'Bangles', 'EXCLUSIVE', true, false, 10, null)
 on conflict do nothing;
 
 -- ============================================

@@ -20,7 +20,7 @@ const Jewelry = () => {
                         </p>
                     </header>
 
-                    <ProductGrid dark={true} type="Jewelry" />
+                    <ProductGrid dark={true} type="Jewelry" realtime={true} />
                 </motion.div>
             </main>
             <Footer />

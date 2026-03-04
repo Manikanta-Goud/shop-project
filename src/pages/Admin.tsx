@@ -9,14 +9,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import {
     Trash2, Users, ClipboardList, ArrowLeft, Home,
-    Gem, Sparkle, Camera, Star, Upload, Image as ImageIcon, Tag, Eye, EyeOff, Clock
+    Gem, Sparkle, Camera, Star, Upload, Image as ImageIcon, Tag, Eye, EyeOff, Clock, Menu, X
 } from "lucide-react";
 import { useOffers, useAddOffer, useDeleteOffer, type Offer } from "@/hooks/useOffers";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
-type CategoryType = "Saree" | "Gajulu" | "Jewelry" | "Festival";
+type CategoryType = "Saree" | "Bangles" | "Jewelry" | "Festival";
 
 interface Product {
     id?: number;
@@ -99,25 +99,25 @@ const CategoryView = ({
         exit={{ opacity: 0, x: -20 }}
         className="space-y-8"
     >
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
-                <h1 className="font-display text-4xl font-bold text-gold">Manage {type}s</h1>
-                <p className="text-gold-light/60 font-body mt-2 italic">Curate your royal collection of {type.toLowerCase()} masterpieces.</p>
+                <h1 className="font-display text-2xl md:text-4xl font-bold text-gold">Manage {type}s</h1>
+                <p className="text-gold-light/60 font-body mt-2 italic text-sm md:text-base">Curate your royal collection of {type.toLowerCase()} masterpieces.</p>
             </div>
-            <div className="bg-secondary/40 border border-gold/20 p-4 px-8 rounded-2xl flex items-center gap-6">
+            <div className="bg-secondary/40 border border-gold/20 p-3 md:p-4 px-6 md:px-8 rounded-2xl flex items-center gap-6">
                 <div className="text-center">
-                    <div className="text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Stock Count</div>
-                    <div className="text-2xl font-display text-gold font-bold">
+                    <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Stock Count</div>
+                    <div className="text-xl md:text-2xl font-display text-gold font-bold">
                         {products.filter(p => p.type === type).length}
                     </div>
                 </div>
             </div>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-            <Card className="xl:col-span-1 bg-secondary border-gold/30 shadow-gold-lg h-fit">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+            <Card className="lg:col-span-1 bg-secondary border-gold/30 shadow-gold-lg h-fit">
                 <CardHeader>
-                    <CardTitle className="text-gold font-display text-xl uppercase tracking-widest">Add New {type}</CardTitle>
+                    <CardTitle className="text-gold font-display text-lg md:text-xl uppercase tracking-widest">Add New {type}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={(e) => onAddProduct(e, type)} className="space-y-4">
@@ -201,33 +201,33 @@ const CategoryView = ({
                 </CardContent>
             </Card>
 
-            <Card className="xl:col-span-2 bg-secondary/20 border-gold/20 backdrop-blur-sm overflow-hidden min-h-[500px]">
+            <Card className="lg:col-span-2 bg-secondary/20 border-gold/20 backdrop-blur-sm overflow-hidden min-h-[500px]">
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left font-body">
+                    <table className="w-full text-left font-body min-w-[600px]">
                         <thead className="bg-gold/10 text-gold-light text-[10px] uppercase tracking-[0.2em] font-bold">
                             <tr>
-                                <th className="px-6 py-4">Image</th>
-                                <th className="px-6 py-4">Details</th>
-                                <th className="px-6 py-4">Price</th>
-                                <th className="px-6 py-4 text-right">Actions</th>
+                                <th className="px-3 md:px-6 py-4">Image</th>
+                                <th className="px-3 md:px-6 py-4">Details</th>
+                                <th className="px-3 md:px-6 py-4">Price</th>
+                                <th className="px-3 md:px-6 py-4 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gold/10">
                             {products.filter(p => p.type === type).map((p) => (
                                 <tr key={`prod-${p.id || Math.random()}`} className="hover:bg-gold/5 transition-colors group">
-                                    <td className="px-6 py-4">
-                                        <div className="w-14 h-20 rounded border border-gold/20 overflow-hidden shadow-gold-sm">
+                                    <td className="px-3 md:px-6 py-4">
+                                        <div className="w-10 h-14 md:w-14 md:h-20 rounded border border-gold/20 overflow-hidden shadow-gold-sm">
                                             <img src={p.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="" />
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4">
-                                        <div className="font-display text-sm font-bold text-gold-light">{p.name}</div>
-                                        <div className="text-[10px] text-gold-light/40 uppercase tracking-widest mt-1 font-bold">{p.category}</div>
+                                    <td className="px-3 md:px-6 py-4">
+                                        <div className="font-display text-xs md:text-sm font-bold text-gold-light">{p.name}</div>
+                                        <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mt-1 font-bold">{p.category}</div>
                                     </td>
-                                    <td className="px-6 py-4">
-                                        <div className="font-display font-bold text-gold">{p.price}</div>
+                                    <td className="px-3 md:px-6 py-4">
+                                        <div className="font-display font-bold text-gold text-xs md:text-base">{p.price}</div>
                                     </td>
-                                    <td className="px-6 py-4 text-right">
+                                    <td className="px-3 md:px-6  py-4 text-right">
                                         <Button variant="ghost" size="icon" onClick={() => p.id && onDeleteProduct(p.id)} className="text-red-400 hover:text-red-500 hover:bg-red-500/10 rounded-full h-9 w-9">
                                             <Trash2 size={16} />
                                         </Button>
@@ -260,6 +260,7 @@ const AdminPortal = () => {
     const [adminPassword, setAdminPassword] = useState("");
     const [uploading, setUploading] = useState(false);
     const [dragActive, setDragActive] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const [activeTab, setActiveTab] = useState<string>("Saree");
 
@@ -339,7 +340,7 @@ const AdminPortal = () => {
 
     // Sync formData.type with activeTab when tab changes
     useEffect(() => {
-        if (["Saree", "Gajulu", "Jewelry", "Festival"].includes(activeTab)) {
+        if (["Saree", "Bangles", "Jewelry", "Festival"].includes(activeTab)) {
             console.log("Tab changed to:", activeTab);
             setFormData(prev => ({ 
                 ...prev, 
@@ -632,6 +633,156 @@ const AdminPortal = () => {
 
     return (
         <Tabs value={activeTab} onValueChange={setActiveTab} className="min-h-screen bg-[#1a0f0f] text-white flex flex-col">
+            {/* Mobile Header */}
+            <div className="lg:hidden sticky top-0 z-50 bg-secondary border-b-2 border-gold/20 p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <span className="text-2xl text-gold italic">ॐ</span>
+                    <div className="font-display">
+                        <h2 className="text-gold font-bold tracking-tighter text-base leading-tight uppercase">Sri Durga</h2>
+                        <p className="text-[9px] text-gold-light/60 uppercase tracking-widest font-bold">Admin Portal</p>
+                    </div>
+                </div>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setMobileMenuOpen(true)}
+                    className="text-gold hover:bg-gold/10"
+                >
+                    <Menu size={24} />
+                </Button>
+            </div>
+
+            {/* Mobile Menu Sheet */}
+            <AnimatePresence>
+                {mobileMenuOpen && (
+                    <>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="fixed inset-0 bg-black/60 z-50 lg:hidden"
+                        />
+                        <motion.div
+                            initial={{ x: -300 }}
+                            animate={{ x: 0 }}
+                            exit={{ x: -300 }}
+                            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                            className="fixed left-0 top-0 bottom-0 w-72 bg-secondary border-r-2 border-gold/20 z-50 lg:hidden overflow-y-auto"
+                        >
+                            <div className="p-6 space-y-6">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-3xl text-gold italic">ॐ</span>
+                                        <div className="font-display">
+                                            <h2 className="text-gold font-bold tracking-tighter text-lg leading-tight uppercase">Sri Durga</h2>
+                                            <p className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Admin Portal</p>
+                                        </div>
+                                    </div>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="text-gold hover:bg-gold/10"
+                                    >
+                                        <X size={20} />
+                                    </Button>
+                                </div>
+
+                                <nav className="space-y-2">
+                                    <button 
+                                        onClick={() => {
+                                            navigate("/");
+                                            setMobileMenuOpen(false);
+                                        }} 
+                                        className="w-full flex items-center gap-3 px-4 py-3 text-gold-light/60 hover:text-gold hover:bg-gold/5 rounded-xl transition-all font-display text-[10px] uppercase tracking-[0.2em] font-bold"
+                                    >
+                                        <Home size={18} /> Exit to Website
+                                    </button>
+
+                                    <div className="pt-4 pb-2 text-[10px] text-gold-light/20 uppercase tracking-[0.2em] font-bold px-4">Management</div>
+
+                                    <TabsList className="flex flex-col w-full bg-transparent h-auto gap-1 p-0 border-none shadow-none">
+                                        <TabsTrigger 
+                                            value="Saree" 
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                        >
+                                            <Sparkle size={18} /> Sarees
+                                        </TabsTrigger>
+                                        <TabsTrigger 
+                                            value="Bangles" 
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                        >
+                                            <Gem size={18} /> Bangles
+                                        </TabsTrigger>
+                                        <TabsTrigger 
+                                            value="Jewelry" 
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                        >
+                                            <Star size={18} /> Jewelry
+                                        </TabsTrigger>
+                                        <TabsTrigger 
+                                            value="Festival" 
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                        >
+                                            <Camera size={18} /> Festival
+                                        </TabsTrigger>
+                                        
+                                        <div className="pt-4 pb-2 text-[10px] text-gold-light/20 uppercase tracking-[0.2em] font-bold px-4 select-none">
+                                            PROMOTIONS
+                                        </div>
+                                        
+                                        <TabsTrigger 
+                                            value="Offers" 
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                        >
+                                            <Tag size={18} /> Offers
+                                        </TabsTrigger>
+
+                                        <div className="pt-6 pb-2 text-[10px] text-gold-light/20 uppercase tracking-[0.2em] font-bold px-4 select-none">
+                                            TREASURY
+                                        </div>
+
+                                        <TabsTrigger 
+                                            value="customers" 
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                        >
+                                            <Users size={18} /> Customers
+                                        </TabsTrigger>
+                                        <TabsTrigger 
+                                            value="orders" 
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                        >
+                                            <ClipboardList size={18} /> Orders
+                                        </TabsTrigger>
+                                    </TabsList>
+                                </nav>
+
+                                <div className="pt-8 border-t border-gold/10">
+                                    <Button
+                                        variant="ghost"
+                                        onClick={() => {
+                                            setIsAdminAuthenticated(false);
+                                            setMobileMenuOpen(false);
+                                        }}
+                                        className="w-full flex justify-start gap-3 text-red-400/60 hover:text-red-400 hover:bg-red-500/5 px-4 font-display text-[10px] uppercase tracking-widest font-bold"
+                                    >
+                                        <ArrowLeft size={16} /> Logout Sanctuary
+                                    </Button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+
             <div className="flex flex-1 overflow-hidden">
                 <aside className="w-64 bg-secondary border-r-2 border-gold/20 flex flex-col p-6 space-y-8 hidden lg:flex shrink-0">
                     <div className="flex items-center gap-3 mb-4">
@@ -653,8 +804,8 @@ const AdminPortal = () => {
                             <TabsTrigger value="Saree" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
                                 <Sparkle size={18} /> Sarees
                             </TabsTrigger>
-                            <TabsTrigger value="Gajulu" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
-                                <Gem size={18} /> Gajulu
+                            <TabsTrigger value="Bangles" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
+                                <Gem size={18} /> Bangles
                             </TabsTrigger>
                             <TabsTrigger value="Jewelry" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
                                 <Star size={18} /> Jewelry
@@ -695,7 +846,7 @@ const AdminPortal = () => {
                     </div>
                 </aside>
 
-                <main className="flex-1 overflow-y-auto bg-primary/20 p-6 lg:px-12 relative h-screen">
+                <main className="flex-1 overflow-y-auto bg-primary/20 p-4 md:p-6 lg:px-12 relative min-h-screen lg:h-screen">
                     {/* Saree Tab */}
                     <TabsContent value="Saree" className="m-0 focus-visible:outline-none focus-visible:ring-0">
                         <CategoryView
@@ -715,10 +866,10 @@ const AdminPortal = () => {
                         />
                     </TabsContent>
 
-                    {/* Gajulu Tab */}
-                    <TabsContent value="Gajulu" className="m-0 focus-visible:outline-none focus-visible:ring-0">
+                    {/* Bangles Tab */}
+                    <TabsContent value="Bangles" className="m-0 focus-visible:outline-none focus-visible:ring-0">
                         <CategoryView
-                            type="Gajulu"
+                            type="Bangles"
                             products={products}
                             loading={loading}
                             formData={formData}
@@ -780,37 +931,37 @@ const AdminPortal = () => {
                             exit={{ opacity: 0, x: -20 }}
                             className="space-y-8"
                         >
-                            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+                            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
                                 <div>
-                                    <h1 className="font-display text-4xl font-bold text-gold">Manage Offers</h1>
-                                    <p className="text-gold-light/60 font-body mt-2 italic">Create exclusive promotional offers to attract customers.</p>
+                                    <h1 className="font-display text-2xl md:text-4xl font-bold text-gold">Manage Offers</h1>
+                                    <p className="text-gold-light/60 font-body mt-2 italic text-sm md:text-base">Create exclusive promotional offers to attract customers.</p>
                                 </div>
-                                <div className="bg-secondary/40 border border-gold/20 p-4 px-8 rounded-2xl flex items-center gap-6">
+                                <div className="bg-secondary/40 border border-gold/20 p-3 md:p-4 px-4 md:px-8 rounded-2xl flex items-center gap-3 md:gap-6">
                                     <div className="text-center">
-                                        <div className="text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Total Offers</div>
-                                        <div className="text-2xl font-display text-gold font-bold">{offers.length}</div>
+                                        <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Total Offers</div>
+                                        <div className="text-xl md:text-2xl font-display text-gold font-bold">{offers.length}</div>
                                     </div>
-                                    <div className="w-px h-8 bg-gold/20" />
+                                    <div className="w-px h-6 md:h-8 bg-gold/20" />
                                     <div className="text-center">
-                                        <div className="text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Active</div>
-                                        <div className="text-2xl font-display text-green-500 font-bold">
+                                        <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Active</div>
+                                        <div className="text-xl md:text-2xl font-display text-green-500 font-bold">
                                             {offers.filter(o => o.is_active).length}
                                         </div>
                                     </div>
-                                    <div className="w-px h-8 bg-gold/20" />
+                                    <div className="w-px h-6 md:h-8 bg-gold/20" />
                                     <div className="text-center">
-                                        <div className="text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Featured</div>
-                                        <div className="text-2xl font-display text-blue-500 font-bold">
+                                        <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Featured</div>
+                                        <div className="text-xl md:text-2xl font-display text-blue-500 font-bold">
                                             {offers.filter(o => o.is_featured).length}
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                                <Card className="xl:col-span-1 bg-secondary border-gold/30 shadow-gold-lg h-fit">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+                                <Card className="lg:col-span-1 bg-secondary border-gold/30 shadow-gold-lg h-fit">
                                     <CardHeader>
-                                        <CardTitle className="text-gold font-display text-xl uppercase tracking-widest">Add New Offer</CardTitle>
+                                        <CardTitle className="text-gold font-display text-lg md:text-xl uppercase tracking-widest">Add New Offer</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <form onSubmit={handleAddOffer} className="space-y-4">
@@ -901,7 +1052,7 @@ const AdminPortal = () => {
                                                     value={offerFormData.category}
                                                     onChange={handleOfferInputChange}
                                                     className="bg-primary/40 border-gold/20 h-11 text-gold-light"
-                                                    placeholder="e.g. Sarees, Jewelry, Gajulu"
+                                                    placeholder="e.g. Sarees, Jewelry, Bangles"
                                                 />
                                             </div>
 
@@ -1026,23 +1177,23 @@ const AdminPortal = () => {
                                     </CardContent>
                                 </Card>
 
-                                <Card className="xl:col-span-2 bg-secondary/20 border-gold/20 backdrop-blur-sm overflow-hidden min-h-[500px]">
+                                <Card className="lg:col-span-2 bg-secondary/20 border-gold/20 backdrop-blur-sm overflow-hidden min-h-[500px]">
                                     <div className="overflow-x-auto">
-                                        <table className="w-full text-left font-body">
+                                        <table className="w-full text-left font-body min-w-[700px]">
                                             <thead className="bg-gold/10 text-gold-light text-[10px] uppercase tracking-[0.2em] font-bold">
                                                 <tr>
-                                                    <th className="px-4 py-4">Image</th>
-                                                    <th className="px-4 py-4">Details</th>
-                                                    <th className="px-4 py-4">Price</th>
-                                                    <th className="px-4 py-4">Status</th>
-                                                    <th className="px-4 py-4 text-right">Actions</th>
+                                                    <th className="px-2 md:px-4 py-4">Image</th>
+                                                    <th className="px-2 md:px-4 py-4">Details</th>
+                                                    <th className="px-2 md:px-4 py-4">Price</th>
+                                                    <th className="px-2 md:px-4 py-4">Status</th>
+                                                    <th className="px-2 md:px-4 py-4 text-right">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gold/10">
                                                 {offers.map((offer) => (
                                                     <tr key={`offer-${offer.id}`} className="hover:bg-gold/5 transition-colors group">
-                                                        <td className="px-4 py-4">
-                                                            <div className="w-14 h-20 rounded border border-gold/20 overflow-hidden shadow-gold-sm">
+                                                        <td className="px-2 md:px-4 py-4">
+                                                            <div className="w-10 h-14 md:w-14 md:h-20 rounded border border-gold/20 overflow-hidden shadow-gold-sm">
                                                                 <img
                                                                     src={offer.image}
                                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
@@ -1050,9 +1201,9 @@ const AdminPortal = () => {
                                                                 />
                                                             </div>
                                                         </td>
-                                                        <td className="px-4 py-4">
-                                                            <div className="font-display text-sm font-bold text-gold-light">{offer.title}</div>
-                                                            <div className="text-[10px] text-gold-light/40 uppercase tracking-widest mt-1 font-bold">
+                                                        <td className="px-2 md:px-4 py-4">
+                                                            <div className="font-display text-xs md:text-sm font-bold text-gold-light">{offer.title}</div>
+                                                            <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mt-1 font-bold">
                                                                 {offer.category}
                                                             </div>
                                                             {offer.tag && (

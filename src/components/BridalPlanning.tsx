@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Download, CheckCircle } from "lucide-react";
 import bridalImage from "@/assets/bridal-collection.jpg";
+import { toast } from "sonner";
 
 const checklist = [
   "Wedding Day Saree",
@@ -8,7 +9,7 @@ const checklist = [
   "Haldi Ceremony",
   "Reception Lehenga",
   "Bridal Jewelry Set",
-  "Matching Bangles (Gajulu)",
+  "Matching Bangles",
 ];
 
 const BridalPlanning = () => {
@@ -74,11 +75,17 @@ const BridalPlanning = () => {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <button className="px-6 py-2.5 bg-gold-gradient rounded-full font-display text-xs font-bold text-accent-foreground tracking-wider uppercase shadow-gold flex items-center gap-2">
+              <button
+                onClick={() => toast.info("📄 PDF Checklist — Coming Soon! We're polishing this for you ✦")}
+                className="px-6 py-2.5 bg-gold-gradient rounded-full font-display text-xs font-bold text-accent-foreground tracking-wider uppercase shadow-gold flex items-center gap-2"
+              >
                 <Download size={14} />
                 Download Checklist PDF
               </button>
-              <button className="px-6 py-2.5 border border-gold/50 rounded-full font-display text-xs font-semibold text-gold tracking-wider uppercase hover:bg-gold/10 transition-colors">
+              <button
+                onClick={() => toast.info("💍 Bridal Combos — Launching Soon! Stay tuned ✦")}
+                className="px-6 py-2.5 border border-gold/50 rounded-full font-display text-xs font-semibold text-gold tracking-wider uppercase hover:bg-gold/10 transition-colors"
+              >
                 View Bridal Combos
               </button>
             </div>

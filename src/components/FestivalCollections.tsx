@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import festivalDiwali from "@/assets/festival-diwali.jpg";
-import ProductGrid from "./ProductGrid";
+import { Link } from "react-router-dom";
 
 const FestivalCollections = () => {
   return (
@@ -18,11 +18,13 @@ const FestivalCollections = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative rounded-2xl overflow-hidden mb-10 scalloped-border"
+          className="relative rounded-2xl overflow-hidden scalloped-border"
         >
           <img
             src={festivalDiwali}
             alt="Diwali Festival Collection"
+            loading="lazy"
+            decoding="async"
             className="w-full h-48 lg:h-72 object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/40 to-transparent flex items-center">
@@ -34,18 +36,19 @@ const FestivalCollections = () => {
               <p className="font-body text-primary-foreground/70 mb-4 max-w-sm text-sm lg:text-base">
                 Illuminate your festivities with our handpicked silk sarees and matching jewelry sets.
               </p>
-              <button className="px-8 py-2.5 bg-gold-gradient rounded-full font-display text-xs font-bold text-accent-foreground tracking-wider uppercase shadow-gold-lg">
+              <Link
+                to="/festival"
+                className="inline-block px-8 py-2.5 bg-gold-gradient rounded-full font-display text-xs font-bold text-accent-foreground tracking-wider uppercase shadow-gold-lg"
+              >
                 Explore Now
-              </button>
+              </Link>
             </div>
           </div>
         </motion.div>
-
-        {/* Festival Product Grid */}
-        <ProductGrid type="Festival" />
       </div>
     </section>
   );
 };
 
 export default FestivalCollections;
+
