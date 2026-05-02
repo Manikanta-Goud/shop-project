@@ -2,8 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ClerkProvider } from "@clerk/clerk-react";
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { ClerkProvider, useUser } from "@clerk/clerk-react";
+import { useEffect, useRef } from "react";
+import { supabase } from "./integrations/supabase/client";
 import Index from "./pages/Index";
 import Profile from "./pages/Profile";
 import Sarees from "./pages/Sarees";
@@ -32,6 +34,43 @@ if (!clerkPubKey) {
   throw new Error("Missing Clerk Publishable Key");
 }
 
+// Checks Supabase profile after login — if phone & address are both empty,
+// the user hasn't completed their profile yet → redirect to /profile.
+// Uses a ref so it only runs once per session (not on every navigation).
+const NewUserRedirect = () => {
+  const { user, isLoaded } = useUser();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const hasChecked = useRef(false);
+
+  useEffect(() => {
+    // Only run once, skip if already checked or user not loaded
+    if (!isLoaded || !user || hasChecked.current) return;
+    // Never redirect away from profile or admin pages
+    if (location.pathname === "/profile" || location.pathname.startsWith("/admin")) return;
+
+    hasChecked.current = true;
+
+    const checkProfile = async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("phone, address")
+        .eq("id", user.id)
+        .single();
+
+      // If no profile row at all, OR both phone & address are empty → incomplete
+      const isIncomplete = !data || (!data.phone && !data.address);
+      if (isIncomplete) {
+        navigate("/profile", { replace: true });
+      }
+    };
+
+    checkProfile();
+  }, [isLoaded, user]);
+
+  return null;
+};
+
 const AppContent = () => {
   return (
     <>
@@ -39,22 +78,23 @@ const AppContent = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <NewUserRedirect />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
             <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
-            <Route path="/product/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} />
-            <Route path="/sarees" element={<ProtectedRoute><Sarees /></ProtectedRoute>} />
-            <Route path="/bangles" element={<ProtectedRoute><Bangles /></ProtectedRoute>} />
-            <Route path="/bridal" element={<ProtectedRoute><Bridal /></ProtectedRoute>} />
-            <Route path="/jewelry" element={<ProtectedRoute><Jewelry /></ProtectedRoute>} />
-            <Route path="/festival" element={<ProtectedRoute><Festival /></ProtectedRoute>} />
-            <Route path="/offers" element={<ProtectedRoute><Offers /></ProtectedRoute>} />
-            <Route path="/virtual-tryon" element={<ProtectedRoute><VirtualTryOn /></ProtectedRoute>} />
-            <Route path="/community" element={<ProtectedRoute><Community /></ProtectedRoute>} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/sarees" element={<Sarees />} />
+            <Route path="/bangles" element={<Bangles />} />
+            <Route path="/bridal" element={<Bridal />} />
+            <Route path="/jewelry" element={<Jewelry />} />
+            <Route path="/festival" element={<Festival />} />
+            <Route path="/offers" element={<Offers />} />
+            <Route path="/virtual-tryon" element={<VirtualTryOn />} />
+            <Route path="/community" element={<Community />} />
             <Route path="/admin" element={<Admin />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
@@ -66,7 +106,11 @@ const AppContent = () => {
 };
 
 const App = () => (
-  <ClerkProvider publishableKey={clerkPubKey}>
+  <ClerkProvider
+    publishableKey={clerkPubKey}
+    afterSignInUrl="/profile"
+    afterSignUpUrl="/profile"
+  >
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <AppContent />

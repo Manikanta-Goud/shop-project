@@ -7,14 +7,14 @@ import { supabase } from "@/integrations/supabase/client";
 
 const navLinks = [
   { label: "Home", href: "/", protected: false },
-  { label: "Sarees", href: "/sarees", protected: true, children: ["Kanchipuram", "Banarasi", "Pochampally", "Chanderi", "Mysore Silk"] },
-  { label: "Bangles", href: "/bangles", protected: true, children: ["Temple Gold", "Diamond", "Silk Thread", "Glass Festive"] },
-  { label: "Bridal", href: "/bridal", protected: true },
-  { label: "Jewelry", href: "/jewelry", protected: true },
-  { label: "Festival Collections", href: "/festival", protected: true, children: ["Diwali", "Sankranti", "Ugadi", "Wedding Season"] },
-  { label: "Offers", href: "/offers", protected: true },
-  { label: "Virtual Try-On", href: "/virtual-tryon", protected: true },
-  { label: "Community", href: "/community", protected: true },
+  { label: "Sarees", href: "/sarees", protected: false, children: ["Kanchipuram", "Banarasi", "Pochampally", "Chanderi", "Mysore Silk"] },
+  { label: "Bangles", href: "/bangles", protected: false, children: ["Temple Gold", "Diamond", "Silk Thread", "Glass Festive"] },
+  { label: "Bridal", href: "/bridal", protected: false },
+  { label: "Jewelry", href: "/jewelry", protected: false },
+  { label: "Festival Collections", href: "/festival", protected: false, children: ["Diwali", "Sankranti", "Ugadi", "Wedding Season"] },
+  { label: "Offers", href: "/offers", protected: false },
+  { label: "Virtual Try-On", href: "/virtual-tryon", protected: false },
+  { label: "Community", href: "/community", protected: false },
 ];
 
 const Navbar = () => {
@@ -66,17 +66,13 @@ const Navbar = () => {
 
 
   const handleNavigation = (href: string, isProtected: boolean, e: React.MouseEvent) => {
+    // Only block navigation if user is logged in but hasn't completed profile
     if (isProtected && user && (!profile?.full_name?.trim())) {
       e.preventDefault();
       navigate("/profile");
       return;
     }
-    
-    if (isProtected && !user) {
-      e.preventDefault();
-      setShowLoginModal(true);
-      return;
-    }
+    // No login required to browse — let them navigate freely
   };
 
   return (
@@ -178,21 +174,9 @@ const Navbar = () => {
               )}
             </button>
             <button 
-              onClick={() => {
-                if (!user) {
-                  setShowLoginModal(true);
-                } else if (!profile?.full_name?.trim()) {
-                  navigate('/profile');
-                } else {
-                  navigate('/profile#wishlist');
-                }
-              }}
+              onClick={() => navigate('/wishlist')}
               className="text-primary-foreground hover:text-gold transition-colors relative"
-              title={
-                !user ? "Sign in to view wishlist" :
-                !profile?.full_name?.trim() ? "Complete profile to access wishlist" :
-                "Wishlist"
-              }
+              title="Wishlist"
             >
               <Heart size={20} className={wishlistCount > 0 ? 'fill-gold text-gold' : ''} />
               {wishlistCount > 0 && (
@@ -202,21 +186,9 @@ const Navbar = () => {
               )}
             </button>
             <button 
-              onClick={() => {
-                if (!user) {
-                  setShowLoginModal(true);
-                } else if (!profile?.full_name?.trim()) {
-                  navigate('/profile');
-                } else {
-                  navigate('/profile#cart');
-                }
-              }}
+              onClick={() => navigate('/cart')}
               className="text-primary-foreground hover:text-gold transition-colors relative"
-              title={
-                !user ? "Sign in to view cart" :
-                !profile?.full_name?.trim() ? "Complete profile to access cart" :
-                "Shopping Bag"
-              }
+              title="Shopping Bag"
             >
               <ShoppingBag size={20} className={cartCount > 0 ? 'text-gold' : ''} />
               {cartCount > 0 && (

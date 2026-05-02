@@ -52,12 +52,7 @@ const Bridal = () => {
                     animate={{ opacity: 1 }}
                     className="max-w-7xl mx-auto px-4 py-12"
                 >
-                    <header className="text-center mb-16">
-                        <h1 className="font-display text-4xl lg:text-6xl text-gold mb-4 uppercase tracking-[0.2em]">Bridal Couture</h1>
-                        <p className="font-body text-gold-light/80 max-w-2xl mx-auto italic">
-                            Experience the divine grace of our bridal collection, designed for the modern bride who cherishes royal heritage.
-                        </p>
-                    </header>
+                    <h1 className="font-display text-xl lg:text-2xl text-gold uppercase tracking-[0.2em] mb-6 text-center">Bridal Couture</h1>
 
                     <BridalPlanning />
                 </motion.div>

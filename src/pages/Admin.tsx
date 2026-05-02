@@ -62,6 +62,16 @@ interface OfferFormData {
     countdown_end: string;
 }
 
+// Category options per product type — must match ProductGrid filter names exactly
+const CATEGORY_OPTIONS: Record<CategoryType, string[]> = {
+    Saree:    ["Kanchipuram", "Banarasi", "Pochampally", "Chanderi", "Mysore Silk"],
+    Bangles:  ["Temple Gold", "Diamond Studded", "Silk Thread", "Glass Festive", "Silver Antique"],
+    Jewelry:  ["Temple Jewelry", "Bridal Sets", "Antique Gold", "Diamond Heritage"],
+    Festival: ["Diwali Special", "Sankranti Special", "Ugadi Special", "Wedding Season"],
+};
+
+const TAG_OPTIONS = ["New Arrival", "Trending", "Best Seller", "Limited Edition", "Handmade", "Festive Pick", "Exclusive"];
+
 // Moved outside to prevent re-creation during re-renders
 const CategoryView = ({
     type,
@@ -82,7 +92,7 @@ const CategoryView = ({
     products: Product[];
     loading: boolean;
     formData: Product;
-    onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
     onAddProduct: (e: React.FormEvent, type: CategoryType) => void;
     onDeleteProduct: (id: number) => void;
     onFileUpload: (file: File) => void;
@@ -130,12 +140,33 @@ const CategoryView = ({
                             <Input name="price" required value={formData.price} onChange={onInputChange} className="bg-primary/40 border-gold/20 h-11 text-gold-light" placeholder="₹12,000" />
                         </div>
                         <div className="space-y-1.5">
-                            <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Collection/Category</Label>
-                            <Input name="category" required value={formData.category} onChange={onInputChange} className="bg-primary/40 border-gold/20 h-11 text-gold-light" placeholder="e.g. Traditional" />
+                            <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Collection / Category</Label>
+                            <select
+                                name="category"
+                                required
+                                value={formData.category}
+                                onChange={onInputChange}
+                                className="w-full h-11 rounded-md border border-gold/20 bg-primary/40 text-gold-light px-3 text-sm focus:outline-none focus:ring-1 focus:ring-gold/60"
+                            >
+                                <option value="" disabled>— Select a category —</option>
+                                {CATEGORY_OPTIONS[type].map(cat => (
+                                    <option key={cat} value={cat} className="bg-[#1a0f0f]">{cat}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="space-y-1.5">
-                            <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Tag (e.g. New Arrival, Trending)</Label>
-                            <Input name="tag" value={formData.tag} onChange={onInputChange} className="bg-primary/40 border-gold/20 h-11 text-gold-light" placeholder="e.g. Handmade" />
+                            <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Tag</Label>
+                            <select
+                                name="tag"
+                                value={formData.tag}
+                                onChange={onInputChange}
+                                className="w-full h-11 rounded-md border border-gold/20 bg-primary/40 text-gold-light px-3 text-sm focus:outline-none focus:ring-1 focus:ring-gold/60"
+                            >
+                                <option value="" className="bg-[#1a0f0f]">— No tag —</option>
+                                {TAG_OPTIONS.map(tag => (
+                                    <option key={tag} value={tag} className="bg-[#1a0f0f]">{tag}</option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="space-y-1.5">
@@ -409,6 +440,21 @@ const AdminPortal = () => {
         if (error) toast.error(error.message);
         else {
             toast.success(`Order status: ${newStatus}`);
+            fetchData();
+        }
+    };
+
+    const handleDeleteCustomer = async (customerId: string, customerName: string) => {
+        if (!confirm(`Are you sure you want to delete "${customerName || 'this user'}" and all their data? This cannot be undone.`)) return;
+        // Delete all related data first (cascade)
+        await supabase.from("wishlist").delete().eq("user_id", customerId);
+        await supabase.from("cart").delete().eq("user_id", customerId);
+        await supabase.from("orders").delete().eq("user_id", customerId);
+        const { error } = await supabase.from("profiles").delete().eq("id", customerId);
+        if (error) {
+            toast.error("Failed to delete user: " + error.message);
+        } else {
+            toast.success(`"${customerName || 'User'}" has been removed. ✦`);
             fetchData();
         }
     };
@@ -690,15 +736,7 @@ const AdminPortal = () => {
                                 </div>
 
                                 <nav className="space-y-2">
-                                    <button 
-                                        onClick={() => {
-                                            navigate("/");
-                                            setMobileMenuOpen(false);
-                                        }} 
-                                        className="w-full flex items-center gap-3 px-4 py-3 text-gold-light/60 hover:text-gold hover:bg-gold/5 rounded-xl transition-all font-display text-[10px] uppercase tracking-[0.2em] font-bold"
-                                    >
-                                        <Home size={18} /> Exit to Website
-                                    </button>
+
 
                                     <div className="pt-4 pb-2 text-[10px] text-gold-light/20 uppercase tracking-[0.2em] font-bold px-4">Management</div>
 
@@ -794,9 +832,7 @@ const AdminPortal = () => {
                     </div>
 
                     <nav className="flex-1 space-y-2">
-                        <button onClick={() => navigate("/")} className="w-full flex items-center gap-3 px-4 py-3 text-gold-light/60 hover:text-gold hover:bg-gold/5 rounded-xl transition-all font-display text-[10px] uppercase tracking-[0.2em] font-bold">
-                            <Home size={18} /> Exit to Website
-                        </button>
+
 
                         <div className="pt-4 pb-2 text-[10px] text-gold-light/20 uppercase tracking-[0.2em] font-bold px-4">Management</div>
 
@@ -1285,7 +1321,8 @@ const AdminPortal = () => {
                                                         <th className="px-6 py-4">Name</th>
                                                         <th className="px-6 py-4">Contact</th>
                                                         <th className="px-6 py-4">Points</th>
-                                                        <th className="px-6 py-4 text-right">Loyalty Rewarding</th>
+                                                        <th className="px-6 py-4">Loyalty Rewarding</th>
+                                                        <th className="px-6 py-4 text-right">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gold/10">
@@ -1297,12 +1334,22 @@ const AdminPortal = () => {
                                                                 <div className="text-gold-light/30">{c.phone || "No contact"}</div>
                                                             </td>
                                                             <td className="px-6 py-4"><span className="text-2xl font-display text-gold font-bold">{c.loyalty_points}</span></td>
-                                                            <td className="px-6 py-4 text-right">
+                                                            <td className="px-6 py-4">
                                                                 <Button onClick={async () => {
                                                                     const { error } = await supabase.rpc('increment_loyalty', { row_id: c.id, x: 10 });
                                                                     if (!error) { toast.success(`Rewarded ${c.full_name}! ✿`); fetchData(); }
                                                                 }} className="bg-gold/5 text-gold border border-gold/20 h-9 font-display text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-gold-gradient hover:text-accent-foreground transition-all px-6">
                                                                     Give +10 Points
+                                                                </Button>
+                                                            </td>
+                                                            <td className="px-6 py-4 text-right">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="icon"
+                                                                    onClick={() => handleDeleteCustomer(c.id, c.full_name)}
+                                                                    className="text-red-400 hover:text-red-500 hover:bg-red-500/10 rounded-full h-9 w-9"
+                                                                >
+                                                                    <Trash2 size={16} />
                                                                 </Button>
                                                             </td>
                                                         </tr>

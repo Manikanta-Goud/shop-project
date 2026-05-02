@@ -162,16 +162,10 @@ const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: 
 
 
   return (
-    <section className={`py-16 lg:py-20 ${dark ? 'text-primary-foreground' : 'text-primary'}`} id="products">
+    <section className={`pb-12 ${dark ? 'text-primary-foreground' : 'text-primary'}`} id="products">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <h3 className={`font-cursive text-2xl mb-2 ${dark ? 'text-gold-light' : 'text-gold-dark'}`}>Handpicked for You</h3>
-          <h2 className={`font-display text-3xl lg:text-4xl font-bold tracking-wider mb-6 ${dark ? 'text-primary-foreground' : 'text-primary'}`}>
-            Our Exquisite Collection
-          </h2>
-
-          {/* Category Filters */}
+        {/* Category Filters */}
+        <div className="text-center mb-6">
           <div className="flex flex-wrap justify-center gap-3">
             {categories.map((cat) => (
               <button
@@ -190,12 +184,6 @@ const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: 
           </div>
         </div>
 
-        {/* Gold divider */}
-        <div className="flex items-center gap-4 mb-10">
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
-          <span className="text-gold text-lg">✿</span>
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
-        </div>
 
         {/* Product Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">

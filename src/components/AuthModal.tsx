@@ -90,7 +90,7 @@ const AuthModal = () => {
                                         }
                                     }}
                                     routing="hash"
-                                    afterSignUpUrl="/"
+                                    afterSignUpUrl="/profile"
                                 />
                             ) : (
                                 <SignIn
@@ -120,7 +120,7 @@ const AuthModal = () => {
                                         }
                                     }}
                                     routing="hash"
-                                    afterSignInUrl="/"
+                                    afterSignInUrl="/profile"
                                 />
                             )}
                         </div>

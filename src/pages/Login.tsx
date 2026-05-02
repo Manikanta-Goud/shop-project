@@ -36,10 +36,10 @@ const Login = () => {
                 if (error) throw error;
 
                 if (data.session) {
-                    toast.success("Account created and logged in! Welcome to our heritage collection ✦");
-                    navigate(-1);
+                    toast.success("Account created! Let's complete your profile ✦");
+                    navigate("/profile");
                 } else {
-                    toast.success("Account created! You can now sign in.");
+                    toast.success("Account created! Please verify your email, then complete your profile.");
                     setIsSignUp(false);
                 }
             } else {
@@ -51,8 +51,8 @@ const Login = () => {
                         throw error;
                     }
                 } else {
-                    toast.success("Welcome back!");
-                    navigate(-1); // Go back to original page
+                    toast.success("Welcome back! ✦");
+                    navigate("/profile");
                 }
             }
         } catch (error: any) {

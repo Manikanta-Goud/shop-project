@@ -14,15 +14,11 @@ const Bangles = () => {
                     transition={{ duration: 0.5 }}
                     className="pt-24 pb-12"
                 >
-                    <header className="max-w-7xl mx-auto px-4 mb-12 text-center lg:text-left">
-                        <h1 className="font-display text-4xl lg:text-6xl font-bold text-gold mb-4 uppercase tracking-tighter">
-                            Bangles <span className="text-primary-foreground/20 italic">Collection</span>
+                    <div className="max-w-7xl mx-auto px-4 mb-4 text-center">
+                        <h1 className="font-display text-xl lg:text-2xl font-bold text-gold uppercase tracking-widest">
+                            Bangles
                         </h1>
-                        <p className="font-body text-gold-light/60 text-lg lg:text-xl max-w-2xl italic">
-                            Adorn your wrists with the symphony of tradition. From temple gold bangles to contemporary festive designs.
-                        </p>
-                    </header>
-
+                    </div>
                     <ProductGrid dark={true} type="Bangles" realtime={true} />
                 </motion.div>
             </main>
