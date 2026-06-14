@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import heroModel from "@/assets/hero-model.jpg";
 import { Link } from "react-router-dom";
+import { Instagram } from "lucide-react";
 
 const HeroBanner = () => {
   return (
@@ -56,10 +57,19 @@ const HeroBanner = () => {
           >
             <Link
               to="/sarees"
-              className="px-8 py-3 bg-gold-gradient font-display text-sm font-semibold tracking-wider text-accent-foreground rounded-full shadow-gold-lg hover:shadow-gold transition-shadow duration-300 uppercase inline-block"
+              className="px-8 py-3 bg-gold-gradient font-display text-sm font-semibold tracking-wider text-accent-foreground rounded-full shadow-gold-lg hover:shadow-gold transition-shadow duration-300 uppercase inline-flex items-center justify-center"
             >
               Explore Collection
             </Link>
+            <a
+              href="https://www.instagram.com/sri_durga_sarees_?igsh=MXFicm1neWN0b202NA=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3 border border-gold text-gold font-display text-sm font-semibold tracking-wider rounded-full hover:bg-gold/10 transition-colors duration-300 uppercase inline-flex items-center justify-center gap-2"
+            >
+              <Instagram size={18} />
+              Instagram
+            </a>
           </motion.div>
         </motion.div>
 
