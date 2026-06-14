@@ -348,15 +348,6 @@ const ProductDetail = () => {
                             </p>
                         </div>
 
-                        {/* Rating */}
-                        <div className="flex items-center gap-2">
-                            <div className="flex">
-                                {[...Array(5)].map((_, i) => (
-                                    <Star key={i} size={18} className="text-gold fill-gold" />
-                                ))}
-                            </div>
-                            <span className="text-muted-foreground text-sm">(248 reviews)</span>
-                        </div>
 
                         {/* Price */}
                         <div className="flex items-baseline gap-3">
@@ -423,24 +414,10 @@ const ProductDetail = () => {
                                 <h3 className="font-display text-lg text-gold mb-4">Why Choose Us</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="flex items-start gap-3">
-                                        <Truck className="text-gold mt-1" size={20} />
-                                        <div>
-                                            <p className="text-foreground-foreground font-semibold text-sm">Free Shipping</p>
-                                            <p className="text-muted-foreground/60 text-xs">On orders above ₹5,000</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-start gap-3">
                                         <Shield className="text-gold mt-1" size={20} />
                                         <div>
                                             <p className="text-foreground-foreground font-semibold text-sm">Authenticity</p>
                                             <p className="text-muted-foreground/60 text-xs">100% Genuine Products</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-start gap-3">
-                                        <RefreshCw className="text-gold mt-1" size={20} />
-                                        <div>
-                                            <p className="text-foreground-foreground font-semibold text-sm">Easy Returns</p>
-                                            <p className="text-muted-foreground/60 text-xs">7-day return policy</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
