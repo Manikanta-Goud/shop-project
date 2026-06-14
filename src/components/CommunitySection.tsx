@@ -8,7 +8,7 @@ const CommunitySection = () => {
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-10">
           <h3 className="font-cursive text-gold-dark text-2xl mb-2">Our Beautiful Queens</h3>
-          <h2 className="font-display text-3xl lg:text-4xl font-bold text-primary tracking-wider mb-3">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-foreground tracking-wider mb-3">
             Styled by Our Queens 📸
           </h2>
           <p className="font-body text-muted-foreground text-sm max-w-md mx-auto">
@@ -34,7 +34,7 @@ const CommunitySection = () => {
               <div className="absolute inset-0 bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                 <div className="text-center">
                   <Instagram className="w-6 h-6 text-gold mx-auto mb-1" />
-                  <span className="font-display text-xs text-primary-foreground">@queen_style_{i}</span>
+                  <span className="font-display text-xs text-foreground-foreground">@queen_style_{i}</span>
                 </div>
               </div>
             </div>

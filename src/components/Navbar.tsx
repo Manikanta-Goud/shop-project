@@ -7,13 +7,12 @@ import { supabase } from "@/integrations/supabase/client";
 
 const navLinks = [
   { label: "Home", href: "/", protected: false },
-  { label: "Sarees", href: "/sarees", protected: false, children: ["Kanchipuram", "Banarasi", "Pochampally", "Chanderi", "Mysore Silk"] },
+  { label: "Sarees", href: "/sarees", protected: false, children: ["Silk", "Cotton", "Banarasi", "Gadget", "Chanderi", "Sofia", "Fancy"] },
   { label: "Bangles", href: "/bangles", protected: false, children: ["Temple Gold", "Diamond", "Silk Thread", "Glass Festive"] },
   { label: "Bridal", href: "/bridal", protected: false },
   { label: "Jewelry", href: "/jewelry", protected: false },
   { label: "Festival Collections", href: "/festival", protected: false, children: ["Diwali", "Sankranti", "Ugadi", "Wedding Season"] },
   { label: "Offers", href: "/offers", protected: false },
-  { label: "Virtual Try-On", href: "/virtual-tryon", protected: false },
   { label: "Community", href: "/community", protected: false },
 ];
 
@@ -77,10 +76,7 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50">
-      {/* Announcement Bar */}
-      <div className="bg-secondary text-gold-light text-center py-1.5 text-sm font-body tracking-wider">
-        ✦ Free Shipping on Orders Above ₹5,000 &nbsp;|&nbsp; 25,000+ Designs &nbsp;|&nbsp; World-Wide Shipping ✦
-      </div>
+
 
       {/* Main Nav */}
       <nav className="bg-primary border-b border-gold/20">
@@ -88,19 +84,18 @@ const Navbar = () => {
           {/* Mobile menu button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden text-primary-foreground"
+            className="lg:hidden text-foreground-foreground"
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <span className="text-3xl lg:text-4xl text-gold">ॐ</span>
             <div className="text-center">
-              <h1 className="font-display text-primary-foreground text-lg lg:text-xl font-bold tracking-wider leading-tight">
+              <h1 className="font-display text-foreground text-lg lg:text-xl font-bold tracking-wider leading-tight">
                 SRI DURGA
               </h1>
-              <span className="text-gold-light text-[10px] lg:text-xs tracking-[0.3em] font-body uppercase">
+              <span className="text-muted-foreground text-[10px] lg:text-xs tracking-[0.3em] font-body uppercase">
                 Sarees
               </span>
             </div>
@@ -121,7 +116,7 @@ const Navbar = () => {
                   className={`font-display text-sm transition-colors duration-300 flex items-center gap-1 ${
                     link.protected && user && !profile?.full_name?.trim() 
                       ? 'text-gold/50 cursor-not-allowed' 
-                      : 'text-primary-foreground hover:text-gold'
+                      : 'text-foreground-foreground hover:text-gold'
                   }`}
                   title={
                     link.protected && user && !profile?.full_name?.trim() 
@@ -142,7 +137,7 @@ const Navbar = () => {
                       <a
                         key={child}
                         href="#"
-                        className="block px-4 py-2 text-sm font-body text-primary-foreground hover:text-gold hover:bg-secondary/50 transition-colors"
+                        className="block px-4 py-2 text-sm font-body text-foreground-foreground hover:text-gold hover:bg-secondary/50 transition-colors"
                       >
                         {child}
                       </a>
@@ -157,25 +152,25 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="text-primary-foreground hover:text-gold transition-colors"
+              className="text-foreground-foreground hover:text-gold transition-colors"
             >
               <Search size={20} />
             </button>
             <button
               onClick={handleUserIconClick}
-              className="text-primary-foreground hover:text-gold transition-colors hidden sm:flex items-center gap-2 group"
+              className="text-foreground-foreground hover:text-gold transition-colors hidden sm:flex items-center gap-2 group"
               title={user ? `Signed in as ${profile?.full_name || user.email}` : "Sign in"}
             >
               <User size={20} className={user ? "text-gold" : ""} />
               {user && profile?.full_name && (
-                <span className="text-xs text-gold-light/80 hidden lg:block max-w-[100px] truncate">
+                <span className="text-xs text-muted-foreground/80 hidden lg:block max-w-[100px] truncate">
                   {profile.full_name}
                 </span>
               )}
             </button>
             <button 
               onClick={() => navigate('/wishlist')}
-              className="text-primary-foreground hover:text-gold transition-colors relative"
+              className="text-foreground-foreground hover:text-gold transition-colors relative"
               title="Wishlist"
             >
               <Heart size={20} className={wishlistCount > 0 ? 'fill-gold text-gold' : ''} />
@@ -187,7 +182,7 @@ const Navbar = () => {
             </button>
             <button 
               onClick={() => navigate('/cart')}
-              className="text-primary-foreground hover:text-gold transition-colors relative"
+              className="text-foreground-foreground hover:text-gold transition-colors relative"
               title="Shopping Bag"
             >
               <ShoppingBag size={20} className={cartCount > 0 ? 'text-gold' : ''} />
@@ -214,8 +209,8 @@ const Navbar = () => {
                   <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                   <input
                     type="text"
-                    placeholder="Search for Kanchipuram, Banarasi, Bridal Sarees..."
-                    className="w-full pl-10 pr-4 py-2.5 bg-secondary/50 border border-gold/30 rounded-full text-primary-foreground font-body placeholder:text-muted-foreground focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30"
+                    placeholder="Search for Silk, Banarasi, Cotton, Chanderi..."
+                    className="w-full pl-10 pr-4 py-2.5 bg-secondary/50 border border-gold/30 rounded-full text-foreground-foreground font-body placeholder:text-muted-foreground focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30"
                     autoFocus
                   />
                 </div>
@@ -247,7 +242,7 @@ const Navbar = () => {
                   className={`block font-display text-lg py-2 border-b border-gold/10 ${
                     link.protected && user && !profile?.full_name?.trim() 
                       ? 'text-gold/50 cursor-not-allowed' 
-                      : 'text-primary-foreground hover:text-gold'
+                      : 'text-foreground-foreground hover:text-gold'
                   }`}
                 >
                   {link.label}

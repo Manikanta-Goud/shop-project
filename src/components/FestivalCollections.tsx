@@ -8,7 +8,7 @@ const FestivalCollections = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-10">
           <h3 className="font-cursive text-gold-dark text-2xl mb-2">Celebrate in Style</h3>
-          <h2 className="font-display text-3xl lg:text-4xl font-bold text-primary tracking-wider">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-foreground tracking-wider">
             Festival Collections
           </h2>
         </div>
@@ -29,11 +29,11 @@ const FestivalCollections = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/40 to-transparent flex items-center">
             <div className="p-8 lg:p-12">
-              <p className="font-cursive text-gold-light text-xl lg:text-3xl mb-2">Celebrate</p>
-              <h3 className="font-display text-2xl lg:text-4xl font-bold text-primary-foreground tracking-wider mb-3">
+              <p className="font-cursive text-muted-foreground text-xl lg:text-3xl mb-2">Celebrate</p>
+              <h3 className="font-display text-2xl lg:text-4xl font-bold text-foreground-foreground tracking-wider mb-3">
                 Diwali Collection 2026
               </h3>
-              <p className="font-body text-primary-foreground/70 mb-4 max-w-sm text-sm lg:text-base">
+              <p className="font-body text-foreground-foreground/70 mb-4 max-w-sm text-sm lg:text-base">
                 Illuminate your festivities with our handpicked silk sarees and matching jewelry sets.
               </p>
               <Link

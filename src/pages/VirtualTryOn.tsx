@@ -7,7 +7,7 @@ const VirtualTryOn = () => {
     return (
         <div className="min-h-screen bg-primary">
             <Navbar />
-            <main className="pt-20 text-primary-foreground">
+            <main className="pt-20 text-foreground-foreground">
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -15,7 +15,7 @@ const VirtualTryOn = () => {
                 >
                     <header className="text-center mb-16">
                         <h1 className="font-display text-4xl lg:text-6xl text-gold mb-4 uppercase tracking-[0.2em]">Virtual Try-On</h1>
-                        <p className="font-body text-gold-light/80 max-w-2xl mx-auto italic">
+                        <p className="font-body text-muted-foreground/80 max-w-2xl mx-auto italic">
                             Experience our heritage collections in the digital realm. Use our AI-powered virtual dressing room to find your perfect fit.
                         </p>
                     </header>

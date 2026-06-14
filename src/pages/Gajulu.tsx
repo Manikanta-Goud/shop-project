@@ -16,9 +16,9 @@ const Gajulu = () => {
                 >
                     <header className="max-w-7xl mx-auto px-4 mb-12 text-center lg:text-left">
                         <h1 className="font-display text-4xl lg:text-6xl font-bold text-gold mb-4 uppercase tracking-tighter">
-                            Gajulu <span className="text-primary-foreground/20 italic">Collection</span>
+                            Gajulu <span className="text-foreground-foreground/20 italic">Collection</span>
                         </h1>
-                        <p className="font-body text-gold-light/60 text-lg lg:text-xl max-w-2xl italic">
+                        <p className="font-body text-muted-foreground/60 text-lg lg:text-xl max-w-2xl italic">
                             Adorn your wrists with the symphony of tradition. From temple gold bangles to contemporary festive designs.
                         </p>
                     </header>

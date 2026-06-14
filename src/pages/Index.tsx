@@ -5,12 +5,6 @@ import HeroBanner from "@/components/HeroBanner";
 // Lazy load everything below the fold
 const FeatureHighlights = lazy(() => import("@/components/FeatureHighlights"));
 const ProductGrid = lazy(() => import("@/components/ProductGrid"));
-const LimitedEditionDrops = lazy(() => import("@/components/LimitedEditionDrops"));
-const FestivalCollections = lazy(() => import("@/components/FestivalCollections"));
-const BridalPlanning = lazy(() => import("@/components/BridalPlanning"));
-const RewardsProgram = lazy(() => import("@/components/RewardsProgram"));
-const CommunitySection = lazy(() => import("@/components/CommunitySection"));
-const SmartFeatures = lazy(() => import("@/components/SmartFeatures"));
 const Footer = lazy(() => import("@/components/Footer"));
 
 // Lightweight skeleton shown while lazy sections load
@@ -26,16 +20,7 @@ const Index = () => {
       <Navbar />
       <main>
         <HeroBanner />
-        <Suspense fallback={<SectionSkeleton />}>
-          <FeatureHighlights />
-          <ProductGrid />
-          <LimitedEditionDrops />
-          <FestivalCollections />
-          <BridalPlanning />
-          <RewardsProgram />
-          <CommunitySection />
-          <SmartFeatures />
-        </Suspense>
+        {/* Only Hero Banner is shown here, Footer is below */}
       </main>
       <Suspense fallback={null}>
         <Footer />

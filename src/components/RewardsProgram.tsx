@@ -33,11 +33,11 @@ const RewardsProgram = () => {
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         <div className="text-center mb-10">
           <Crown className="w-10 h-10 text-gold mx-auto mb-3" />
-          <h3 className="font-cursive text-gold-light text-3xl mb-1">Royal Queen Club</h3>
-          <h2 className="font-display text-2xl lg:text-3xl font-bold text-primary-foreground tracking-wider mb-2">
+          <h3 className="font-cursive text-muted-foreground text-3xl mb-1">Royal Queen Club</h3>
+          <h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground-foreground tracking-wider mb-2">
             Rewards & Loyalty Program
           </h2>
-          <p className="font-body text-primary-foreground/60 text-sm">
+          <p className="font-body text-foreground-foreground/60 text-sm">
             Earn points with every purchase and unlock royal benefits 🎁
           </p>
         </div>
@@ -54,8 +54,8 @@ const RewardsProgram = () => {
               className="text-center p-4 rounded-xl border border-gold/20 bg-secondary/30 hover:bg-secondary/50 transition-colors"
             >
               <Crown className={`w-6 h-6 mx-auto mb-2 ${tier.color}`} />
-              <h4 className="font-display text-sm font-bold text-primary-foreground">{tier.name}</h4>
-              <p className="font-body text-[10px] text-primary-foreground/50 mt-1">{tier.points} pts</p>
+              <h4 className="font-display text-sm font-bold text-foreground-foreground">{tier.name}</h4>
+              <p className="font-body text-[10px] text-foreground-foreground/50 mt-1">{tier.points} pts</p>
               <p className="font-body text-xs text-gold mt-2">{tier.benefits}</p>
             </motion.div>
           ))}
@@ -73,7 +73,7 @@ const RewardsProgram = () => {
               className="flex items-center gap-3 p-3 rounded-lg border border-gold/15 bg-secondary/20"
             >
               <method.icon className="w-5 h-5 text-gold shrink-0" />
-              <span className="font-body text-xs text-primary-foreground/80">{method.text}</span>
+              <span className="font-body text-xs text-foreground-foreground/80">{method.text}</span>
             </motion.div>
           ))}
         </div>

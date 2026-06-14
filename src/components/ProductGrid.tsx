@@ -12,11 +12,13 @@ import { useProductsRealtime } from "@/hooks/useProductsRealtime";
 
 const sareeCategories = [
   { name: "All", color: "bg-gold-gradient" },
-  { name: "Kanchipuram", color: "bg-crimson" },
+  { name: "Silk", color: "bg-[#722F37]" },
+  { name: "Cotton", color: "bg-[#4D1A1A]" },
   { name: "Banarasi", color: "bg-accent" },
-  { name: "Pochampally", color: "bg-[#722F37]" },
+  { name: "Gadget", color: "bg-crimson" },
   { name: "Chanderi", color: "bg-[#DAA520]" },
-  { name: "Mysore Silk", color: "bg-[#4D1A1A]" },
+  { name: "Sofia", color: "bg-[#2F4F4F]" },
+  { name: "Fancy", color: "bg-[#FF1493]" },
 ];
 
 const banglesCategories = [
@@ -162,25 +164,37 @@ const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: 
 
 
   return (
-    <section className={`pb-12 ${dark ? 'text-primary-foreground' : 'text-primary'}`} id="products">
+    <section className={`pb-12 ${dark ? 'text-foreground-foreground' : 'text-foreground'}`} id="products">
       <div className="max-w-7xl mx-auto px-4">
         {/* Category Filters */}
-        <div className="text-center mb-6">
-          <div className="flex flex-wrap justify-center gap-3">
-            {categories.map((cat) => (
-              <button
-                key={cat.name}
-                onClick={() => setActiveCategory(cat.name)}
-                className={`px-5 py-2 rounded-full font-display text-sm tracking-wider transition-all duration-300 shadow-sm ${activeCategory === cat.name
-                  ? `${cat.color} text-white shadow-gold-md scale-105`
-                  : dark
-                    ? "border border-gold/40 text-gold-light hover:border-gold hover:bg-gold/10"
-                    : "border border-gold/40 text-primary hover:border-gold hover:bg-gold/5"
+        <div className="mb-10 flex justify-center w-full">
+          <div className="flex flex-wrap justify-center gap-6 lg:gap-10 border-b border-gold/20 pb-2">
+            {categories.map((cat) => {
+              const isActive = activeCategory === cat.name;
+              return (
+                <button
+                  key={cat.name}
+                  onClick={() => setActiveCategory(cat.name)}
+                  className={`relative pb-2 font-display text-sm md:text-base tracking-widest uppercase transition-colors duration-300 ${
+                    isActive
+                      ? "text-gold font-semibold"
+                      : dark
+                      ? "text-muted-foreground hover:text-gold-light"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
-              >
-                {cat.name}
-              </button>
-            ))}
+                >
+                  {cat.name}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeCategory"
+                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-gold"
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -242,18 +256,19 @@ const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: 
                     onClick={(e) => {
                       e.stopPropagation();
                       const phoneNumber = "9676998183"; // Update with your business WhatsApp number
-                      const message = `Hi! I'm interested in this product:\n\n*${product.name}*\nPrice: ${product.price}\nCategory: ${product.type}\n\nCan you provide more details?`;
+                      const productLink = `${window.location.origin}/product/${product.id}`;
+                      const message = `Hi! I'm interested in this product:\n\n*${product.name}*\nPrice: ${product.price}\nCategory: ${product.type}\n\nProduct Link: ${productLink}\n\nCan you provide more details?`;
                       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
                       window.open(whatsappUrl, '_blank');
                     }}
-                    className="px-6 py-2 border border-green-400/60 rounded-full font-display text-xs text-green-400 tracking-wider uppercase flex items-center gap-2 hover:bg-green-400/10 transition-colors"
+                    className="px-6 py-2.5 bg-[#25D366] rounded-full font-display text-xs font-bold text-white tracking-wider uppercase shadow-md flex items-center gap-2 hover:bg-[#128C7E] transition-colors border-none"
                   >
                     <MessageCircle size={14} />
                     WhatsApp
                   </button>
                   <button 
                     onClick={() => navigate(`/product/${product.id}`)}
-                    className="px-6 py-2 border border-gold/60 rounded-full font-display text-xs text-gold tracking-wider uppercase flex items-center gap-2 hover:bg-gold/10 transition-colors"
+                    className="px-6 py-2.5 bg-foreground rounded-full font-display text-xs font-bold text-primary tracking-wider uppercase shadow-md flex items-center gap-2 hover:bg-foreground/80 transition-colors border-none"
                   >
                     <Eye size={14} />
                     View Details
@@ -266,15 +281,17 @@ const ProductGrid = ({ dark = false, type = "Saree" }: { dark?: boolean, type?: 
                 className="mt-4 text-center cursor-pointer"
                 onClick={() => navigate(`/product/${product.id}`)}
               >
-                <h4 className={`font-display text-sm lg:text-base font-semibold ${dark ? 'text-primary-foreground' : 'text-primary'}`}>
+                <h4 className={`font-sans text-sm lg:text-base font-semibold uppercase tracking-wide ${dark ? 'text-foreground-foreground' : 'text-foreground'}`}>
                   {product.name}
                 </h4>
-                <div className="flex items-center justify-center gap-2 mt-1">
-                  <span className="font-display text-base lg:text-lg font-bold text-crimson">
-                    {product.price}
-                  </span>
-                  <span className="font-body text-sm text-muted-foreground line-through">
-                    {product.originalPrice}
+                <div className="flex items-center justify-center gap-2 mt-1.5">
+                  {product.originalPrice && (
+                    <span className="font-sans text-sm lg:text-base text-muted-foreground line-through">
+                      ₹{product.originalPrice}
+                    </span>
+                  )}
+                  <span className="font-sans text-sm lg:text-base text-crimson">
+                    ₹{product.price}
                   </span>
                 </div>
               </div>

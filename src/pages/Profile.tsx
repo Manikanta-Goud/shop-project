@@ -124,7 +124,7 @@ const Profile = () => {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
-                            className="text-gold-light/70 font-body mb-10 text-base md:text-lg leading-relaxed"
+                            className="text-muted-foreground/70 font-body mb-10 text-base md:text-lg leading-relaxed"
                         >
                             Please sign in to view your royal profile and access your precious collection
                         </motion.p>
@@ -175,7 +175,7 @@ const Profile = () => {
                     <Button
                         variant="ghost"
                         onClick={() => navigate("/")}
-                        className="text-gold hover:text-gold-light hover:bg-gold/10 font-body text-sm flex items-center gap-2 p-0"
+                        className="text-gold hover:text-muted-foreground hover:bg-gold/10 font-body text-sm flex items-center gap-2 p-0"
                     >
                         <ArrowLeft size={18} /> Back to Home
                     </Button>
@@ -233,10 +233,10 @@ const Profile = () => {
                                             Edit Profile
                                         </Button>
                                     </DialogTrigger>
-                                    <DialogContent className="bg-secondary border-gold/30 text-primary-foreground sm:max-w-md">
+                                    <DialogContent className="bg-secondary border-gold/30 text-foreground-foreground sm:max-w-md">
                                         <DialogHeader>
                                             <DialogTitle className="font-display text-gold text-2xl">Edit Your Profile</DialogTitle>
-                                            <DialogDescription className="text-gold-light/40 font-body text-xs italic">
+                                            <DialogDescription className="text-muted-foreground/40 font-body text-xs italic">
                                                 Update your details to personalize your royal membership experience.
                                             </DialogDescription>
                                         </DialogHeader>
@@ -380,8 +380,8 @@ const Profile = () => {
                                     <Heart size={80} />
                                 </div>
                                 <Heart className="text-accent mb-4" size={32} />
-                                <h4 className="text-primary-foreground font-display text-xl font-bold uppercase tracking-widest">My Wishlist</h4>
-                                <p className="text-xs text-gold-light/60 font-body mt-2">View your saved treasures</p>
+                                <h4 className="text-foreground-foreground font-display text-xl font-bold uppercase tracking-widest">My Wishlist</h4>
+                                <p className="text-xs text-muted-foreground/60 font-body mt-2">View your saved treasures</p>
                                 <ChevronRight className="mt-4 text-gold group-hover:translate-x-1 transition-transform" />
                             </Card>
 
@@ -393,8 +393,8 @@ const Profile = () => {
                                     <ShoppingBag size={80} />
                                 </div>
                                 <ShoppingCart className="text-gold mb-4" size={32} />
-                                <h4 className="text-primary-foreground font-display text-xl font-bold uppercase tracking-widest">My Cart</h4>
-                                <p className="text-xs text-gold-light/60 font-body mt-2">Manage your shopping bag</p>
+                                <h4 className="text-foreground-foreground font-display text-xl font-bold uppercase tracking-widest">My Cart</h4>
+                                <p className="text-xs text-muted-foreground/60 font-body mt-2">Manage your shopping bag</p>
                                 <ChevronRight className="mt-4 text-gold group-hover:translate-x-1 transition-transform" />
                             </Card>
                         </div>
@@ -403,16 +403,16 @@ const Profile = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <Card className="bg-secondary/20 border-gold/10 p-6 flex flex-col items-center justify-center text-center hover:border-gold/30 transition-all cursor-pointer">
                                 <Settings className="text-gold mb-3" size={28} />
-                                <h4 className="text-primary-foreground font-display font-bold">Preferences</h4>
-                                <p className="text-xs text-primary-foreground/60 font-body mt-1">Manage notifications and language</p>
+                                <h4 className="text-foreground-foreground font-display font-bold">Preferences</h4>
+                                <p className="text-xs text-foreground-foreground/60 font-body mt-1">Manage notifications and language</p>
                             </Card>
                             <Card
                                 onClick={signOut}
                                 className="bg-secondary/20 border-gold/10 p-6 flex flex-col items-center justify-center text-center hover:border-accent/30 transition-all cursor-pointer"
                             >
                                 <LogOut className="text-accent mb-3" size={28} />
-                                <h4 className="text-primary-foreground font-display font-bold">Sign Out</h4>
-                                <p className="text-xs text-primary-foreground/60 font-body mt-1">Safely exit your session</p>
+                                <h4 className="text-foreground-foreground font-display font-bold">Sign Out</h4>
+                                <p className="text-xs text-foreground-foreground/60 font-body mt-1">Safely exit your session</p>
                             </Card>
                         </div>
                     </div>

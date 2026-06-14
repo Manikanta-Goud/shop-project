@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import {
     Trash2, Users, ClipboardList, ArrowLeft, Home,
-    Gem, Sparkle, Camera, Star, Upload, Image as ImageIcon, Tag, Eye, EyeOff, Clock, Menu, X
+    Gem, Sparkle, Camera, Star, Upload, Image as ImageIcon, Tag, Eye, EyeOff, Clock, Menu, X, Edit
 } from "lucide-react";
 import { useOffers, useAddOffer, useDeleteOffer, type Offer } from "@/hooks/useOffers";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -64,7 +64,7 @@ interface OfferFormData {
 
 // Category options per product type — must match ProductGrid filter names exactly
 const CATEGORY_OPTIONS: Record<CategoryType, string[]> = {
-    Saree:    ["Kanchipuram", "Banarasi", "Pochampally", "Chanderi", "Mysore Silk"],
+    Saree:    ["Silk", "Cotton", "Banarasi", "Gadget", "Chanderi", "Sofia", "Fancy"],
     Bangles:  ["Temple Gold", "Diamond Studded", "Silk Thread", "Glass Festive", "Silver Antique"],
     Jewelry:  ["Temple Jewelry", "Bridal Sets", "Antique Gold", "Diamond Heritage"],
     Festival: ["Diwali Special", "Sankranti Special", "Ugadi Special", "Wedding Season"],
@@ -78,8 +78,10 @@ const CategoryView = ({
     products,
     loading,
     formData,
+    editingProductId,
     onInputChange,
     onAddProduct,
+    onEditProduct,
     onDeleteProduct,
     onFileUpload,
     onDrag,
@@ -92,8 +94,10 @@ const CategoryView = ({
     products: Product[];
     loading: boolean;
     formData: Product;
+    editingProductId: number | null;
     onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
     onAddProduct: (e: React.FormEvent, type: CategoryType) => void;
+    onEditProduct: (p: Product) => void;
     onDeleteProduct: (id: number) => void;
     onFileUpload: (file: File) => void;
     onDrag: (e: React.DragEvent) => void;
@@ -112,11 +116,11 @@ const CategoryView = ({
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
                 <h1 className="font-display text-2xl md:text-4xl font-bold text-gold">Manage {type}s</h1>
-                <p className="text-gold-light/60 font-body mt-2 italic text-sm md:text-base">Curate your royal collection of {type.toLowerCase()} masterpieces.</p>
+                <p className="text-muted-foreground/60 font-body mt-2 italic text-sm md:text-base">Curate your royal collection of {type.toLowerCase()} masterpieces.</p>
             </div>
             <div className="bg-secondary/40 border border-gold/20 p-3 md:p-4 px-6 md:px-8 rounded-2xl flex items-center gap-6">
                 <div className="text-center">
-                    <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Stock Count</div>
+                    <div className="text-[9px] md:text-[10px] text-muted-foreground/40 uppercase tracking-widest mb-1 font-bold">Stock Count</div>
                     <div className="text-xl md:text-2xl font-display text-gold font-bold">
                         {products.filter(p => p.type === type).length}
                     </div>
@@ -127,50 +131,50 @@ const CategoryView = ({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
             <Card className="lg:col-span-1 bg-secondary border-gold/30 shadow-gold-lg h-fit">
                 <CardHeader>
-                    <CardTitle className="text-gold font-display text-lg md:text-xl uppercase tracking-widest">Add New {type}</CardTitle>
+                    <CardTitle className="text-gold font-display text-lg md:text-xl uppercase tracking-widest">{editingProductId ? 'Edit' : 'Add New'} {type}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={(e) => onAddProduct(e, type)} className="space-y-4">
                         <div className="space-y-1.5">
-                            <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Item Name</Label>
-                            <Input name="name" required value={formData.name} onChange={onInputChange} className="bg-primary/40 border-gold/20 h-11 text-gold-light" placeholder="e.g. Royal Heritage" />
+                            <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Item Name</Label>
+                            <Input name="name" required value={formData.name} onChange={onInputChange} className="bg-primary/40 border-gold/20 h-11 text-muted-foreground" />
                         </div>
                         <div className="space-y-1.5">
-                            <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Price</Label>
-                            <Input name="price" required value={formData.price} onChange={onInputChange} className="bg-primary/40 border-gold/20 h-11 text-gold-light" placeholder="₹12,000" />
+                            <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Price</Label>
+                            <Input name="price" required value={formData.price} onChange={onInputChange} className="bg-primary/40 border-gold/20 h-11 text-muted-foreground" />
                         </div>
                         <div className="space-y-1.5">
-                            <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Collection / Category</Label>
+                            <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Collection / Category</Label>
                             <select
                                 name="category"
                                 required
                                 value={formData.category}
                                 onChange={onInputChange}
-                                className="w-full h-11 rounded-md border border-gold/20 bg-primary/40 text-gold-light px-3 text-sm focus:outline-none focus:ring-1 focus:ring-gold/60"
+                                className="w-full h-11 rounded-md border border-gold/20 bg-primary/40 text-muted-foreground px-3 text-sm focus:outline-none focus:ring-1 focus:ring-gold/60"
                             >
                                 <option value="" disabled>— Select a category —</option>
                                 {CATEGORY_OPTIONS[type].map(cat => (
-                                    <option key={cat} value={cat} className="bg-[#1a0f0f]">{cat}</option>
+                                    <option key={cat} value={cat} className="bg-primary text-foreground">{cat}</option>
                                 ))}
                             </select>
                         </div>
                         <div className="space-y-1.5">
-                            <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Tag</Label>
+                            <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Tag</Label>
                             <select
                                 name="tag"
                                 value={formData.tag}
                                 onChange={onInputChange}
-                                className="w-full h-11 rounded-md border border-gold/20 bg-primary/40 text-gold-light px-3 text-sm focus:outline-none focus:ring-1 focus:ring-gold/60"
+                                className="w-full h-11 rounded-md border border-gold/20 bg-primary/40 text-muted-foreground px-3 text-sm focus:outline-none focus:ring-1 focus:ring-gold/60"
                             >
-                                <option value="" className="bg-[#1a0f0f]">— No tag —</option>
+                                <option value="" className="bg-primary text-foreground">— No tag —</option>
                                 {TAG_OPTIONS.map(tag => (
-                                    <option key={tag} value={tag} className="bg-[#1a0f0f]">{tag}</option>
+                                    <option key={tag} value={tag} className="bg-primary text-foreground">{tag}</option>
                                 ))}
                             </select>
                         </div>
 
                         <div className="space-y-1.5">
-                            <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Masterpiece Image</Label>
+                            <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Masterpiece Image</Label>
                             <div
                                 className={`relative border-2 border-dashed rounded-xl p-6 transition-all flex flex-col items-center justify-center gap-2 cursor-pointer
                                     ${dragActive ? 'border-gold bg-gold/5' : 'border-gold/20 bg-primary/20 hover:border-gold/40'}
@@ -192,7 +196,7 @@ const CategoryView = ({
                                             <img src={formData.image} className="w-full h-full object-cover" alt="Preview" />
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-[10px] text-gold-light truncate">{formData.image}</p>
+                                            <p className="text-[10px] text-muted-foreground truncate">{formData.image}</p>
                                             <button
                                                 type="button"
                                                 onClick={(e) => { e.stopPropagation(); setFormData(prev => ({ ...prev, image: "" })); }}
@@ -207,8 +211,8 @@ const CategoryView = ({
                                         <div className="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center text-gold mb-2">
                                             <ImageIcon size={24} />
                                         </div>
-                                        <p className="text-xs text-gold-light font-medium">Drag & drop your photo or <span className="text-gold">browse</span></p>
-                                        <p className="text-[10px] text-gold-light/40 uppercase tracking-widest font-bold">JPG, PNG up to 10MB</p>
+                                        <p className="text-xs text-muted-foreground font-medium">Drag & drop your photo or <span className="text-gold">browse</span></p>
+                                        <p className="text-[10px] text-muted-foreground/40 uppercase tracking-widest font-bold">JPG, PNG up to 10MB</p>
                                     </>
                                 )}
                                 <input
@@ -220,13 +224,13 @@ const CategoryView = ({
                                 />
                             </div>
                             <div className="pt-2">
-                                <Label className="text-[10px] text-gold-light/40 uppercase tracking-widest font-bold">Or enter Image URL manually</Label>
-                                <Input name="image" required value={formData.image} onChange={onInputChange} className="bg-primary/40 border-gold/20 h-11 text-gold-light mt-1.5" placeholder="https://..." />
+                                <Label className="text-[10px] text-muted-foreground/40 uppercase tracking-widest font-bold">Or enter Image URL manually</Label>
+                                <Input name="image" required value={formData.image} onChange={onInputChange} className="bg-primary/40 border-gold/20 h-11 text-muted-foreground mt-1.5" />
                             </div>
                         </div>
 
                         <Button type="submit" disabled={loading} className="w-full bg-gold-gradient text-accent-foreground font-display font-bold h-12 uppercase tracking-widest mt-4 rounded-xl shadow-gold-sm hover:scale-[1.02] transition-transform">
-                            {loading ? "Recording..." : `Add to ${type} Treasury`}
+                            {loading ? "Recording..." : editingProductId ? "Update Masterpiece" : `Add to ${type} Treasury`}
                         </Button>
                     </form>
                 </CardContent>
@@ -235,7 +239,7 @@ const CategoryView = ({
             <Card className="lg:col-span-2 bg-secondary/20 border-gold/20 backdrop-blur-sm overflow-hidden min-h-[500px]">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left font-body min-w-[600px]">
-                        <thead className="bg-gold/10 text-gold-light text-[10px] uppercase tracking-[0.2em] font-bold">
+                        <thead className="bg-gold/10 text-muted-foreground text-[10px] uppercase tracking-[0.2em] font-bold">
                             <tr>
                                 <th className="px-3 md:px-6 py-4">Image</th>
                                 <th className="px-3 md:px-6 py-4">Details</th>
@@ -252,13 +256,16 @@ const CategoryView = ({
                                         </div>
                                     </td>
                                     <td className="px-3 md:px-6 py-4">
-                                        <div className="font-display text-xs md:text-sm font-bold text-gold-light">{p.name}</div>
-                                        <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mt-1 font-bold">{p.category}</div>
+                                        <div className="font-display text-xs md:text-sm font-bold text-muted-foreground">{p.name}</div>
+                                        <div className="text-[9px] md:text-[10px] text-muted-foreground/40 uppercase tracking-widest mt-1 font-bold">{p.category}</div>
                                     </td>
                                     <td className="px-3 md:px-6 py-4">
                                         <div className="font-display font-bold text-gold text-xs md:text-base">{p.price}</div>
                                     </td>
                                     <td className="px-3 md:px-6  py-4 text-right">
+                                        <Button variant="ghost" size="icon" onClick={() => onEditProduct(p)} className="text-gold hover:text-gold-light hover:bg-gold/10 rounded-full h-9 w-9 mr-1">
+                                            <Edit size={16} />
+                                        </Button>
                                         <Button variant="ghost" size="icon" onClick={() => p.id && onDeleteProduct(p.id)} className="text-red-400 hover:text-red-500 hover:bg-red-500/10 rounded-full h-9 w-9">
                                             <Trash2 size={16} />
                                         </Button>
@@ -268,7 +275,7 @@ const CategoryView = ({
                         </tbody>
                     </table>
                     {products.filter(p => p.type === type).length === 0 && (
-                        <div className="flex flex-col items-center justify-center h-64 text-gold-light/20">
+                        <div className="flex flex-col items-center justify-center h-64 text-muted-foreground/20">
                             <Sparkle size={48} className="mb-4 opacity-10" />
                             <p className="font-display text-sm uppercase tracking-widest">No masterpieces found in this category</p>
                         </div>
@@ -289,11 +296,29 @@ const AdminPortal = () => {
     const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
     const [adminEmail, setAdminEmail] = useState("");
     const [adminPassword, setAdminPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [editingProductId, setEditingProductId] = useState<number | null>(null);
     const [uploading, setUploading] = useState(false);
     const [dragActive, setDragActive] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const [activeTab, setActiveTab] = useState<string>("Saree");
+
+    useEffect(() => {
+        const checkSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                setIsAdminAuthenticated(true);
+            }
+        };
+        checkSession();
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setIsAdminAuthenticated(!!session);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
 
     // Offers state and hooks
     const { data: offers = [], isLoading: offersLoading } = useOffers();
@@ -325,17 +350,21 @@ const AdminPortal = () => {
         type: "Saree"
     });
 
-    const handleAdminLogin = (e: React.FormEvent) => {
+    const handleAdminLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
 
-        // Simple local check for development
-        // For production: Use supabase.auth.signInWithPassword()
-        if (adminEmail === "admin@gmail.com" && adminPassword === "123456") {
-            setIsAdminAuthenticated(true);
-            toast.success("Welcome, Divine Administrator ✦");
+        const { error } = await supabase.auth.signInWithPassword({
+            email: adminEmail,
+            password: adminPassword,
+        });
+
+        if (error) {
+            toast.error("Invalid credentials or user not found.");
         } else {
-            toast.error("Invalid credentials.");
+            toast.success("Welcome, Divine Administrator ✦");
         }
+        setLoading(false);
     };
 
     const fetchData = async () => {
@@ -384,6 +413,7 @@ const AdminPortal = () => {
                 tag: "",
                 category: ""
             }));
+            setEditingProductId(null);
         }
     }, [activeTab]);
 
@@ -395,12 +425,23 @@ const AdminPortal = () => {
     const handleAddProduct = async (e: React.FormEvent, type: CategoryType) => {
         e.preventDefault();
         setLoading(true);
-        const { error } = await supabase.from("products").insert([{ ...formData, type }]);
 
-        if (error) {
-            toast.error("Error adding product: " + error.message);
-        } else {
-            toast.success(`${type} added successfully! ✦`);
+        try {
+            if (editingProductId) {
+                const { error } = await supabase
+                    .from("products")
+                    .update({ ...formData, type })
+                    .eq("id", editingProductId);
+                if (error) throw error;
+                toast.success(`${type} updated successfully! ✦`);
+            } else {
+                const { error } = await supabase
+                    .from("products")
+                    .insert([{ ...formData, type }]);
+                if (error) throw error;
+                toast.success(`${type} added successfully! ✦`);
+            }
+
             setFormData({
                 name: "",
                 price: "",
@@ -410,12 +451,22 @@ const AdminPortal = () => {
                 category: "",
                 type: type
             });
+            setEditingProductId(null);
             fetchData();
-            // Invalidate all product queries to trigger refetch in frontend
             queryClient.invalidateQueries({ queryKey: ["products"] });
             queryClient.invalidateQueries({ queryKey: ["sarees"] });
+        } catch (error: any) {
+            toast.error("Error saving product: " + error.message);
+            console.error(error);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
+    };
+
+    const handleEditProductClick = (product: Product) => {
+        setFormData(product);
+        setEditingProductId(product.id || null);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const handleDeleteProduct = async (id: number) => {
@@ -637,28 +688,36 @@ const AdminPortal = () => {
                     <div className="text-center mb-8">
                         <span className="text-5xl text-gold mb-4 inline-block italic font-display">ॐ</span>
                         <h2 className="font-display text-3xl text-gold font-bold uppercase tracking-widest">Admin Sanctuary</h2>
-                        <p className="font-body text-gold-light/60 italic mt-3 text-sm italic">Manage the Treasury of Sri Durga</p>
+                        <p className="font-body text-muted-foreground/60 italic mt-3 text-sm italic">Manage the Treasury of Sri Durga</p>
                     </div>
                     <form onSubmit={handleAdminLogin} className="space-y-6">
                         <div className="space-y-2">
-                            <Label className="text-gold-light uppercase tracking-widest text-[10px] font-bold">Divine ID</Label>
+                            <Label className="text-muted-foreground uppercase tracking-widest text-[10px] font-bold">Divine ID</Label>
                             <Input
                                 type="email"
                                 value={adminEmail}
                                 onChange={(e) => setAdminEmail(e.target.value)}
-                                className="bg-primary/40 border-gold/20 text-white focus:border-gold h-12 rounded-xl"
-                                placeholder="admin@gmail.com"
+                                className="bg-primary/40 border-gold/20 text-foreground focus:border-gold h-12 rounded-xl"
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label className="text-gold-light uppercase tracking-widest text-[10px] font-bold">Sanctuary Key</Label>
-                            <Input
-                                type="password"
-                                value={adminPassword}
-                                onChange={(e) => setAdminPassword(e.target.value)}
-                                className="bg-primary/40 border-gold/20 text-white focus:border-gold h-12 rounded-xl"
-                                placeholder="••••••••"
-                            />
+                            <Label className="text-muted-foreground uppercase tracking-widest text-[10px] font-bold">Sanctuary Key</Label>
+                            <div className="relative">
+                                <Input
+                                    type={showPassword ? "text" : "password"}
+                                    value={adminPassword}
+                                    onChange={(e) => setAdminPassword(e.target.value)}
+                                    className="bg-primary/40 border-gold/20 text-foreground focus:border-gold h-12 rounded-xl pr-12"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-gold transition-colors"
+                                    title={showPassword ? "Hide password" : "Show password"}
+                                >
+                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                            </div>
                         </div>
                         <Button type="submit" className="w-full bg-gold-gradient text-accent-foreground font-display font-bold h-14 uppercase tracking-[0.2em] mt-2 rounded-xl shadow-gold-md hover:scale-[1.02] transition-transform">
                             Enter Sanctuary
@@ -667,7 +726,7 @@ const AdminPortal = () => {
                             type="button"
                             variant="ghost"
                             onClick={() => navigate("/")}
-                            className="w-full text-gold-light/40 hover:text-gold text-xs flex items-center justify-center gap-2"
+                            className="w-full text-muted-foreground/40 hover:text-gold text-xs flex items-center justify-center gap-2"
                         >
                             <ArrowLeft size={14} /> Return to Public Shop
                         </Button>
@@ -685,7 +744,7 @@ const AdminPortal = () => {
                     <span className="text-2xl text-gold italic">ॐ</span>
                     <div className="font-display">
                         <h2 className="text-gold font-bold tracking-tighter text-base leading-tight uppercase">Sri Durga</h2>
-                        <p className="text-[9px] text-gold-light/60 uppercase tracking-widest font-bold">Admin Portal</p>
+                        <p className="text-[9px] text-muted-foreground/60 uppercase tracking-widest font-bold">Admin Portal</p>
                     </div>
                 </div>
                 <Button
@@ -722,7 +781,7 @@ const AdminPortal = () => {
                                         <span className="text-3xl text-gold italic">ॐ</span>
                                         <div className="font-display">
                                             <h2 className="text-gold font-bold tracking-tighter text-lg leading-tight uppercase">Sri Durga</h2>
-                                            <p className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Admin Portal</p>
+                                            <p className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Admin Portal</p>
                                         </div>
                                     </div>
                                     <Button
@@ -738,65 +797,65 @@ const AdminPortal = () => {
                                 <nav className="space-y-2">
 
 
-                                    <div className="pt-4 pb-2 text-[10px] text-gold-light/20 uppercase tracking-[0.2em] font-bold px-4">Management</div>
+                                    <div className="pt-4 pb-2 text-[10px] text-muted-foreground/20 uppercase tracking-[0.2em] font-bold px-4">Management</div>
 
                                     <TabsList className="flex flex-col w-full bg-transparent h-auto gap-1 p-0 border-none shadow-none">
                                         <TabsTrigger 
                                             value="Saree" 
                                             onClick={() => setMobileMenuOpen(false)}
-                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
                                         >
                                             <Sparkle size={18} /> Sarees
                                         </TabsTrigger>
                                         <TabsTrigger 
                                             value="Bangles" 
                                             onClick={() => setMobileMenuOpen(false)}
-                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
                                         >
                                             <Gem size={18} /> Bangles
                                         </TabsTrigger>
                                         <TabsTrigger 
                                             value="Jewelry" 
                                             onClick={() => setMobileMenuOpen(false)}
-                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
                                         >
                                             <Star size={18} /> Jewelry
                                         </TabsTrigger>
                                         <TabsTrigger 
                                             value="Festival" 
                                             onClick={() => setMobileMenuOpen(false)}
-                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
                                         >
                                             <Camera size={18} /> Festival
                                         </TabsTrigger>
                                         
-                                        <div className="pt-4 pb-2 text-[10px] text-gold-light/20 uppercase tracking-[0.2em] font-bold px-4 select-none">
+                                        <div className="pt-4 pb-2 text-[10px] text-muted-foreground/20 uppercase tracking-[0.2em] font-bold px-4 select-none">
                                             PROMOTIONS
                                         </div>
                                         
                                         <TabsTrigger 
                                             value="Offers" 
                                             onClick={() => setMobileMenuOpen(false)}
-                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
                                         >
                                             <Tag size={18} /> Offers
                                         </TabsTrigger>
 
-                                        <div className="pt-6 pb-2 text-[10px] text-gold-light/20 uppercase tracking-[0.2em] font-bold px-4 select-none">
+                                        <div className="pt-6 pb-2 text-[10px] text-muted-foreground/20 uppercase tracking-[0.2em] font-bold px-4 select-none">
                                             TREASURY
                                         </div>
 
                                         <TabsTrigger 
                                             value="customers" 
                                             onClick={() => setMobileMenuOpen(false)}
-                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
                                         >
                                             <Users size={18} /> Customers
                                         </TabsTrigger>
                                         <TabsTrigger 
                                             value="orders" 
                                             onClick={() => setMobileMenuOpen(false)}
-                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
+                                            className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer"
                                         >
                                             <ClipboardList size={18} /> Orders
                                         </TabsTrigger>
@@ -807,7 +866,7 @@ const AdminPortal = () => {
                                     <Button
                                         variant="ghost"
                                         onClick={() => {
-                                            setIsAdminAuthenticated(false);
+                                            handleLogout();
                                             setMobileMenuOpen(false);
                                         }}
                                         className="w-full flex justify-start gap-3 text-red-400/60 hover:text-red-400 hover:bg-red-500/5 px-4 font-display text-[10px] uppercase tracking-widest font-bold"
@@ -827,45 +886,45 @@ const AdminPortal = () => {
                         <span className="text-3xl text-gold italic">ॐ</span>
                         <div className="font-display">
                             <h2 className="text-gold font-bold tracking-tighter text-lg leading-tight uppercase">Sri Durga</h2>
-                            <p className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Admin Portal</p>
+                            <p className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Admin Portal</p>
                         </div>
                     </div>
 
                     <nav className="flex-1 space-y-2">
 
 
-                        <div className="pt-4 pb-2 text-[10px] text-gold-light/20 uppercase tracking-[0.2em] font-bold px-4">Management</div>
+                        <div className="pt-4 pb-2 text-[10px] text-muted-foreground/20 uppercase tracking-[0.2em] font-bold px-4">Management</div>
 
                         <TabsList className="flex flex-col w-full bg-transparent h-auto gap-1 p-0 border-none shadow-none">
-                            <TabsTrigger value="Saree" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
+                            <TabsTrigger value="Saree" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
                                 <Sparkle size={18} /> Sarees
                             </TabsTrigger>
-                            <TabsTrigger value="Bangles" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
+                            <TabsTrigger value="Bangles" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
                                 <Gem size={18} /> Bangles
                             </TabsTrigger>
-                            <TabsTrigger value="Jewelry" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
+                            <TabsTrigger value="Jewelry" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
                                 <Star size={18} /> Jewelry
                             </TabsTrigger>
-                            <TabsTrigger value="Festival" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
+                            <TabsTrigger value="Festival" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
                                 <Camera size={18} /> Festival
                             </TabsTrigger>
                             
-                            <div className="pt-4 pb-2 text-[10px] text-gold-light/20 uppercase tracking-[0.2em] font-bold px-4 select-none">
+                            <div className="pt-4 pb-2 text-[10px] text-muted-foreground/20 uppercase tracking-[0.2em] font-bold px-4 select-none">
                                 PROMOTIONS
                             </div>
                             
-                            <TabsTrigger value="Offers" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
+                            <TabsTrigger value="Offers" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
                                 <Tag size={18} /> Offers
                             </TabsTrigger>
 
-                            <div className="pt-6 pb-2 text-[10px] text-gold-light/20 uppercase tracking-[0.2em] font-bold px-4 select-none">
+                            <div className="pt-6 pb-2 text-[10px] text-muted-foreground/20 uppercase tracking-[0.2em] font-bold px-4 select-none">
                                 TREASURY
                             </div>
 
-                            <TabsTrigger value="customers" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
+                            <TabsTrigger value="customers" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
                                 <Users size={18} /> Customers
                             </TabsTrigger>
-                            <TabsTrigger value="orders" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-gold-light/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
+                            <TabsTrigger value="orders" className="w-full flex items-center justify-start gap-4 px-4 py-4 rounded-xl text-muted-foreground/60 data-[state=active]:bg-gold-gradient data-[state=active]:text-accent-foreground font-display text-[11px] uppercase tracking-[0.1em] font-bold transition-all shadow-none border-none cursor-pointer">
                                 <ClipboardList size={18} /> Orders
                             </TabsTrigger>
                         </TabsList>
@@ -890,8 +949,10 @@ const AdminPortal = () => {
                             products={products}
                             loading={loading}
                             formData={formData}
+                            editingProductId={editingProductId}
                             onInputChange={handleInputChange}
                             onAddProduct={handleAddProduct}
+                            onEditProduct={handleEditProductClick}
                             onDeleteProduct={handleDeleteProduct}
                             onFileUpload={handleFileUpload}
                             onDrag={handleDrag}
@@ -909,8 +970,10 @@ const AdminPortal = () => {
                             products={products}
                             loading={loading}
                             formData={formData}
+                            editingProductId={editingProductId}
                             onInputChange={handleInputChange}
                             onAddProduct={handleAddProduct}
+                            onEditProduct={handleEditProductClick}
                             onDeleteProduct={handleDeleteProduct}
                             onFileUpload={handleFileUpload}
                             onDrag={handleDrag}
@@ -928,8 +991,10 @@ const AdminPortal = () => {
                             products={products}
                             loading={loading}
                             formData={formData}
+                            editingProductId={editingProductId}
                             onInputChange={handleInputChange}
                             onAddProduct={handleAddProduct}
+                            onEditProduct={handleEditProductClick}
                             onDeleteProduct={handleDeleteProduct}
                             onFileUpload={handleFileUpload}
                             onDrag={handleDrag}
@@ -947,8 +1012,10 @@ const AdminPortal = () => {
                             products={products}
                             loading={loading}
                             formData={formData}
+                            editingProductId={editingProductId}
                             onInputChange={handleInputChange}
                             onAddProduct={handleAddProduct}
+                            onEditProduct={handleEditProductClick}
                             onDeleteProduct={handleDeleteProduct}
                             onFileUpload={handleFileUpload}
                             onDrag={handleDrag}
@@ -970,23 +1037,23 @@ const AdminPortal = () => {
                             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
                                 <div>
                                     <h1 className="font-display text-2xl md:text-4xl font-bold text-gold">Manage Offers</h1>
-                                    <p className="text-gold-light/60 font-body mt-2 italic text-sm md:text-base">Create exclusive promotional offers to attract customers.</p>
+                                    <p className="text-muted-foreground/60 font-body mt-2 italic text-sm md:text-base">Create exclusive promotional offers to attract customers.</p>
                                 </div>
                                 <div className="bg-secondary/40 border border-gold/20 p-3 md:p-4 px-4 md:px-8 rounded-2xl flex items-center gap-3 md:gap-6">
                                     <div className="text-center">
-                                        <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Total Offers</div>
+                                        <div className="text-[9px] md:text-[10px] text-muted-foreground/40 uppercase tracking-widest mb-1 font-bold">Total Offers</div>
                                         <div className="text-xl md:text-2xl font-display text-gold font-bold">{offers.length}</div>
                                     </div>
                                     <div className="w-px h-6 md:h-8 bg-gold/20" />
                                     <div className="text-center">
-                                        <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Active</div>
+                                        <div className="text-[9px] md:text-[10px] text-muted-foreground/40 uppercase tracking-widest mb-1 font-bold">Active</div>
                                         <div className="text-xl md:text-2xl font-display text-green-500 font-bold">
                                             {offers.filter(o => o.is_active).length}
                                         </div>
                                     </div>
                                     <div className="w-px h-6 md:h-8 bg-gold/20" />
                                     <div className="text-center">
-                                        <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mb-1 font-bold">Featured</div>
+                                        <div className="text-[9px] md:text-[10px] text-muted-foreground/40 uppercase tracking-widest mb-1 font-bold">Featured</div>
                                         <div className="text-xl md:text-2xl font-display text-blue-500 font-bold">
                                             {offers.filter(o => o.is_featured).length}
                                         </div>
@@ -1002,43 +1069,43 @@ const AdminPortal = () => {
                                     <CardContent>
                                         <form onSubmit={handleAddOffer} className="space-y-4">
                                             <div className="space-y-1.5">
-                                                <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Offer Title</Label>
+                                                <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Offer Title</Label>
                                                 <Input
                                                     name="title"
                                                     required
                                                     value={offerFormData.title}
                                                     onChange={handleOfferInputChange}
-                                                    className="bg-primary/40 border-gold/20 h-11 text-gold-light"
+                                                    className="bg-primary/40 border-gold/20 h-11 text-muted-foreground"
                                                     placeholder="e.g. Heritage Temple Border Silk"
                                                 />
                                             </div>
 
                                             <div className="space-y-1.5">
-                                                <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Description</Label>
+                                                <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Description</Label>
                                                 <Input
                                                     name="description"
                                                     value={offerFormData.description}
                                                     onChange={handleOfferInputChange}
-                                                    className="bg-primary/40 border-gold/20 h-11 text-gold-light"
+                                                    className="bg-primary/40 border-gold/20 h-11 text-muted-foreground"
                                                     placeholder="Brief description"
                                                 />
                                             </div>
 
                                             <div className="space-y-1.5">
-                                                <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Original Price (Required)</Label>
+                                                <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Original Price (Required)</Label>
                                                 <Input
                                                     name="original_price"
                                                     required
                                                     value={offerFormData.original_price}
                                                     onChange={handleOfferInputChange}
-                                                    className="bg-primary/40 border-gold/20 h-11 text-gold-light"
+                                                    className="bg-primary/40 border-gold/20 h-11 text-muted-foreground"
                                                     placeholder="₹24,999"
                                                 />
                                             </div>
 
                                             <div className="grid grid-cols-2 gap-3">
                                                 <div className="space-y-1.5">
-                                                    <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Discount % (0-100)</Label>
+                                                    <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Discount % (0-100)</Label>
                                                     <Input
                                                         name="discount_percentage"
                                                         type="number"
@@ -1046,19 +1113,19 @@ const AdminPortal = () => {
                                                         max="100"
                                                         value={offerFormData.discount_percentage}
                                                         onChange={handleOfferInputChange}
-                                                        className="bg-primary/40 border-gold/20 h-11 text-gold-light"
+                                                        className="bg-primary/40 border-gold/20 h-11 text-muted-foreground"
                                                         placeholder="24"
                                                     />
                                                 </div>
                                                 <div className="space-y-1.5">
-                                                    <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Stock Count</Label>
+                                                    <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Stock Count</Label>
                                                     <Input
                                                         name="stock_count"
                                                         type="number"
                                                         min="0"
                                                         value={offerFormData.stock_count}
                                                         onChange={handleOfferInputChange}
-                                                        className="bg-primary/40 border-gold/20 h-11 text-gold-light"
+                                                        className="bg-primary/40 border-gold/20 h-11 text-muted-foreground"
                                                         placeholder="5"
                                                     />
                                                 </div>
@@ -1069,11 +1136,11 @@ const AdminPortal = () => {
                                                 <div className="p-4 bg-gold/10 border border-gold/30 rounded-xl">
                                                     <div className="flex items-center justify-between">
                                                         <div>
-                                                            <p className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold mb-1">Final Offer Price</p>
+                                                            <p className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold mb-1">Final Offer Price</p>
                                                             <p className="font-display text-2xl font-bold text-gold">{offerFormData.price}</p>
                                                         </div>
                                                         <div className="text-right">
-                                                            <p className="text-xs text-gold-light/40 line-through">{offerFormData.original_price}</p>
+                                                            <p className="text-xs text-muted-foreground/40 line-through">{offerFormData.original_price}</p>
                                                             <p className="text-sm text-green-400 font-bold">{offerFormData.discount_percentage}% OFF</p>
                                                         </div>
                                                     </div>
@@ -1081,36 +1148,36 @@ const AdminPortal = () => {
                                             )}
 
                                             <div className="space-y-1.5">
-                                                <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Category</Label>
+                                                <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Category</Label>
                                                 <Input
                                                     name="category"
                                                     required
                                                     value={offerFormData.category}
                                                     onChange={handleOfferInputChange}
-                                                    className="bg-primary/40 border-gold/20 h-11 text-gold-light"
+                                                    className="bg-primary/40 border-gold/20 h-11 text-muted-foreground"
                                                     placeholder="e.g. Sarees, Jewelry, Bangles"
                                                 />
                                             </div>
 
                                             <div className="space-y-1.5">
-                                                <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Tag</Label>
+                                                <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Tag</Label>
                                                 <Input
                                                     name="tag"
                                                     value={offerFormData.tag}
                                                     onChange={handleOfferInputChange}
-                                                    className="bg-primary/40 border-gold/20 h-11 text-gold-light"
+                                                    className="bg-primary/40 border-gold/20 h-11 text-muted-foreground"
                                                     placeholder="e.g. TRENDING, NEW ARRIVAL"
                                                 />
                                             </div>
 
                                             <div className="space-y-1.5">
-                                                <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Countdown End (Optional)</Label>
+                                                <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Countdown End (Optional)</Label>
                                                 <Input
                                                     name="countdown_end"
                                                     type="datetime-local"
                                                     value={offerFormData.countdown_end}
                                                     onChange={handleOfferInputChange}
-                                                    className="bg-primary/40 border-gold/20 h-11 text-gold-light"
+                                                    className="bg-primary/40 border-gold/20 h-11 text-muted-foreground"
                                                 />
                                             </div>
 
@@ -1124,7 +1191,7 @@ const AdminPortal = () => {
                                                         onChange={handleOfferInputChange}
                                                         className="w-4 h-4 rounded border-gold/30 text-gold focus:ring-gold"
                                                     />
-                                                    <Label htmlFor="is_active" className="text-xs text-gold-light cursor-pointer">Active (visible to customers)</Label>
+                                                    <Label htmlFor="is_active" className="text-xs text-muted-foreground cursor-pointer">Active (visible to customers)</Label>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
                                                     <input
@@ -1135,12 +1202,12 @@ const AdminPortal = () => {
                                                         onChange={handleOfferInputChange}
                                                         className="w-4 h-4 rounded border-gold/30 text-gold focus:ring-gold"
                                                     />
-                                                    <Label htmlFor="is_featured" className="text-xs text-gold-light cursor-pointer">Featured (show in Limited Edition Drops)</Label>
+                                                    <Label htmlFor="is_featured" className="text-xs text-muted-foreground cursor-pointer">Featured (show in Limited Edition Drops)</Label>
                                                 </div>
                                             </div>
 
                                             <div className="space-y-1.5">
-                                                <Label className="text-[10px] text-gold-light/60 uppercase tracking-widest font-bold">Offer Image</Label>
+                                                <Label className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-bold">Offer Image</Label>
                                                 <div
                                                     className={`relative border-2 border-dashed rounded-xl p-6 transition-all flex flex-col items-center justify-center gap-2 cursor-pointer
                                                         ${dragActive ? 'border-gold bg-gold/5' : 'border-gold/20 bg-primary/20 hover:border-gold/40'}
@@ -1162,7 +1229,7 @@ const AdminPortal = () => {
                                                                 <img src={offerFormData.image} className="w-full h-full object-cover" alt="Preview" />
                                                             </div>
                                                             <div className="flex-1 min-w-0">
-                                                                <p className="text-[10px] text-gold-light truncate">{offerFormData.image}</p>
+                                                                <p className="text-[10px] text-muted-foreground truncate">{offerFormData.image}</p>
                                                                 <button
                                                                     type="button"
                                                                     onClick={(e) => { e.stopPropagation(); setOfferFormData(prev => ({ ...prev, image: "" })); }}
@@ -1177,8 +1244,8 @@ const AdminPortal = () => {
                                                             <div className="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center text-gold mb-2">
                                                                 <ImageIcon size={24} />
                                                             </div>
-                                                            <p className="text-xs text-gold-light font-medium">Drag & drop your photo or <span className="text-gold">browse</span></p>
-                                                            <p className="text-[10px] text-gold-light/40 uppercase tracking-widest font-bold">JPG, PNG up to 10MB</p>
+                                                            <p className="text-xs text-muted-foreground font-medium">Drag & drop your photo or <span className="text-gold">browse</span></p>
+                                                            <p className="text-[10px] text-muted-foreground/40 uppercase tracking-widest font-bold">JPG, PNG up to 10MB</p>
                                                         </>
                                                     )}
                                                     <input
@@ -1190,13 +1257,13 @@ const AdminPortal = () => {
                                                     />
                                                 </div>
                                                 <div className="pt-2">
-                                                    <Label className="text-[10px] text-gold-light/40 uppercase tracking-widest font-bold">Or enter Image URL manually</Label>
+                                                    <Label className="text-[10px] text-muted-foreground/40 uppercase tracking-widest font-bold">Or enter Image URL manually</Label>
                                                     <Input
                                                         name="image"
                                                         required
                                                         value={offerFormData.image}
                                                         onChange={handleOfferInputChange}
-                                                        className="bg-primary/40 border-gold/20 h-11 text-gold-light mt-1.5"
+                                                        className="bg-primary/40 border-gold/20 h-11 text-muted-foreground mt-1.5"
                                                         placeholder="https://..."
                                                     />
                                                 </div>
@@ -1216,7 +1283,7 @@ const AdminPortal = () => {
                                 <Card className="lg:col-span-2 bg-secondary/20 border-gold/20 backdrop-blur-sm overflow-hidden min-h-[500px]">
                                     <div className="overflow-x-auto">
                                         <table className="w-full text-left font-body min-w-[700px]">
-                                            <thead className="bg-gold/10 text-gold-light text-[10px] uppercase tracking-[0.2em] font-bold">
+                                            <thead className="bg-gold/10 text-muted-foreground text-[10px] uppercase tracking-[0.2em] font-bold">
                                                 <tr>
                                                     <th className="px-2 md:px-4 py-4">Image</th>
                                                     <th className="px-2 md:px-4 py-4">Details</th>
@@ -1238,8 +1305,8 @@ const AdminPortal = () => {
                                                             </div>
                                                         </td>
                                                         <td className="px-2 md:px-4 py-4">
-                                                            <div className="font-display text-xs md:text-sm font-bold text-gold-light">{offer.title}</div>
-                                                            <div className="text-[9px] md:text-[10px] text-gold-light/40 uppercase tracking-widest mt-1 font-bold">
+                                                            <div className="font-display text-xs md:text-sm font-bold text-muted-foreground">{offer.title}</div>
+                                                            <div className="text-[9px] md:text-[10px] text-muted-foreground/40 uppercase tracking-widest mt-1 font-bold">
                                                                 {offer.category}
                                                             </div>
                                                             {offer.tag && (
@@ -1257,12 +1324,12 @@ const AdminPortal = () => {
                                                         <td className="px-4 py-4">
                                                             <div className="font-display font-bold text-gold">{offer.price}</div>
                                                             {offer.original_price && (
-                                                                <div className="text-xs text-gold-light/40 line-through">{offer.original_price}</div>
+                                                                <div className="text-xs text-muted-foreground/40 line-through">{offer.original_price}</div>
                                                             )}
                                                             {offer.discount_percentage > 0 && (
                                                                 <div className="text-[10px] text-green-500 font-bold">{offer.discount_percentage}% OFF</div>
                                                             )}
-                                                            <div className="text-[10px] text-gold-light/40 mt-1">Stock: {offer.stock_count}</div>
+                                                            <div className="text-[10px] text-muted-foreground/40 mt-1">Stock: {offer.stock_count}</div>
                                                         </td>
                                                         <td className="px-4 py-4">
                                                             <div className="flex flex-col gap-1">
@@ -1298,7 +1365,7 @@ const AdminPortal = () => {
                                             </tbody>
                                         </table>
                                         {offers.length === 0 && (
-                                            <div className="flex flex-col items-center justify-center h-64 text-gold-light/20">
+                                            <div className="flex flex-col items-center justify-center h-64 text-muted-foreground/20">
                                                 <Tag size={48} className="mb-4 opacity-10" />
                                                 <p className="font-display text-sm uppercase tracking-widest">No offers created yet</p>
                                             </div>
@@ -1316,7 +1383,7 @@ const AdminPortal = () => {
                                     <Card className="bg-secondary/20 border-gold/20 backdrop-blur-sm overflow-hidden border-2 border-gold/10">
                                         <div className="overflow-x-auto">
                                             <table className="w-full text-left font-body">
-                                                <thead className="bg-gold/10 text-gold-light text-xs uppercase tracking-widest font-bold">
+                                                <thead className="bg-gold/10 text-muted-foreground text-xs uppercase tracking-widest font-bold">
                                                     <tr>
                                                         <th className="px-6 py-4">Name</th>
                                                         <th className="px-6 py-4">Contact</th>
@@ -1328,10 +1395,10 @@ const AdminPortal = () => {
                                                 <tbody className="divide-y divide-gold/10">
                                                     {customers.map((c) => (
                                                         <tr key={`cust-${c.id}`} className="hover:bg-gold/5 transition-colors">
-                                                            <td className="px-6 py-4 font-bold text-gold-light font-display uppercase tracking-wider">{c.full_name || "Guest User"}</td>
+                                                            <td className="px-6 py-4 font-bold text-muted-foreground font-display uppercase tracking-wider">{c.full_name || "Guest User"}</td>
                                                             <td className="px-6 py-4 text-xs font-mono">
-                                                                <div className="text-gold-light/60">{c.email}</div>
-                                                                <div className="text-gold-light/30">{c.phone || "No contact"}</div>
+                                                                <div className="text-muted-foreground/60">{c.email}</div>
+                                                                <div className="text-muted-foreground/30">{c.phone || "No contact"}</div>
                                                             </td>
                                                             <td className="px-6 py-4"><span className="text-2xl font-display text-gold font-bold">{c.loyalty_points}</span></td>
                                                             <td className="px-6 py-4">
@@ -1357,7 +1424,7 @@ const AdminPortal = () => {
                                                 </tbody>
                                             </table>
                                             {customers.length === 0 && (
-                                                <div className="flex flex-col items-center justify-center h-64 text-gold-light/20">
+                                                <div className="flex flex-col items-center justify-center h-64 text-muted-foreground/20">
                                                     <Users size={48} className="mb-4 opacity-10" />
                                                     <p className="font-display text-sm uppercase tracking-widest">No customers registered yet</p>
                                                 </div>
@@ -1374,7 +1441,7 @@ const AdminPortal = () => {
                                     <Card className="bg-secondary/20 border-gold/20 backdrop-blur-sm overflow-hidden border-2 border-gold/10">
                                         <div className="overflow-x-auto">
                                             <table className="w-full text-left font-body">
-                                                <thead className="bg-gold/10 text-gold-light text-xs uppercase tracking-widest font-bold">
+                                                <thead className="bg-gold/10 text-muted-foreground text-xs uppercase tracking-widest font-bold">
                                                     <tr>
                                                         <th className="px-6 py-4">ID / Date</th>
                                                         <th className="px-6 py-4">Amount</th>
@@ -1387,8 +1454,8 @@ const AdminPortal = () => {
                                                     {orders.map((o) => (
                                                         <tr key={`ord-${o.id}`} className="hover:bg-gold/5 transition-colors">
                                                             <td className="px-6 py-4 text-xs font-mono">
-                                                                <div className="text-gold-light font-bold">#{o.id.slice(0, 8).toUpperCase()}</div>
-                                                                <div className="text-gold-light/40 mt-1">{new Date(o.created_at).toLocaleDateString()}</div>
+                                                                <div className="text-muted-foreground font-bold">#{o.id.slice(0, 8).toUpperCase()}</div>
+                                                                <div className="text-muted-foreground/40 mt-1">{new Date(o.created_at).toLocaleDateString()}</div>
                                                             </td>
                                                             <td className="px-6 py-4 text-gold font-bold font-display">{o.total_amount}</td>
                                                             <td className="px-6 py-4">
@@ -1401,7 +1468,7 @@ const AdminPortal = () => {
                                                                 <Input
                                                                     defaultValue={o.tracking_id}
                                                                     onBlur={(e) => handleUpdateOrderStatus(o.id, o.status, e.target.value)}
-                                                                    className="h-9 w-40 bg-primary/20 border-gold/20 text-xs font-mono text-gold-light"
+                                                                    className="h-9 w-40 bg-primary/20 border-gold/20 text-xs font-mono text-muted-foreground"
                                                                     placeholder="No Tracking ID"
                                                                 />
                                                             </td>
@@ -1413,7 +1480,7 @@ const AdminPortal = () => {
                                                                             size="sm"
                                                                             variant="ghost"
                                                                             onClick={() => handleUpdateOrderStatus(o.id, s, o.tracking_id)}
-                                                                            className={`text-[9px] h-8 px-3 uppercase tracking-widest font-bold font-display rounded-lg transition-all ${o.status === s ? 'bg-gold-gradient text-accent-foreground' : 'text-gold-light/20 hover:text-gold hover:bg-gold/5'}`}
+                                                                            className={`text-[9px] h-8 px-3 uppercase tracking-widest font-bold font-display rounded-lg transition-all ${o.status === s ? 'bg-gold-gradient text-accent-foreground' : 'text-muted-foreground/20 hover:text-gold hover:bg-gold/5'}`}
                                                                         >
                                                                             {s[0]}
                                                                         </Button>
@@ -1425,7 +1492,7 @@ const AdminPortal = () => {
                                                 </tbody>
                                             </table>
                                             {orders.length === 0 && (
-                                                <div className="flex flex-col items-center justify-center h-64 text-gold-light/20">
+                                                <div className="flex flex-col items-center justify-center h-64 text-muted-foreground/20">
                                                     <ClipboardList size={48} className="mb-4 opacity-10" />
                                                     <p className="font-display text-sm uppercase tracking-widest">No orders yet</p>
                                                 </div>

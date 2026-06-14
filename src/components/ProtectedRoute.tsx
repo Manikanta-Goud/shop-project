@@ -20,7 +20,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
       <div className="min-h-screen bg-primary flex items-center justify-center">
         <div className="text-center">
           <span className="text-6xl text-gold animate-pulse inline-block italic">ॐ</span>
-          <p className="text-gold-light mt-4 font-body">Loading...</p>
+          <p className="text-muted-foreground mt-4 font-body">Loading...</p>
         </div>
       </div>
     );

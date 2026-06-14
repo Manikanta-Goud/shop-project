@@ -258,7 +258,7 @@ const ProductDetail = () => {
                     <Button
                         variant="ghost"
                         onClick={() => navigate(-1)}
-                        className="text-gold hover:text-gold-light hover:bg-gold/10 font-body flex items-center gap-2"
+                        className="text-gold hover:text-muted-foreground hover:bg-gold/10 font-body flex items-center gap-2"
                     >
                         <ArrowLeft size={18} /> Back
                     </Button>
@@ -340,10 +340,10 @@ const ProductDetail = () => {
                         className="space-y-6"
                     >
                         <div>
-                            <h1 className="font-display text-3xl lg:text-4xl text-primary-foreground font-bold mb-2">
+                            <h1 className="font-display text-3xl lg:text-4xl text-foreground-foreground font-bold mb-2">
                                 {product.name}
                             </h1>
-                            <p className="text-gold-light/70 font-body italic">
+                            <p className="text-muted-foreground/70 font-body italic">
                                 {product.type} Collection
                             </p>
                         </div>
@@ -355,17 +355,17 @@ const ProductDetail = () => {
                                     <Star key={i} size={18} className="text-gold fill-gold" />
                                 ))}
                             </div>
-                            <span className="text-gold-light text-sm">(248 reviews)</span>
+                            <span className="text-muted-foreground text-sm">(248 reviews)</span>
                         </div>
 
                         {/* Price */}
                         <div className="flex items-baseline gap-3">
-                            <span className="font-display text-4xl text-gold font-bold">
-                                {product.price}
+                            <span className="font-display text-4xl text-crimson font-bold">
+                                ₹{product.price}
                             </span>
                             {product.original_price && (
                                 <>
-                                    <span className="text-xl text-gold-light/50 line-through">
+                                    <span className="text-xl text-muted-foreground/50 line-through">
                                         {product.original_price}
                                     </span>
                                     <Badge className="bg-green-600 text-white">
@@ -377,71 +377,45 @@ const ProductDetail = () => {
 
                         <Separator className="bg-gold/20" />
 
-                        {/* Description */}
-                        <div>
-                            <h3 className="font-display text-lg text-gold mb-2">Description</h3>
-                            <p className="text-gold-light/80 font-body leading-relaxed">
-                                {product.description || "Exquisite handcrafted piece from our heritage collection. Each item is carefully curated to bring you the finest quality and timeless elegance."}
-                            </p>
-                        </div>
-
-                        <Separator className="bg-gold/20" />
+                        {/* Description - Only show if it exists in database */}
+                        {product.description && (
+                            <>
+                                <div>
+                                    <h3 className="font-display text-lg text-gold mb-2">Description</h3>
+                                    <p className="text-muted-foreground/80 font-body leading-relaxed">
+                                        {product.description}
+                                    </p>
+                                </div>
+                                <Separator className="bg-gold/20" />
+                            </>
+                        )}
 
                         {/* Product Specifications */}
                         <div>
                             <h3 className="font-display text-lg text-gold mb-3">Product Specifications</h3>
                             <div className="grid grid-cols-2 gap-3 text-sm">
                                 <div className="bg-secondary/20 rounded-lg p-3 border border-gold/10">
-                                    <p className="text-gold-light/60 text-xs mb-1">Category</p>
-                                    <p className="text-primary-foreground font-semibold">{product.category}</p>
+                                    <p className="text-muted-foreground/60 text-xs mb-1">Category</p>
+                                    <p className="text-foreground-foreground font-semibold">{product.category}</p>
                                 </div>
                                 <div className="bg-secondary/20 rounded-lg p-3 border border-gold/10">
-                                    <p className="text-gold-light/60 text-xs mb-1">Type</p>
-                                    <p className="text-primary-foreground font-semibold">{product.type}</p>
+                                    <p className="text-muted-foreground/60 text-xs mb-1">Type</p>
+                                    <p className="text-foreground-foreground font-semibold">{product.type}</p>
                                 </div>
                                 <div className="bg-secondary/20 rounded-lg p-3 border border-gold/10">
-                                    <p className="text-gold-light/60 text-xs mb-1">Availability</p>
-                                    <p className="text-primary-foreground font-semibold">
+                                    <p className="text-muted-foreground/60 text-xs mb-1">Availability</p>
+                                    <p className="text-foreground-foreground font-semibold">
                                         {product.stock_count > 0 ? `${product.stock_count} in stock` : "Out of stock"}
                                     </p>
                                 </div>
                                 <div className="bg-secondary/20 rounded-lg p-3 border border-gold/10">
-                                    <p className="text-gold-light/60 text-xs mb-1">SKU</p>
-                                    <p className="text-primary-foreground font-semibold">SD-{product.id.toString().padStart(5, '0')}</p>
+                                    <p className="text-muted-foreground/60 text-xs mb-1">SKU</p>
+                                    <p className="text-foreground-foreground font-semibold">SD-{product.id.toString().padStart(5, '0')}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <Separator className="bg-gold/20" />
 
-                        {/* Material & Care */}
-                        <div>
-                            <h3 className="font-display text-lg text-gold mb-3">Material & Care Instructions</h3>
-                            <div className="space-y-3 text-sm">
-                                <div className="flex gap-2">
-                                    <span className="text-gold">•</span>
-                                    <p className="text-gold-light/80">
-                                        {product.type === "Saree" ? "100% Pure Silk with authentic gold zari work" :
-                                            product.type === "Jewelry" ? "22K Gold plated with semi-precious stones" :
-                                                "Sterling Silver with traditional craftsmanship"}
-                                    </p>
-                                </div>
-                                <div className="flex gap-2">
-                                    <span className="text-gold">•</span>
-                                    <p className="text-gold-light/80">Dry clean only for best results</p>
-                                </div>
-                                <div className="flex gap-2">
-                                    <span className="text-gold">•</span>
-                                    <p className="text-gold-light/80">Store in a cool, dry place away from direct sunlight</p>
-                                </div>
-                                <div className="flex gap-2">
-                                    <span className="text-gold">•</span>
-                                    <p className="text-gold-light/80">Avoid contact with perfumes and chemicals</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <Separator className="bg-gold/20" />
 
                         {/* Features */}
                         <Card className="bg-secondary/30 border-gold/20">
@@ -451,29 +425,29 @@ const ProductDetail = () => {
                                     <div className="flex items-start gap-3">
                                         <Truck className="text-gold mt-1" size={20} />
                                         <div>
-                                            <p className="text-primary-foreground font-semibold text-sm">Free Shipping</p>
-                                            <p className="text-gold-light/60 text-xs">On orders above ₹5,000</p>
+                                            <p className="text-foreground-foreground font-semibold text-sm">Free Shipping</p>
+                                            <p className="text-muted-foreground/60 text-xs">On orders above ₹5,000</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <Shield className="text-gold mt-1" size={20} />
                                         <div>
-                                            <p className="text-primary-foreground font-semibold text-sm">Authenticity</p>
-                                            <p className="text-gold-light/60 text-xs">100% Genuine Products</p>
+                                            <p className="text-foreground-foreground font-semibold text-sm">Authenticity</p>
+                                            <p className="text-muted-foreground/60 text-xs">100% Genuine Products</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <RefreshCw className="text-gold mt-1" size={20} />
                                         <div>
-                                            <p className="text-primary-foreground font-semibold text-sm">Easy Returns</p>
-                                            <p className="text-gold-light/60 text-xs">7-day return policy</p>
+                                            <p className="text-foreground-foreground font-semibold text-sm">Easy Returns</p>
+                                            <p className="text-muted-foreground/60 text-xs">7-day return policy</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <Star className="text-gold mt-1" size={20} />
                                         <div>
-                                            <p className="text-primary-foreground font-semibold text-sm">Premium Quality</p>
-                                            <p className="text-gold-light/60 text-xs">Handpicked collection</p>
+                                            <p className="text-foreground-foreground font-semibold text-sm">Premium Quality</p>
+                                            <p className="text-muted-foreground/60 text-xs">Handpicked collection</p>
                                         </div>
                                     </div>
                                 </div>
@@ -515,7 +489,7 @@ const ProductDetail = () => {
                             <h2 className="font-display text-3xl lg:text-4xl text-gold uppercase tracking-wider mb-2">
                                 You May Also Like
                             </h2>
-                            <p className="text-gold-light/70 font-body">
+                            <p className="text-muted-foreground/70 font-body">
                                 Explore more from our {product.type} collection
                             </p>
                         </div>
@@ -557,14 +531,14 @@ const ProductDetail = () => {
                                             )}
                                         </div>
                                         <CardContent className="p-3 lg:p-4">
-                                            <h3 className="font-display text-sm lg:text-base text-primary-foreground font-semibold line-clamp-1 mb-1">
+                                            <h3 className="font-display text-sm lg:text-base text-foreground-foreground font-semibold line-clamp-1 mb-1">
                                                 {prod.name}
                                             </h3>
-                                            <p className="text-gold-light/60 text-xs mb-2">{prod.category}</p>
+                                            <p className="text-muted-foreground/60 text-xs mb-2">{prod.category}</p>
                                             <div className="flex items-center gap-2">
-                                                <p className="text-gold font-bold text-base lg:text-lg">{prod.price}</p>
+                                                <p className="text-crimson font-bold text-base lg:text-lg">₹{prod.price}</p>
                                                 {prod.original_price && (
-                                                    <p className="text-gold-light/40 text-xs line-through">{prod.original_price}</p>
+                                                    <p className="text-muted-foreground/40 text-xs line-through">₹{prod.original_price}</p>
                                                 )}
                                             </div>
                                         </CardContent>

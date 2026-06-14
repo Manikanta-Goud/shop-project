@@ -100,7 +100,7 @@ const Wishlist = () => {
                 <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
                     <Heart className="text-gold/20 w-24 h-24 mb-6" />
                     <h2 className="text-gold font-display text-3xl mb-4">Your Wishlist Awaits</h2>
-                    <p className="text-gold-light/60 font-body mb-8 text-center max-w-sm">
+                    <p className="text-muted-foreground/60 font-body mb-8 text-center max-w-sm">
                         Sign in to save your favorite pieces and build your dream collection.
                     </p>
                     <Button onClick={() => setShowLoginModal(true)} className="bg-gold-gradient px-8 py-6 h-auto text-lg uppercase font-display tracking-widest font-bold">
@@ -121,20 +121,20 @@ const Wishlist = () => {
                         <Button
                             variant="ghost"
                             onClick={() => navigate(-1)}
-                            className="text-gold hover:text-gold-light hover:bg-gold/10 p-0 mb-4 flex items-center gap-2"
+                            className="text-gold hover:text-muted-foreground hover:bg-gold/10 p-0 mb-4 flex items-center gap-2"
                         >
                             <ArrowLeft size={18} /> Back
                         </Button>
                         <h1 className="text-4xl lg:text-5xl font-display text-gold font-bold uppercase tracking-widest">
                             My Wishlist
                         </h1>
-                        <p className="text-gold-light/60 font-body italic mt-2">
+                        <p className="text-muted-foreground/60 font-body italic mt-2">
                             A curated sanctuary of your favorite heritage pieces.
                         </p>
                     </div>
                     <div className="bg-secondary/40 border border-gold/20 px-6 py-4 rounded-2xl flex items-center gap-4">
                         <div className="text-center">
-                            <span className="text-[10px] text-gold-light/40 uppercase tracking-widest block font-bold">Saved Treasures</span>
+                            <span className="text-[10px] text-muted-foreground/40 uppercase tracking-widest block font-bold">Saved Treasures</span>
                             <span className="text-2xl font-display text-gold font-bold">{wishlistItems.length}</span>
                         </div>
                     </div>
@@ -187,16 +187,16 @@ const Wishlist = () => {
                                         </div>
                                         <CardContent className="p-5">
                                             <div onClick={() => navigate(`/product/${item.product_id}`)} className="cursor-pointer">
-                                                <h3 className="font-display text-lg text-primary-foreground font-bold line-clamp-1 mb-1">
+                                                <h3 className="font-display text-lg text-foreground-foreground font-bold line-clamp-1 mb-1">
                                                     {item.products.name}
                                                 </h3>
-                                                <p className="text-gold-light/50 text-[10px] uppercase tracking-widest font-bold mb-3">
+                                                <p className="text-muted-foreground/50 text-[10px] uppercase tracking-widest font-bold mb-3">
                                                     {item.products.category}
                                                 </p>
                                                 <div className="flex items-center gap-3 mb-5">
                                                     <span className="text-gold font-bold text-xl font-display">{item.products.price}</span>
                                                     {item.products.original_price && (
-                                                        <span className="text-gold-light/30 line-through text-sm">{item.products.original_price}</span>
+                                                        <span className="text-muted-foreground/30 line-through text-sm">{item.products.original_price}</span>
                                                     )}
                                                 </div>
                                             </div>
@@ -222,7 +222,7 @@ const Wishlist = () => {
                             <Heart className="w-20 h-20 text-gold" />
                         </motion.div>
                         <h3 className="text-2xl font-display text-gold mb-3">Your Collection is Pure</h3>
-                        <p className="text-gold-light/60 font-body mb-8">No favorites have been chosen yet. Explore our temple of sarees and jewelry.</p>
+                        <p className="text-muted-foreground/60 font-body mb-8">No favorites have been chosen yet. Explore our temple of sarees and jewelry.</p>
                         <Button onClick={() => navigate("/sarees")} className="bg-gold-gradient px-10 h-12 uppercase font-display font-bold tracking-widest">
                             Explore Treasures
                         </Button>
@@ -238,7 +238,7 @@ const Wishlist = () => {
                     >
                         <Sparkles className="text-gold mx-auto mb-4" />
                         <h2 className="text-2xl font-display text-gold mb-2 uppercase tracking-widest">Complete Your Look</h2>
-                        <p className="text-gold-light/60 font-body italic">Add matching jewelry or bangles to your favorite sarees.</p>
+                        <p className="text-muted-foreground/60 font-body italic">Add matching jewelry or bangles to your favorite sarees.</p>
                     </motion.div>
                 )}
             </main>

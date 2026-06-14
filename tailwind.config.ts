@@ -15,7 +15,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['"Playfair Display"', 'serif'],
+        display: ['"Outfit"', 'sans-serif'],
+        body: ['"Outfit"', 'sans-serif'],
+        sans: ['"Outfit"', 'sans-serif'],
         cursive: ['"Great Vibes"', 'cursive'],
         serif: ['"Cormorant Garamond"', 'serif'],
       },

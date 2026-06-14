@@ -26,7 +26,7 @@ const HeroBanner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="font-cursive text-gold-light text-3xl lg:text-5xl xl:text-6xl mb-2"
+            className="font-cursive text-muted-foreground text-3xl lg:text-5xl xl:text-6xl mb-2"
           >
             Drape the Divine
           </motion.p>
@@ -34,7 +34,7 @@ const HeroBanner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="font-display text-4xl lg:text-6xl xl:text-7xl font-bold text-primary-foreground tracking-wider mb-6"
+            className="font-display text-4xl lg:text-6xl xl:text-7xl font-bold text-foreground-foreground tracking-wider mb-6"
           >
             SRI DURGA
             <br />
@@ -44,7 +44,7 @@ const HeroBanner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="font-body text-lg lg:text-xl text-primary-foreground/70 mb-8 max-w-md mx-auto lg:mx-0"
+            className="font-body text-lg lg:text-xl text-foreground-foreground/70 mb-8 max-w-md mx-auto lg:mx-0"
           >
             Handcrafted with devotion. Woven with heritage. Each thread tells a story of tradition and elegance.
           </motion.p>
@@ -59,12 +59,6 @@ const HeroBanner = () => {
               className="px-8 py-3 bg-gold-gradient font-display text-sm font-semibold tracking-wider text-accent-foreground rounded-full shadow-gold-lg hover:shadow-gold transition-shadow duration-300 uppercase inline-block"
             >
               Explore Collection
-            </Link>
-            <Link
-              to="/virtual-tryon"
-              className="px-8 py-3 border-2 border-gold font-display text-sm font-semibold tracking-wider text-gold rounded-full hover:bg-gold/10 transition-colors duration-300 uppercase inline-block"
-            >
-              Virtual Try-On
             </Link>
           </motion.div>
         </motion.div>
@@ -82,7 +76,7 @@ const HeroBanner = () => {
             <div className="absolute -inset-6 temple-arch border border-gold/20 rounded-b-2xl" />
             <img
               src={heroModel}
-              alt="Beautiful bridal model in Kanchipuram silk saree"
+              alt="Beautiful bridal model in silk saree"
               className="relative temple-arch rounded-b-2xl w-full max-w-lg object-cover h-[400px] lg:h-[550px] shadow-gold-lg"
             />
             {/* Floating badge */}

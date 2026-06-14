@@ -46,7 +46,7 @@ const Bridal = () => {
     return (
         <div className="min-h-screen bg-primary">
             <Navbar />
-            <main className="pt-20 text-primary-foreground">
+            <main className="pt-20 text-foreground-foreground">
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -99,7 +99,7 @@ const Bridal = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.2 }}
-                            className="font-body text-gold-light/70 text-lg max-w-xl mx-auto mb-12 italic"
+                            className="font-body text-muted-foreground/70 text-lg max-w-xl mx-auto mb-12 italic"
                         >
                             We're weaving something magical for every bride-to-be.
                             Our full bridal experience launches soon.
@@ -120,7 +120,7 @@ const Bridal = () => {
                                             {String(value).padStart(2, "0")}
                                         </span>
                                     </div>
-                                    <span className="text-[10px] text-gold-light/50 uppercase tracking-[0.2em] font-bold">{unit}</span>
+                                    <span className="text-[10px] text-muted-foreground/50 uppercase tracking-[0.2em] font-bold">{unit}</span>
                                 </div>
                             ))}
                         </motion.div>
@@ -145,8 +145,8 @@ const Bridal = () => {
                                     <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-3">
                                         <Icon size={20} className="text-gold" />
                                     </div>
-                                    <p className="font-display text-xs font-bold text-primary-foreground uppercase tracking-wide mb-1">{label}</p>
-                                    <p className="font-body text-[11px] text-gold-light/50 italic">{desc}</p>
+                                    <p className="font-display text-xs font-bold text-foreground-foreground uppercase tracking-wide mb-1">{label}</p>
+                                    <p className="font-body text-[11px] text-muted-foreground/50 italic">{desc}</p>
                                 </motion.div>
                             ))}
                         </motion.div>
@@ -158,7 +158,7 @@ const Bridal = () => {
                             viewport={{ once: true }}
                             transition={{ delay: 0.6 }}
                         >
-                            <p className="font-body text-gold-light/60 text-sm mb-4 italic">
+                            <p className="font-body text-muted-foreground/60 text-sm mb-4 italic">
                                 Be the first bride to experience it — get notified on launch
                             </p>
                             <form onSubmit={handleNotify} className="flex gap-3 max-w-md mx-auto">
@@ -168,7 +168,7 @@ const Bridal = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="your@email.com"
-                                    className="flex-1 px-4 py-3 rounded-full bg-secondary/50 border border-gold/30 text-primary-foreground placeholder:text-gold-light/30 focus:outline-none focus:border-gold text-sm font-body"
+                                    className="flex-1 px-4 py-3 rounded-full bg-secondary/50 border border-gold/30 text-foreground-foreground placeholder:text-muted-foreground/30 focus:outline-none focus:border-gold text-sm font-body"
                                 />
                                 <button
                                     type="submit"

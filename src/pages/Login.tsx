@@ -82,7 +82,7 @@ const Login = () => {
                             <CardTitle className="font-display text-3xl text-gold">
                                 {isSignUp ? "Join Heritage" : "Member Login"}
                             </CardTitle>
-                            <CardDescription className="text-gold-light/60 font-body italic text-lg mt-2">
+                            <CardDescription className="text-muted-foreground/60 font-body italic text-lg mt-2">
                                 {isSignUp ? "Begin your journey with Sri Durga Sarees" : "Welcome back to your royal collection"}
                             </CardDescription>
                         </CardHeader>
@@ -95,39 +95,37 @@ const Login = () => {
                                         animate={{ opacity: 1, height: "auto" }}
                                         className="space-y-2"
                                     >
-                                        <Label htmlFor="name" className="text-gold-light uppercase tracking-widest text-xs">Full Name</Label>
+                                        <Label htmlFor="name" className="text-muted-foreground uppercase tracking-widest text-xs">Full Name</Label>
                                         <Input
                                             id="name"
                                             type="text"
-                                            placeholder="Your Divine Name"
                                             required={isSignUp}
                                             value={fullName}
                                             onChange={(e) => setFullName(e.target.value)}
-                                            className="bg-primary/50 border-gold/20 text-primary-foreground focus:border-gold placeholder:text-primary-foreground/20 h-11"
+                                            className="bg-primary/50 border-gold/20 text-foreground-foreground focus:border-gold h-11"
                                         />
                                     </motion.div>
                                 )}
                                 <div className="space-y-2">
-                                    <Label htmlFor="email" className="text-gold-light uppercase tracking-widest text-xs">Email Address</Label>
+                                    <Label htmlFor="email" className="text-muted-foreground uppercase tracking-widest text-xs">Email Address</Label>
                                     <Input
                                         id="email"
                                         type="email"
-                                        placeholder="name@example.com"
                                         required
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="bg-primary/50 border-gold/20 text-primary-foreground focus:border-gold placeholder:text-primary-foreground/20 h-11"
+                                        className="bg-primary/50 border-gold/20 text-foreground-foreground focus:border-gold h-11"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="password" className="text-gold-light uppercase tracking-widest text-xs">Password</Label>
+                                    <Label htmlFor="password" className="text-muted-foreground uppercase tracking-widest text-xs">Password</Label>
                                     <Input
                                         id="password"
                                         type="password"
                                         required
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className="bg-primary/50 border-gold/20 text-primary-foreground focus:border-gold h-11"
+                                        className="bg-primary/50 border-gold/20 text-foreground-foreground focus:border-gold h-11"
                                     />
                                 </div>
                                 <Button
@@ -143,14 +141,14 @@ const Login = () => {
                         <CardFooter className="flex flex-col gap-4 border-t border-gold/10 pt-6">
                             <button
                                 onClick={() => setIsSignUp(!isSignUp)}
-                                className="text-gold-light/80 hover:text-gold transition-colors font-body italic text-sm"
+                                className="text-muted-foreground/80 hover:text-gold transition-colors font-body italic text-sm"
                             >
                                 {isSignUp ? "Already a member? Sign in" : "New to the temple? Create an account"}
                             </button>
 
                             <div className="flex items-center gap-4 w-full">
                                 <div className="h-px bg-gold/10 flex-1" />
-                                <span className="text-[10px] text-gold-light/30 uppercase tracking-[0.5em]">Heritage</span>
+                                <span className="text-[10px] text-muted-foreground/30 uppercase tracking-[0.5em]">Heritage</span>
                                 <div className="h-px bg-gold/10 flex-1" />
                             </div>
                         </CardFooter>

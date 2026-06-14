@@ -7,7 +7,7 @@ const SmartFeatures = () => {
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-10">
           <h3 className="font-cursive text-gold-dark text-2xl mb-2">Smart Shopping</h3>
-          <h2 className="font-display text-3xl lg:text-4xl font-bold text-primary tracking-wider">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-foreground tracking-wider">
             Personalized for You
           </h2>
         </div>
@@ -23,7 +23,7 @@ const SmartFeatures = () => {
             <div className="w-14 h-14 mx-auto mb-4 rounded-full border-2 border-gold/40 flex items-center justify-center bg-gold/5">
               <Bell className="w-6 h-6 text-gold" />
             </div>
-            <h4 className="font-display text-base font-semibold text-primary mb-2">
+            <h4 className="font-display text-base font-semibold text-foreground mb-2">
               Notify Me When Back
             </h4>
             <p className="font-body text-sm text-muted-foreground mb-4">
@@ -52,7 +52,7 @@ const SmartFeatures = () => {
             <div className="w-14 h-14 mx-auto mb-4 rounded-full border-2 border-gold/40 flex items-center justify-center bg-gold/5">
               <TrendingDown className="w-6 h-6 text-gold" />
             </div>
-            <h4 className="font-display text-base font-semibold text-primary mb-2">
+            <h4 className="font-display text-base font-semibold text-foreground mb-2">
               Price Drop Alerts
             </h4>
             <p className="font-body text-sm text-muted-foreground mb-4">
@@ -74,7 +74,7 @@ const SmartFeatures = () => {
             <div className="w-14 h-14 mx-auto mb-4 rounded-full border-2 border-gold/40 flex items-center justify-center bg-gold/5">
               <Eye className="w-6 h-6 text-gold" />
             </div>
-            <h4 className="font-display text-base font-semibold text-primary mb-2">
+            <h4 className="font-display text-base font-semibold text-foreground mb-2">
               Gift Packaging 🎁
             </h4>
             <p className="font-body text-sm text-muted-foreground mb-4">
@@ -101,7 +101,7 @@ const SmartFeatures = () => {
               <p className="font-body text-xs text-foreground">
                 <strong>Priya from Hyderabad</strong> just purchased
               </p>
-              <p className="font-body text-xs text-gold-dark">Royal Kanchipuram Silk Saree</p>
+              <p className="font-body text-xs text-gold-dark">Royal Silk Saree</p>
               <p className="font-body text-[10px] text-muted-foreground">2 minutes ago</p>
             </div>
           </div>

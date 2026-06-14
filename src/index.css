@@ -6,38 +6,38 @@
 
 @layer base {
   :root {
-    /* Temple Heritage Palette */
-    --background: 36 60% 97%; /* Silk Ivory #FDF8F0 */
-    --foreground: 0 48% 20%; /* Deep Maroon */
+    /* Minimalist White Palette */
+    --background: 0 0% 100%; /* Pure White */
+    --foreground: 0 0% 0%; /* Pure Black for sharp contrast */
 
-    --card: 36 60% 97%;
-    --card-foreground: 0 48% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
 
-    --popover: 36 60% 97%;
-    --popover-foreground: 0 48% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
 
-    --primary: 0 48% 20%; /* Imperial Temple Maroon #4D1A1A */
-    --primary-foreground: 43 72% 65%; /* Gold text on maroon */
+    --primary: 0 0% 100%; /* Primary surfaces are white */
+    --primary-foreground: 0 0% 0%; /* Primary text is pure black */
 
-    --secondary: 0 55% 14%; /* Midnight Crimson #350D0D */
-    --secondary-foreground: 43 72% 70%;
+    --secondary: 0 0% 98%; /* Off-white / light gray */
+    --secondary-foreground: 0 0% 0%; /* Pure Black */
 
-    --muted: 36 30% 90%;
-    --muted-foreground: 0 20% 40%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 0%; /* Pure Black */
 
-    --accent: 43 72% 55%; /* Shimmering Gold */
-    --accent-foreground: 0 48% 12%;
+    --accent: 43 72% 55%; /* Gold Accent */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 43 40% 78%;
-    --input: 43 30% 82%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
     --ring: 43 72% 55%;
 
     --radius: 0.5rem;
 
-    /* Custom Temple Tokens */
+    /* Custom Tokens */
     --gold: 43 72% 55%;
     --gold-light: 43 80% 70%;
     --gold-dark: 38 60% 40%;
@@ -45,23 +45,23 @@
     --maroon: 0 48% 20%;
     --maroon-deep: 0 55% 14%;
     --maroon-light: 0 40% 30%;
-    --ivory: 36 60% 97%;
-    --ivory-warm: 36 50% 93%;
-    --crimson: 0 70% 35%;
+    --ivory: 0 0% 100%;
+    --ivory-warm: 0 0% 98%;
+    --crimson: 0 100% 45%; /* Pure Thick Red */
     --temple-bronze: 30 50% 45%;
 
     /* Gradients */
     --gradient-gold: linear-gradient(135deg, hsl(43, 72%, 55%), hsl(45, 85%, 70%), hsl(38, 60%, 45%));
-    --gradient-maroon: linear-gradient(135deg, hsl(0, 48%, 20%), hsl(0, 55%, 14%));
-    --gradient-hero: linear-gradient(135deg, hsl(0, 55%, 14%) 0%, hsl(0, 48%, 20%) 50%, hsl(0, 40%, 25%) 100%);
-    --gradient-gold-text: linear-gradient(135deg, hsl(43, 80%, 70%), hsl(45, 90%, 75%), hsl(38, 60%, 50%));
+    --gradient-maroon: linear-gradient(135deg, hsl(0, 0%, 98%), hsl(0, 0%, 95%)); /* Simplified to subtle light gray */
+    --gradient-hero: linear-gradient(135deg, hsl(0, 0%, 100%) 0%, hsl(0, 0%, 98%) 50%, hsl(0, 0%, 96%) 100%); /* Light subtle gradient */
+    --gradient-gold-text: linear-gradient(135deg, hsl(38, 60%, 40%), hsl(43, 72%, 45%), hsl(38, 60%, 35%)); /* Darker gold for text on white */
 
-    /* Shadows */
-    --shadow-gold: 0 4px 20px -4px hsl(43 72% 55% / 0.4);
-    --shadow-gold-lg: 0 10px 40px -8px hsl(43 72% 55% / 0.5);
-    --shadow-maroon: 0 4px 20px -4px hsl(0 48% 20% / 0.3);
-    --shadow-card: 0 2px 12px -2px hsl(0 20% 20% / 0.1);
-    --shadow-card-hover: 0 8px 30px -6px hsl(43 72% 55% / 0.35);
+    /* Shadows - Soft and elegant for white themes */
+    --shadow-gold: 0 4px 20px -4px hsl(43 72% 55% / 0.15);
+    --shadow-gold-lg: 0 10px 40px -8px hsl(43 72% 55% / 0.2);
+    --shadow-maroon: 0 4px 20px -4px hsl(0 0% 0% / 0.05);
+    --shadow-card: 0 2px 12px -2px hsl(0 0% 0% / 0.05);
+    --shadow-card-hover: 0 8px 30px -6px hsl(0 0% 0% / 0.1);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -80,18 +80,20 @@
   }
 
   body {
-    @apply bg-background text-foreground font-serif;
-    font-family: 'Cormorant Garamond', serif;
+    @apply bg-background text-foreground;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500; /* Thicker black text */
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700; /* Thick headers */
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Outfit', sans-serif;
   }
 
   .font-cursive {
@@ -99,7 +101,7 @@
   }
 
   .font-body {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Outfit', sans-serif;
   }
 
   .text-gold-gradient {

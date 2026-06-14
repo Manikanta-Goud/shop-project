@@ -14,11 +14,11 @@ const checklist = [
 
 const BridalPlanning = () => {
   return (
-    <section className="py-16 bg-ivory-warm" id="bridal">
+    <section className="py-16 bg-ivory-warm bg-secondary/30" id="bridal">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-10">
           <h3 className="font-cursive text-gold-dark text-2xl mb-2">Your Perfect Day</h3>
-          <h2 className="font-display text-3xl lg:text-4xl font-bold text-primary tracking-wider">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-foreground tracking-wider">
             Bridal Planning 👰
           </h2>
         </div>
@@ -55,7 +55,7 @@ const BridalPlanning = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h3 className="font-display text-xl font-bold text-primary mb-2">
+            <h3 className="font-display text-xl font-bold text-foreground mb-2">
               Bridal Checklist
             </h3>
             <p className="font-body text-muted-foreground mb-6 text-sm">

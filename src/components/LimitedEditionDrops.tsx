@@ -29,7 +29,7 @@ const LimitedEditionDrops = () => {
   }
 
   return (
-    <section className="py-16 bg-maroon-gradient relative overflow-hidden">
+    <section className="py-16 lg:py-24 relative overflow-hidden bg-secondary/30">
       {/* Subtle pattern */}
       <div className="absolute inset-0 opacity-5" style={{
         backgroundImage: `radial-gradient(circle, hsl(43, 72%, 55%) 1px, transparent 1px)`,
@@ -40,12 +40,12 @@ const LimitedEditionDrops = () => {
         <div className="text-center mb-10">
           <div className="flex items-center justify-center gap-2 mb-3">
             <Flame className="text-gold animate-glow-pulse" size={24} />
-            <h3 className="font-display text-2xl lg:text-3xl font-bold text-primary-foreground tracking-wider">
+            <h3 className="font-display text-2xl lg:text-3xl font-bold text-foreground-foreground tracking-wider">
               Limited Edition Drops
             </h3>
             <Flame className="text-gold animate-glow-pulse" size={24} />
           </div>
-          <p className="font-body text-primary-foreground/60 mb-6">This week's exclusive — only few pieces left!</p>
+          <p className="font-body text-foreground-foreground/60 mb-6">This week's exclusive — only few pieces left!</p>
 
           {/* Countdown */}
           <div className="flex items-center justify-center gap-4">
@@ -57,7 +57,7 @@ const LimitedEditionDrops = () => {
                     {String(value).padStart(2, "0")}
                   </span>
                 </div>
-                <span className="font-body text-[10px] text-primary-foreground/50 uppercase mt-1 block">
+                <span className="font-body text-[10px] text-foreground-foreground/50 uppercase mt-1 block">
                   {label}
                 </span>
               </div>
@@ -84,7 +84,7 @@ const LimitedEditionDrops = () => {
                 />
               </div>
               <div className="p-4 text-center">
-                <h4 className="font-display text-sm font-semibold text-primary-foreground">{offer.title}</h4>
+                <h4 className="font-display text-sm font-semibold text-foreground-foreground">{offer.title}</h4>
                 {offer.tag && (
                   <span className="inline-block mt-1.5 px-3 py-1 text-[9px] bg-gold/20 text-gold rounded-full uppercase tracking-wider font-bold border border-gold/30">
                     {offer.tag}
@@ -93,7 +93,7 @@ const LimitedEditionDrops = () => {
                 <div className="flex items-center justify-center gap-2 mt-2">
                   <p className="font-display text-lg font-bold text-gold">{offer.price}</p>
                   {offer.original_price && (
-                    <p className="font-body text-sm text-primary-foreground/40 line-through">{offer.original_price}</p>
+                    <p className="font-body text-sm text-foreground-foreground/40 line-through">{offer.original_price}</p>
                   )}
                 </div>
                 {offer.discount_percentage && offer.discount_percentage > 0 && (

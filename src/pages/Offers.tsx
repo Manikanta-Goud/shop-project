@@ -37,7 +37,7 @@ const Offers = () => {
                             </h1>
                             <Flame className="text-gold animate-glow-pulse" size={32} />
                         </div>
-                        <p className="font-body text-gold-light/80 max-w-2xl mx-auto italic text-lg">
+                        <p className="font-body text-muted-foreground/80 max-w-2xl mx-auto italic text-lg">
                             Exclusive deals and limited-time promotions on our finest collections.
                             Don't miss out on these incredible offers!
                         </p>
@@ -52,7 +52,7 @@ const Offers = () => {
                                 className={`px-6 py-2.5 rounded-full font-display text-sm uppercase tracking-wider transition-all
                                     ${selectedCategory === category
                                         ? "bg-gold-gradient text-accent-foreground shadow-gold-md"
-                                        : "bg-secondary/40 text-gold-light border border-gold/20 hover:border-gold/50"
+                                        : "bg-secondary/40 text-muted-foreground border border-gold/20 hover:border-gold/50"
                                     }`}
                             >
                                 {category}
@@ -64,16 +64,16 @@ const Offers = () => {
                     {isLoading && (
                         <div className="text-center py-20">
                             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gold border-t-transparent"></div>
-                            <p className="text-gold-light mt-4 font-body">Loading divine offers...</p>
+                            <p className="text-muted-foreground mt-4 font-body">Loading divine offers...</p>
                         </div>
                     )}
 
                     {/* No Offers State */}
                     {!isLoading && filteredOffers.length === 0 && (
                         <div className="text-center py-20">
-                            <Tag className="mx-auto text-gold-light/20 mb-4" size={64} />
-                            <h3 className="font-display text-2xl text-gold-light/60 mb-2">No Offers Available</h3>
-                            <p className="text-gold-light/40 font-body">Check back soon for exciting deals!</p>
+                            <Tag className="mx-auto text-muted-foreground/20 mb-4" size={64} />
+                            <h3 className="font-display text-2xl text-muted-foreground/60 mb-2">No Offers Available</h3>
+                            <p className="text-muted-foreground/40 font-body">Check back soon for exciting deals!</p>
                         </div>
                     )}
 
@@ -104,7 +104,7 @@ const Offers = () => {
                                                 </span>
                                             )}
                                             {offer.discount_percentage && offer.discount_percentage > 0 && (
-                                                <span className="px-3 py-1 bg-crimson text-primary-foreground text-[10px] font-bold uppercase tracking-widest rounded-full shadow-lg">
+                                                <span className="px-3 py-1 bg-crimson text-foreground-foreground text-[10px] font-bold uppercase tracking-widest rounded-full shadow-lg">
                                                     {offer.discount_percentage}% OFF
                                                 </span>
                                             )}
@@ -119,13 +119,13 @@ const Offers = () => {
                                     {/* Details */}
                                     <div className="p-5">
                                         <div className="flex items-start justify-between gap-2 mb-2">
-                                            <h3 className="font-display text-lg font-bold text-primary-foreground leading-tight">
+                                            <h3 className="font-display text-lg font-bold text-foreground-foreground leading-tight">
                                                 {offer.title}
                                             </h3>
                                         </div>
                                         
                                         {offer.description && (
-                                            <p className="text-gold-light/60 font-body text-sm mb-3 line-clamp-2">
+                                            <p className="text-muted-foreground/60 font-body text-sm mb-3 line-clamp-2">
                                                 {offer.description}
                                             </p>
                                         )}
@@ -162,7 +162,7 @@ const Offers = () => {
                                                 {offer.price}
                                             </span>
                                             {offer.original_price && (
-                                                <span className="font-body text-sm text-gold-light/40 line-through">
+                                                <span className="font-body text-sm text-muted-foreground/40 line-through">
                                                     {offer.original_price}
                                                 </span>
                                             )}
@@ -197,7 +197,7 @@ const Offers = () => {
                             <h3 className="font-display text-2xl text-gold mb-3 uppercase tracking-wider">
                                 Limited Time Only
                             </h3>
-                            <p className="font-body text-gold-light/70 max-w-2xl mx-auto">
+                            <p className="font-body text-muted-foreground/70 max-w-2xl mx-auto">
                                 These exclusive offers won't last forever. Grab your favorites while stocks last 
                                 and elevate your wardrobe with our handpicked collection of traditional elegance.
                             </p>

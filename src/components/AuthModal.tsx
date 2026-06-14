@@ -36,7 +36,7 @@ const AuthModal = () => {
                     {/* Close button */}
                     <button
                         onClick={() => setShowLoginModal(false)}
-                        className="absolute top-4 sm:top-5 right-4 sm:right-5 text-gold-light/40 hover:text-gold transition-colors z-20 p-1 hover:bg-gold/10 rounded-full"
+                        className="absolute top-4 sm:top-5 right-4 sm:right-5 text-muted-foreground/40 hover:text-gold transition-colors z-20 p-1 hover:bg-gold/10 rounded-full"
                     >
                         <X size={20} className="sm:w-[22px] sm:h-[22px]" />
                     </button>
@@ -55,7 +55,7 @@ const AuthModal = () => {
                             <h2 className="font-display text-2xl sm:text-3xl text-gold font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-2">
                                 {isSignUp ? "Join Heritage" : "Member Login"}
                             </h2>
-                            <p className="font-body text-gold-light/70 italic text-xs sm:text-sm px-2">
+                            <p className="font-body text-muted-foreground/70 italic text-xs sm:text-sm px-2">
                                 {isSignUp ? "Begin your journey with Sri Durga Sarees" : "Welcome back to your royal collection"}
                             </p>
                         </div>
@@ -69,22 +69,21 @@ const AuthModal = () => {
                                             rootBox: "w-full",
                                             card: "bg-transparent shadow-none w-full",
                                             formButtonPrimary: "bg-gold-gradient hover:shadow-gold-lg text-secondary font-display font-bold uppercase tracking-wider py-2.5 transition-all duration-300",
-                                            formFieldInput: "bg-black/30 border-gold/20 text-white focus:border-gold focus:ring-1 focus:ring-gold/30 transition-all placeholder:text-white/20",
-                                            // OTP box styles — must be set separately
-                                            otpCodeFieldInput: "!text-white !bg-black/40 !border-gold/50 focus:!border-gold focus:!ring-1 focus:!ring-gold/40 !rounded-lg !text-xl !font-bold text-center",
+                                            formFieldInput: "bg-black/5 border-gold/20 text-foreground focus:border-gold focus:ring-1 focus:ring-gold/30 transition-all placeholder:text-foreground/40",
+                                            otpCodeFieldInput: "!text-foreground !bg-black/5 !border-gold/50 focus:!border-gold focus:!ring-1 focus:!ring-gold/40 !rounded-lg !text-xl !font-bold text-center",
                                             otpCodeField: "gap-2",
                                             otpCodeFieldInputs: "gap-2",
-                                            footerActionLink: "text-gold hover:text-gold-light font-semibold transition-colors",
-                                            footerActionText: "text-white/60 font-body",
-                                            identityPreviewText: "text-white",
+                                            footerActionLink: "text-gold hover:text-muted-foreground font-semibold transition-colors",
+                                            footerActionText: "text-foreground/60 font-body",
+                                            identityPreviewText: "text-foreground",
                                             formFieldLabel: "text-gold/90 uppercase tracking-widest text-[11px] font-bold mb-1.5",
                                             headerTitle: "text-gold font-display text-xl sm:text-2xl font-bold tracking-tight",
-                                            headerSubtitle: "text-white/70 font-body text-sm",
+                                            headerSubtitle: "text-foreground/70 font-body text-sm",
                                             dividerLine: "bg-gold/20",
                                             dividerText: "text-gold/40 text-[10px] uppercase font-bold tracking-[0.2em]",
-                                            socialButtonsBlockButton: "bg-white/5 border-gold/10 hover:bg-gold/10 hover:border-gold/30 transition-all",
-                                            socialButtonsBlockButtonText: "text-white/90 font-body font-medium",
-                                            formFieldInputShowPasswordButton: "text-gold-light/40 hover:text-gold",
+                                            socialButtonsBlockButton: "bg-black/5 border-gold/20 hover:bg-gold/10 hover:border-gold/30 transition-all",
+                                            socialButtonsBlockButtonText: "text-foreground/90 font-body font-medium",
+                                            formFieldInputShowPasswordButton: "text-muted-foreground/40 hover:text-gold",
                                             footer: "hidden",
                                             breadcrumbs: "hidden"
                                         }
@@ -99,22 +98,21 @@ const AuthModal = () => {
                                             rootBox: "w-full",
                                             card: "bg-transparent shadow-none w-full",
                                             formButtonPrimary: "bg-gold-gradient hover:shadow-gold-lg text-secondary font-display font-bold uppercase tracking-wider py-2.5 transition-all duration-300",
-                                            formFieldInput: "bg-black/30 border-gold/20 text-white focus:border-gold focus:ring-1 focus:ring-gold/30 transition-all placeholder:text-white/20",
-                                            // OTP box styles — must be set separately
-                                            otpCodeFieldInput: "!text-white !bg-black/40 !border-gold/50 focus:!border-gold focus:!ring-1 focus:!ring-gold/40 !rounded-lg !text-xl !font-bold text-center",
+                                            formFieldInput: "bg-black/5 border-gold/20 text-foreground focus:border-gold focus:ring-1 focus:ring-gold/30 transition-all placeholder:text-foreground/40",
+                                            otpCodeFieldInput: "!text-foreground !bg-black/5 !border-gold/50 focus:!border-gold focus:!ring-1 focus:!ring-gold/40 !rounded-lg !text-xl !font-bold text-center",
                                             otpCodeField: "gap-2",
                                             otpCodeFieldInputs: "gap-2",
-                                            footerActionLink: "text-gold hover:text-gold-light font-semibold transition-colors",
-                                            footerActionText: "text-white/60 font-body",
-                                            identityPreviewText: "text-white",
+                                            footerActionLink: "text-gold hover:text-muted-foreground font-semibold transition-colors",
+                                            footerActionText: "text-foreground/60 font-body",
+                                            identityPreviewText: "text-foreground",
                                             formFieldLabel: "text-gold/90 uppercase tracking-widest text-[11px] font-bold mb-1.5",
                                             headerTitle: "text-gold font-display text-xl sm:text-2xl font-bold tracking-tight",
-                                            headerSubtitle: "text-white/70 font-body text-sm",
+                                            headerSubtitle: "text-foreground/70 font-body text-sm",
                                             dividerLine: "bg-gold/20",
                                             dividerText: "text-gold/40 text-[10px] uppercase font-bold tracking-[0.2em]",
-                                            socialButtonsBlockButton: "bg-white/5 border-gold/10 hover:bg-gold/10 hover:border-gold/30 transition-all",
-                                            socialButtonsBlockButtonText: "text-white/90 font-body font-medium",
-                                            formFieldInputShowPasswordButton: "text-gold-light/40 hover:text-gold",
+                                            socialButtonsBlockButton: "bg-black/5 border-gold/20 hover:bg-gold/10 hover:border-gold/30 transition-all",
+                                            socialButtonsBlockButtonText: "text-foreground/90 font-body font-medium",
+                                            formFieldInputShowPasswordButton: "text-muted-foreground/40 hover:text-gold",
                                             footer: "hidden",
                                             breadcrumbs: "hidden"
                                         }
@@ -128,7 +126,7 @@ const AuthModal = () => {
                         <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-gold/20 text-center">
                             <button
                                 onClick={() => setIsSignUp(!isSignUp)}
-                                className="text-white/60 hover:text-gold transition-colors font-body text-xs sm:text-sm group"
+                                className="text-foreground/60 hover:text-gold transition-colors font-body text-xs sm:text-sm group"
                             >
                                 {isSignUp ? (
                                     <>Already a member? <span className="text-gold font-bold group-hover:underline ml-1">Sign in</span></>
